@@ -1,0 +1,1 @@
+placeholder: data files are not rebuilt in this edition; only WeaselServer.exe and rime.dll are used.

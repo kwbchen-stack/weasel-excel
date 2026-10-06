@@ -1,0 +1,7 @@
+@PACKAGE_INIT@
+
+include(${CMAKE_CURRENT_LIST_DIR}/marisa-targets.cmake)
+
+set_and_check(MARISA_INCLUDE_DIR @PACKAGE_CMAKE_INSTALL_INCLUDEDIR@)
+
+check_required_components(marisa)

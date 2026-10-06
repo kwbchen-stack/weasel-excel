@@ -1,0 +1,111 @@
+name: Build Weasel (Excel dictionary edition)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+concurrency:
+  group: build
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: windows-2022
+    timeout-minutes: 300
+    env:
+      boost_version: 1.84.0
+      BOOST_ROOT: ${{ github.workspace }}\deps\boost_1_84_0
+    defaults:
+      run:
+        shell: cmd
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Restore Boost from cache
+        id: cache-boost
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ env.BOOST_ROOT }}
+          key: ${{ runner.os }}-vs2022-boost-${{ env.boost_version }}
+
+      - name: Download Boost source
+        if: steps.cache-boost.outputs.cache-hit != 'true'
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          New-Item -ItemType Directory -Force -Path deps | Out-Null
+          $urls = @(
+            'https://archives.boost.io/release/1.84.0/source/boost_1_84_0.7z',
+            'https://sourceforge.net/projects/boost/files/boost/1.84.0/boost_1_84_0.7z/download'
+          )
+          $ok = $false
+          foreach ($u in $urls) {
+            try {
+              Write-Host "downloading $u"
+              Invoke-WebRequest -Uri $u -OutFile deps\boost.7z -UserAgent 'curl/8.0' -MaximumRedirection 10
+              $ok = $true; break
+            } catch { Write-Host "failed: $_" }
+          }
+          if (-not $ok) { throw 'cannot download boost' }
+          7z x deps\boost.7z -odeps -y | Out-Null
+          Remove-Item deps\boost.7z
+          if (-not (Test-Path "$env:BOOST_ROOT\boost")) { throw 'boost headers missing' }
+
+      - name: Build Boost
+        if: steps.cache-boost.outputs.cache-hit != 'true'
+        run: |
+          call build.bat boost
+          if not exist "%BOOST_ROOT%\stage\lib\*.lib" exit /b 1
+
+      - name: Save Boost to cache
+        if: steps.cache-boost.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ env.BOOST_ROOT }}
+          key: ${{ runner.os }}-vs2022-boost-${{ env.boost_version }}
+
+      - name: Build librime (with Excel support and plugins)
+        run: |
+          python --version
+          call build.bat rime
+          if not exist output\rime.dll exit /b 1
+          if not exist output\Win32\rime.dll exit /b 1
+          if not exist lib64\rime.lib exit /b 1
+
+      - name: Build Weasel
+        run: |
+          call build.bat weasel
+          if not exist output\WeaselServer.exe exit /b 1
+          if not exist output\Win32\WeaselServer.exe exit /b 1
+
+      - name: Collect files
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          New-Item -ItemType Directory -Force -Path dist\x64, dist\Win32 | Out-Null
+          Copy-Item output\rime.dll, output\WeaselServer.exe dist\x64\
+          Copy-Item output\Win32\rime.dll, output\Win32\WeaselServer.exe dist\Win32\
+          Get-ChildItem -Recurse dist | Format-Table FullName, Length, LastWriteTime
+
+      - name: Upload built files
+        uses: actions/upload-artifact@v4
+        with:
+          name: weasel-excel-build
+          path: dist\
+          if-no-files-found: error
+
+      - name: Upload logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-logs
+          path: |
+            *.log
+            librime\build\**\*.log
+          if-no-files-found: ignore
