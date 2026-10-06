@@ -90,6 +90,8 @@ jobs:
           powershell -Command "Get-Content logs\weasel-build.log -Tail 40"
           if not exist output\WeaselServer.exe exit /b 1
           if not exist output\Win32\WeaselServer.exe exit /b 1
+          if not exist output\weasel.dll exit /b 1
+          if not exist output\weaselx64.dll exit /b 1
 
       - name: Collect files
         shell: pwsh
@@ -97,6 +99,8 @@ jobs:
           $ErrorActionPreference = 'Stop'
           New-Item -ItemType Directory -Force -Path dist\x64, dist\Win32 | Out-Null
           Copy-Item output\rime.dll, output\WeaselServer.exe dist\x64\
+          # input method (TSF) component: 32-bit for 32-bit apps, x64 for 64-bit apps
+          Copy-Item output\weasel.dll, output\weaselx64.dll dist\
           Copy-Item output\Win32\rime.dll, output\Win32\WeaselServer.exe dist\Win32\
           Get-ChildItem -Recurse dist | Format-Table FullName, Length, LastWriteTime
 

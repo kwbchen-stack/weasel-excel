@@ -1,6 +1,7 @@
 ﻿#include "stdafx.h"
 #include <logging.h>
 #include <RimeWithWeasel.h>
+#include <ExcelEdition.h>
 #include <StringAlgorithm.hpp>
 #include <WeaselConstants.h>
 #include <WeaselUtility.h>
@@ -32,14 +33,6 @@ using namespace weasel;
 
 static RimeApi* rime_api;
 
-// Excel edition: read a flag saved by the tray menu toggles
-static bool LoadExcelEditionFlagPublic(const wchar_t* name) {
-  DWORD value = 0, size = sizeof(value);
-  return RegGetValueW(HKEY_CURRENT_USER, L"Software\\Rime\\Weasel\\ExcelEdition",
-                      name, RRF_RT_REG_DWORD, NULL, &value, &size) ==
-             ERROR_SUCCESS &&
-         value != 0;
-}
 WeaselSessionId _GenerateNewWeaselSessionId(SessionStatusMap sm, DWORD pid) {
   if (sm.empty())
     return (WeaselSessionId)(pid + 1);
@@ -161,10 +154,8 @@ void RimeWithWeaselHandler::Initialize() {
 
   LOG(INFO) << "Initializing la rime.";
   rime_api->initialize(NULL);
-  // Excel edition: restore tray menu toggles and typing statistics
-  m_mix_mode = LoadExcelEditionFlagPublic(L"MixMode");
-  m_single_char = LoadExcelEditionFlagPublic(L"SingleChar");
-  m_hide_wubi_hint = LoadExcelEditionFlagPublic(L"HideWubiHint");
+  // Excel edition: restore menu toggles and typing statistics
+  _LoadExcelEditionFlags();
   _LoadTypingStats();
 #if 0
   if (rime_api->start_maintenance(/*full_check = */ False)) {
@@ -189,6 +180,12 @@ void RimeWithWeaselHandler::Initialize() {
         }
       }
       m_base_style = m_ui->style();
+      // Excel edition: layout chosen in the menu wins over weasel.yaml
+      _ApplyLayoutOverride(m_base_style);
+      m_ui->style() = m_base_style;
+      excel_edition::SaveFlag(excel_edition::kHorizontalValue,
+                              m_base_style.layout_type ==
+                                  UIStyle::LAYOUT_HORIZONTAL);
     }
     Bool global_ascii = false;
     if (rime_api->config_get_bool(&config, "global_ascii", &global_ascii))
@@ -303,6 +300,12 @@ void RimeWithWeaselHandler::UpdateColorTheme(BOOL darkMode) {
         }
       }
       m_base_style = m_ui->style();
+      // Excel edition: layout chosen in the menu wins over weasel.yaml
+      _ApplyLayoutOverride(m_base_style);
+      m_ui->style() = m_base_style;
+      excel_edition::SaveFlag(excel_edition::kHorizontalValue,
+                              m_base_style.layout_type ==
+                                  UIStyle::LAYOUT_HORIZONTAL);
     }
     rime_api->config_close(&config);
   }
@@ -635,6 +638,8 @@ void RimeWithWeaselHandler::_LoadSchemaSpecificSettings(
   m_ui->style() = m_base_style;
   _UpdateUIStyle(&config, m_ui, false);
   SessionStatus& session_status = get_session_status(ipc_id);
+  // Excel edition: a schema's own style must not undo the menu's layout
+  _ApplyLayoutOverride(m_ui->style());
   session_status.style = m_ui->style();
   UIStyle& style = session_status.style;
   // load schema color style config
@@ -1450,6 +1455,7 @@ void RimeWithWeaselHandler::_GetStatus(Status& stat,
     if (schema_id != m_last_schema_id) {
       session_status.__synced = false;
       m_last_schema_id = schema_id;
+      _OnSchemaChanged(schema_id);  // Excel edition
       if (schema_id != ".default") {  // don't load for schema select menu
         bool inline_preedit = session_status.style.inline_preedit;
         _LoadSchemaSpecificSettings(ipc_id, schema_id);
@@ -1518,22 +1524,12 @@ void RimeWithWeaselHandler::_UpdateInlinePreeditStatus(WeaselSessionId ipc_id) {
 }
 
 // ---------------------------------------------------------------------------
-// Excel edition: tray menu toggles (mixed wubi/pinyin, single character mode)
-// and typing statistics.
+// Excel edition: menu toggles (pinyin mode, single character mode, horizontal
+// candidate list) and typing statistics. See include/ExcelEdition.h.
+
+using namespace excel_edition;
 
 namespace {
-
-const char kWubiSchema[] = "xiaobing_wubi86";
-const char kMixSchema[] = "xiaobing_wubi86_mix";
-const char kSingleCharOption[] = "single_char";
-const char kHideHintOption[] = "hide_wubi_hint";
-const wchar_t kExcelEditionKey[] = L"Software\\Rime\\Weasel\\ExcelEdition";
-
-void SaveExcelEditionFlag(const wchar_t* name, bool on) {
-  DWORD value = on ? 1 : 0;
-  RegSetKeyValueW(HKEY_CURRENT_USER, kExcelEditionKey, name, REG_DWORD, &value,
-                  sizeof(value));
-}
 
 std::string SchemaOf(RimeSessionId session_id) {
   std::string schema_id;
@@ -1594,30 +1590,63 @@ RimeSessionId RimeWithWeaselHandler::_LastUsedRimeSession() {
   return it->second.session_id;
 }
 
+void RimeWithWeaselHandler::_LoadExcelEditionFlags() {
+  m_pinyin_mode = LoadFlag(kPinyinModeValue);
+  m_single_char = LoadFlag(kSingleCharValue);
+  DWORD layout = 0;
+  m_layout_override = ReadFlag(kLayoutOverrideValue, &layout) ? (layout ? 1 : 0)
+                                                               : -1;
+}
+
 void RimeWithWeaselHandler::_ApplyExcelEditionState(RimeSessionId session_id) {
   if (!session_id)
     return;
   std::string schema_id = SchemaOf(session_id);
-  if (m_mix_mode && schema_id == kWubiSchema)
-    rime_api->select_schema(session_id, kMixSchema);
-  else if (!m_mix_mode && schema_id == kMixSchema)
+  if (m_pinyin_mode && schema_id == kWubiSchema)
+    rime_api->select_schema(session_id, kPinyinSchema);
+  else if (!m_pinyin_mode && schema_id == kPinyinSchema)
     rime_api->select_schema(session_id, kWubiSchema);
   if (m_single_char)
     rime_api->set_option(session_id, kSingleCharOption, True);
-  if (m_hide_wubi_hint)
-    rime_api->set_option(session_id, kHideHintOption, True);
 }
 
-bool RimeWithWeaselHandler::IsMixMode() {
+void RimeWithWeaselHandler::_OnSchemaChanged(const std::string& schema_id) {
+  // keep the stored state in step when the schema is switched elsewhere
+  // (e.g. with F4), so that the language bar menu shows the right check mark
+  bool pinyin = schema_id == kPinyinSchema;
+  if ((pinyin || schema_id == kWubiSchema) && pinyin != m_pinyin_mode) {
+    m_pinyin_mode = pinyin;
+    SaveFlag(kPinyinModeValue, pinyin);
+  }
+}
+
+void RimeWithWeaselHandler::_ApplyLayoutOverride(weasel::UIStyle& style) {
+  if (m_layout_override < 0)
+    return;
+  // only switch between the plain layouts; leave full screen and vertical
+  // text layouts alone
+  if (style.layout_type != UIStyle::LAYOUT_VERTICAL &&
+      style.layout_type != UIStyle::LAYOUT_HORIZONTAL)
+    return;
+  style.layout_type = m_layout_override ? UIStyle::LAYOUT_HORIZONTAL
+                                        : UIStyle::LAYOUT_VERTICAL;
+}
+
+static bool IsHorizontalLayout(const weasel::UIStyle& style) {
+  return style.layout_type == UIStyle::LAYOUT_HORIZONTAL ||
+         style.layout_type == UIStyle::LAYOUT_HORIZONTAL_FULLSCREEN;
+}
+
+bool RimeWithWeaselHandler::IsPinyinMode() {
   RimeSessionId session_id = m_disabled ? 0 : _LastUsedRimeSession();
   if (!session_id)
-    return m_mix_mode;
-  return SchemaOf(session_id) == kMixSchema;
+    return m_pinyin_mode;
+  return SchemaOf(session_id) == kPinyinSchema;
 }
 
-void RimeWithWeaselHandler::SetMixMode(bool on) {
-  m_mix_mode = on;
-  SaveExcelEditionFlag(L"MixMode", on);
+void RimeWithWeaselHandler::SetPinyinMode(bool on) {
+  m_pinyin_mode = on;
+  SaveFlag(kPinyinModeValue, on);
   if (m_disabled)
     return;
   RimeSessionId last = _LastUsedRimeSession();
@@ -1627,19 +1656,17 @@ void RimeWithWeaselHandler::SetMixMode(bool on) {
       continue;
     std::string schema_id = SchemaOf(session_id);
     const char* target = nullptr;
-    if (on && schema_id != kMixSchema &&
+    if (on && schema_id != kPinyinSchema &&
         (schema_id == kWubiSchema || session_id == last))
-      target = kMixSchema;
-    else if (!on && schema_id == kMixSchema)
+      target = kPinyinSchema;
+    else if (!on && schema_id == kPinyinSchema)
       target = kWubiSchema;
     if (!target)
       continue;
-    // keep the session's toggles across the switch
+    // keep the session's single character setting across the switch
     Bool single_char = rime_api->get_option(session_id, kSingleCharOption);
-    Bool hide_hint = rime_api->get_option(session_id, kHideHintOption);
     rime_api->select_schema(session_id, target);
     rime_api->set_option(session_id, kSingleCharOption, single_char);
-    rime_api->set_option(session_id, kHideHintOption, hide_hint);
   }
   if (_UpdateUICallback)
     _UpdateUICallback();
@@ -1654,7 +1681,7 @@ bool RimeWithWeaselHandler::IsSingleChar() {
 
 void RimeWithWeaselHandler::SetSingleChar(bool on) {
   m_single_char = on;
-  SaveExcelEditionFlag(L"SingleChar", on);
+  SaveFlag(kSingleCharValue, on);
   if (m_disabled)
     return;
   for (auto& pair : m_session_status_map) {
@@ -1664,23 +1691,22 @@ void RimeWithWeaselHandler::SetSingleChar(bool on) {
   }
 }
 
-bool RimeWithWeaselHandler::IsWubiHint() {
-  RimeSessionId session_id = m_disabled ? 0 : _LastUsedRimeSession();
-  if (!session_id)
-    return !m_hide_wubi_hint;
-  return !rime_api->get_option(session_id, kHideHintOption);
+bool RimeWithWeaselHandler::IsHorizontal() {
+  auto it = m_session_status_map.find(m_last_used_session);
+  if (it != m_session_status_map.end())
+    return IsHorizontalLayout(it->second.style);
+  return IsHorizontalLayout(m_base_style);
 }
 
-void RimeWithWeaselHandler::SetWubiHint(bool on) {
-  m_hide_wubi_hint = !on;
-  SaveExcelEditionFlag(L"HideWubiHint", !on);
-  if (m_disabled)
-    return;
-  for (auto& pair : m_session_status_map) {
-    if (pair.second.session_id)
-      rime_api->set_option(pair.second.session_id, kHideHintOption,
-                           on ? False : True);
-  }
+void RimeWithWeaselHandler::SetHorizontal(bool on) {
+  m_layout_override = on ? 1 : 0;
+  SaveFlag(kLayoutOverrideValue, on);
+  _ApplyLayoutOverride(m_base_style);
+  for (auto& pair : m_session_status_map)
+    _ApplyLayoutOverride(pair.second.style);
+  if (m_ui)
+    _ApplyLayoutOverride(m_ui->style());
+  SaveFlag(kHorizontalValue, IsHorizontalLayout(m_base_style));
 }
 
 std::filesystem::path RimeWithWeaselHandler::TypingStatsFile() {

@@ -6,6 +6,7 @@
 #include "LanguageBar.h"
 #include "CandidateList.h"
 #include <WeaselUtility.h>
+#include <ExcelEdition.h>
 
 static const DWORD LANGBARITEMSINK_COOKIE = 0x42424242;
 
@@ -15,7 +16,7 @@ static void HMENU2ITfMenu(HMENU hMenu, ITfMenu* pTfMenu) {
   for (int i = 0; i < N; i++) {
     MENUITEMINFO mii;
     mii.cbSize = sizeof(MENUITEMINFO);
-    mii.fMask = MIIM_FTYPE | MIIM_ID | MIIM_STRING;
+    mii.fMask = MIIM_FTYPE | MIIM_ID | MIIM_STRING | MIIM_STATE;
     mii.dwTypeData = NULL;
     if (GetMenuItemInfo(hMenu, i, TRUE, &mii)) {
       UINT id = mii.wID;
@@ -26,8 +27,9 @@ static void HMENU2ITfMenu(HMENU hMenu, ITfMenu* pTfMenu) {
         mii.dwTypeData = (LPWSTR)malloc(sizeof(WCHAR) * (mii.cch + 1));
         mii.cch++;
         if (GetMenuItemInfo(hMenu, i, TRUE, &mii))
-          pTfMenu->AddMenuItem(id, 0, NULL, NULL, mii.dwTypeData, mii.cch,
-                               NULL);
+          pTfMenu->AddMenuItem(
+              id, (mii.fState & MFS_CHECKED) ? TF_LBMENUF_CHECKED : 0, NULL,
+              NULL, mii.dwTypeData, mii.cch, NULL);
         free(mii.dwTypeData);
       }
     }
@@ -178,6 +180,9 @@ STDAPI CLangBarItemButton::OnClick(TfLBIClick click,
         menu = LoadMenuW(g_hInst, MAKEINTRESOURCE(IDR_MENU_POPUP));
       }
       HMENU popupMenu = GetSubMenu(menu, 0);
+      // Excel edition: pinyin / single char / horizontal / typing stats; the
+      // commands are forwarded to the server by _HandleLangBarMenuSelect
+      excel_edition::InsertMenuItemsFromRegistry(popupMenu);
       UINT wID = TrackPopupMenuEx(
           popupMenu, TPM_NONOTIFY | TPM_RETURNCMD | TPM_HORPOSANIMATION, pt.x,
           pt.y, hwnd, NULL);
@@ -191,6 +196,7 @@ STDAPI CLangBarItemButton::OnClick(TfLBIClick click,
 STDAPI CLangBarItemButton::InitMenu(ITfMenu* pMenu) {
   HMENU menu = LoadMenuW(g_hInst, MAKEINTRESOURCE(IDR_MENU_POPUP));
   HMENU popupMenu = GetSubMenu(menu, 0);
+  excel_edition::InsertMenuItemsFromRegistry(popupMenu);  // Excel edition
   HMENU2ITfMenu(popupMenu, pMenu);
   DestroyMenu(menu);
   return S_OK;

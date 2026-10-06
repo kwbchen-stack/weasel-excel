@@ -16,11 +16,9 @@
 
 namespace fs = std::filesystem;
 
-// Excel edition: tray menu items
-constexpr UINT ID_EXCEL_MIX_MODE = 41101;
-constexpr UINT ID_EXCEL_SINGLE_CHAR = 41102;
-constexpr UINT ID_EXCEL_TYPING_STATS = 41103;
-constexpr UINT ID_EXCEL_WUBI_HINT = 41104;
+// Excel edition: menu ids, registry flags and menu items
+#include <ExcelEdition.h>
+#include <thread>
 
 class WeaselServerApp {
  public:

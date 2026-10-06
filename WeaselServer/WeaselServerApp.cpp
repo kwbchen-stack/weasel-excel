@@ -79,48 +79,41 @@ void WeaselServerApp::SetupMenuHandlers() {
                           std::bind(explore, WeaselUserDataPath()));
   m_server.AddMenuHandler(ID_WEASELTRAY_LOGDIR,
                           std::bind(explore, WeaselLogPath()));
-  // Excel edition
-  m_server.AddMenuHandler(ID_EXCEL_MIX_MODE, [this] {
+  // Excel edition: these commands also arrive from the language bar menu of
+  // WeaselTSF, forwarded as tray commands over the IPC pipe
+  using namespace excel_edition;
+  m_server.AddMenuHandler(ID_PINYIN_MODE, [this] {
     m_server.WithApiLock(
-        [this] { m_handler->SetMixMode(!m_handler->IsMixMode()); });
+        [this] { m_handler->SetPinyinMode(!m_handler->IsPinyinMode()); });
     return true;
   });
-  m_server.AddMenuHandler(ID_EXCEL_SINGLE_CHAR, [this] {
+  m_server.AddMenuHandler(ID_SINGLE_CHAR, [this] {
     m_server.WithApiLock(
         [this] { m_handler->SetSingleChar(!m_handler->IsSingleChar()); });
     return true;
   });
-  m_server.AddMenuHandler(ID_EXCEL_WUBI_HINT, [this] {
+  m_server.AddMenuHandler(ID_HORIZONTAL, [this] {
     m_server.WithApiLock(
-        [this] { m_handler->SetWubiHint(!m_handler->IsWubiHint()); });
+        [this] { m_handler->SetHorizontal(!m_handler->IsHorizontal()); });
     return true;
   });
-  m_server.AddMenuHandler(ID_EXCEL_TYPING_STATS,
-                          [this] { return ShowTypingStats(); });
+  m_server.AddMenuHandler(ID_TYPING_STATS, [this] {
+    // show the dialog on its own thread: a request from the language bar is
+    // handled while holding the API lock, and typing must not wait for the
+    // dialog to be closed
+    std::thread([this] { ShowTypingStats(); }).detach();
+    return true;
+  });
 }
 
 void WeaselServerApp::CustomizeTrayMenu(HMENU menu) {
-  bool mix = false, single_char = false, wubi_hint = true;
+  bool pinyin = false, single_char = false, horizontal = false;
   m_server.WithApiLock([&] {
-    mix = m_handler->IsMixMode();
+    pinyin = m_handler->IsPinyinMode();
     single_char = m_handler->IsSingleChar();
-    wubi_hint = m_handler->IsWubiHint();
+    horizontal = m_handler->IsHorizontal();
   });
-  UINT pos = 0;
-  InsertMenuW(menu, pos++,
-              MF_BYPOSITION | MF_STRING | (mix ? MF_CHECKED : MF_UNCHECKED),
-              ID_EXCEL_MIX_MODE, L"五笔拼音混输 (&M)");
-  InsertMenuW(
-      menu, pos++,
-      MF_BYPOSITION | MF_STRING | (single_char ? MF_CHECKED : MF_UNCHECKED),
-      ID_EXCEL_SINGLE_CHAR, L"单字模式 (&W)");
-  InsertMenuW(
-      menu, pos++,
-      MF_BYPOSITION | MF_STRING | (wubi_hint ? MF_CHECKED : MF_UNCHECKED),
-      ID_EXCEL_WUBI_HINT, L"显示五笔编码 (&H)");
-  InsertMenuW(menu, pos++, MF_BYPOSITION | MF_STRING, ID_EXCEL_TYPING_STATS,
-              L"打字统计… (&T)");
-  InsertMenuW(menu, pos++, MF_BYPOSITION | MF_SEPARATOR, 0, NULL);
+  excel_edition::InsertMenuItems(menu, pinyin, single_char, horizontal);
 }
 
 static std::wstring FormatCount(long long n) {

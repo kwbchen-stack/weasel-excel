@@ -65,14 +65,14 @@ class RimeWithWeaselHandler : public weasel::RequestHandler {
 
   void OnUpdateUI(std::function<void()> const& cb);
 
-  // ---- Excel edition: tray menu toggles and typing statistics ----
+  // ---- Excel edition: menu toggles and typing statistics ----
   // Callers on the UI thread must hold the server's API lock.
-  bool IsMixMode();             // current schema is xiaobing_wubi86_mix
-  void SetMixMode(bool on);     // switch all sessions wubi <-> mix
+  bool IsPinyinMode();          // current schema is xiaobing_pinyin
+  void SetPinyinMode(bool on);  // switch all sessions wubi <-> pinyin
   bool IsSingleChar();          // option single_char
   void SetSingleChar(bool on);  // set option single_char on all sessions
-  bool IsWubiHint();            // wubi code hints shown (!hide_wubi_hint)
-  void SetWubiHint(bool on);    // set option hide_wubi_hint on all sessions
+  bool IsHorizontal();          // candidate list laid out horizontally
+  void SetHorizontal(bool on);  // override style/horizontal for all sessions
   struct TypingStats {
     long long today_han = 0, today_other = 0;
     long long month_han = 0, total_han = 0;
@@ -100,14 +100,17 @@ class RimeWithWeaselHandler : public weasel::RequestHandler {
   void _UpdateShowNotifications(RimeConfig* config, bool initialize = false);
 
   // Excel edition
+  void _LoadExcelEditionFlags();
   void _ApplyExcelEditionState(RimeSessionId session_id);
+  void _OnSchemaChanged(const std::string& schema_id);
+  void _ApplyLayoutOverride(weasel::UIStyle& style);
   RimeSessionId _LastUsedRimeSession();
   void _CountTyping(const char* text);
   void _LoadTypingStats();
   bool _SaveTypingStats();
-  bool m_mix_mode = false;
+  bool m_pinyin_mode = false;
   bool m_single_char = false;
-  bool m_hide_wubi_hint = false;
+  int m_layout_override = -1;  // -1: follow weasel.yaml, 0: vertical, 1: horizontal
   WeaselSessionId m_last_used_session = 0;
   // date (YYYY-MM-DD) -> {Chinese characters, other characters}
   std::map<std::string, std::pair<long long, long long>> m_typing;
