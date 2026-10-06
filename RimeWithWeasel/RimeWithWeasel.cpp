@@ -164,6 +164,7 @@ void RimeWithWeaselHandler::Initialize() {
   // Excel edition: restore tray menu toggles and typing statistics
   m_mix_mode = LoadExcelEditionFlagPublic(L"MixMode");
   m_single_char = LoadExcelEditionFlagPublic(L"SingleChar");
+  m_hide_wubi_hint = LoadExcelEditionFlagPublic(L"HideWubiHint");
   _LoadTypingStats();
 #if 0
   if (rime_api->start_maintenance(/*full_check = */ False)) {
@@ -1525,6 +1526,7 @@ namespace {
 const char kWubiSchema[] = "xiaobing_wubi86";
 const char kMixSchema[] = "xiaobing_wubi86_mix";
 const char kSingleCharOption[] = "single_char";
+const char kHideHintOption[] = "hide_wubi_hint";
 const wchar_t kExcelEditionKey[] = L"Software\\Rime\\Weasel\\ExcelEdition";
 
 void SaveExcelEditionFlag(const wchar_t* name, bool on) {
@@ -1602,6 +1604,8 @@ void RimeWithWeaselHandler::_ApplyExcelEditionState(RimeSessionId session_id) {
     rime_api->select_schema(session_id, kWubiSchema);
   if (m_single_char)
     rime_api->set_option(session_id, kSingleCharOption, True);
+  if (m_hide_wubi_hint)
+    rime_api->set_option(session_id, kHideHintOption, True);
 }
 
 bool RimeWithWeaselHandler::IsMixMode() {
@@ -1630,10 +1634,12 @@ void RimeWithWeaselHandler::SetMixMode(bool on) {
       target = kWubiSchema;
     if (!target)
       continue;
-    // keep the session's single character setting across the switch
+    // keep the session's toggles across the switch
     Bool single_char = rime_api->get_option(session_id, kSingleCharOption);
+    Bool hide_hint = rime_api->get_option(session_id, kHideHintOption);
     rime_api->select_schema(session_id, target);
     rime_api->set_option(session_id, kSingleCharOption, single_char);
+    rime_api->set_option(session_id, kHideHintOption, hide_hint);
   }
   if (_UpdateUICallback)
     _UpdateUICallback();
@@ -1655,6 +1661,25 @@ void RimeWithWeaselHandler::SetSingleChar(bool on) {
     if (pair.second.session_id)
       rime_api->set_option(pair.second.session_id, kSingleCharOption,
                            on ? True : False);
+  }
+}
+
+bool RimeWithWeaselHandler::IsWubiHint() {
+  RimeSessionId session_id = m_disabled ? 0 : _LastUsedRimeSession();
+  if (!session_id)
+    return !m_hide_wubi_hint;
+  return !rime_api->get_option(session_id, kHideHintOption);
+}
+
+void RimeWithWeaselHandler::SetWubiHint(bool on) {
+  m_hide_wubi_hint = !on;
+  SaveExcelEditionFlag(L"HideWubiHint", !on);
+  if (m_disabled)
+    return;
+  for (auto& pair : m_session_status_map) {
+    if (pair.second.session_id)
+      rime_api->set_option(pair.second.session_id, kHideHintOption,
+                           on ? False : True);
   }
 }
 

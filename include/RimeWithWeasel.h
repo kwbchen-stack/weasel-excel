@@ -71,6 +71,8 @@ class RimeWithWeaselHandler : public weasel::RequestHandler {
   void SetMixMode(bool on);     // switch all sessions wubi <-> mix
   bool IsSingleChar();          // option single_char
   void SetSingleChar(bool on);  // set option single_char on all sessions
+  bool IsWubiHint();            // wubi code hints shown (!hide_wubi_hint)
+  void SetWubiHint(bool on);    // set option hide_wubi_hint on all sessions
   struct TypingStats {
     long long today_han = 0, today_other = 0;
     long long month_han = 0, total_han = 0;
@@ -105,6 +107,7 @@ class RimeWithWeaselHandler : public weasel::RequestHandler {
   bool _SaveTypingStats();
   bool m_mix_mode = false;
   bool m_single_char = false;
+  bool m_hide_wubi_hint = false;
   WeaselSessionId m_last_used_session = 0;
   // date (YYYY-MM-DD) -> {Chinese characters, other characters}
   std::map<std::string, std::pair<long long, long long>> m_typing;

@@ -90,15 +90,21 @@ void WeaselServerApp::SetupMenuHandlers() {
         [this] { m_handler->SetSingleChar(!m_handler->IsSingleChar()); });
     return true;
   });
+  m_server.AddMenuHandler(ID_EXCEL_WUBI_HINT, [this] {
+    m_server.WithApiLock(
+        [this] { m_handler->SetWubiHint(!m_handler->IsWubiHint()); });
+    return true;
+  });
   m_server.AddMenuHandler(ID_EXCEL_TYPING_STATS,
                           [this] { return ShowTypingStats(); });
 }
 
 void WeaselServerApp::CustomizeTrayMenu(HMENU menu) {
-  bool mix = false, single_char = false;
+  bool mix = false, single_char = false, wubi_hint = true;
   m_server.WithApiLock([&] {
     mix = m_handler->IsMixMode();
     single_char = m_handler->IsSingleChar();
+    wubi_hint = m_handler->IsWubiHint();
   });
   UINT pos = 0;
   InsertMenuW(menu, pos++,
@@ -108,6 +114,10 @@ void WeaselServerApp::CustomizeTrayMenu(HMENU menu) {
       menu, pos++,
       MF_BYPOSITION | MF_STRING | (single_char ? MF_CHECKED : MF_UNCHECKED),
       ID_EXCEL_SINGLE_CHAR, L"单字模式 (&W)");
+  InsertMenuW(
+      menu, pos++,
+      MF_BYPOSITION | MF_STRING | (wubi_hint ? MF_CHECKED : MF_UNCHECKED),
+      ID_EXCEL_WUBI_HINT, L"显示五笔编码 (&H)");
   InsertMenuW(menu, pos++, MF_BYPOSITION | MF_STRING, ID_EXCEL_TYPING_STATS,
               L"打字统计… (&T)");
   InsertMenuW(menu, pos++, MF_BYPOSITION | MF_SEPARATOR, 0, NULL);
