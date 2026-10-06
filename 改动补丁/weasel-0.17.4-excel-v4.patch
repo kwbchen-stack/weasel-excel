@@ -1,35 +1,47 @@
 diff --git a/RimeWithWeasel/RimeWithWeasel.cpp b/RimeWithWeasel/RimeWithWeasel.cpp
-index 3f4e59d..be65543 100644
+index 3f4e59d..3ecb695 100644
 --- a/RimeWithWeasel/RimeWithWeasel.cpp
 +++ b/RimeWithWeasel/RimeWithWeasel.cpp
-@@ -31,6 +31,15 @@ typedef enum { COLOR_ABGR = 0, COLOR_ARGB, COLOR_RGBA } ColorFormat;
+@@ -1,6 +1,7 @@
+ ﻿#include "stdafx.h"
+ #include <logging.h>
+ #include <RimeWithWeasel.h>
++#include <ExcelEdition.h>
+ #include <StringAlgorithm.hpp>
+ #include <WeaselConstants.h>
+ #include <WeaselUtility.h>
+@@ -31,6 +32,7 @@ typedef enum { COLOR_ABGR = 0, COLOR_ARGB, COLOR_RGBA } ColorFormat;
  using namespace weasel;
  
  static RimeApi* rime_api;
 +
-+// Excel edition: read a flag saved by the tray menu toggles
-+static bool LoadExcelEditionFlagPublic(const wchar_t* name) {
-+  DWORD value = 0, size = sizeof(value);
-+  return RegGetValueW(HKEY_CURRENT_USER, L"Software\\Rime\\Weasel\\ExcelEdition",
-+                      name, RRF_RT_REG_DWORD, NULL, &value, &size) ==
-+             ERROR_SUCCESS &&
-+         value != 0;
-+}
  WeaselSessionId _GenerateNewWeaselSessionId(SessionStatusMap sm, DWORD pid) {
    if (sm.empty())
      return (WeaselSessionId)(pid + 1);
-@@ -152,6 +161,10 @@ void RimeWithWeaselHandler::Initialize() {
+@@ -152,6 +154,9 @@ void RimeWithWeaselHandler::Initialize() {
  
    LOG(INFO) << "Initializing la rime.";
    rime_api->initialize(NULL);
-+  // Excel edition: restore tray menu toggles and typing statistics
-+  m_mix_mode = LoadExcelEditionFlagPublic(L"MixMode");
-+  m_single_char = LoadExcelEditionFlagPublic(L"SingleChar");
++  // Excel edition: restore menu toggles and typing statistics
++  _LoadExcelEditionFlags();
 +  _LoadTypingStats();
  #if 0
    if (rime_api->start_maintenance(/*full_check = */ False)) {
      m_disabled = true;
-@@ -213,6 +226,8 @@ DWORD RimeWithWeaselHandler::AddSession(LPWSTR buffer, EatLine eat) {
+@@ -175,6 +180,12 @@ void RimeWithWeaselHandler::Initialize() {
+         }
+       }
+       m_base_style = m_ui->style();
++      // Excel edition: layout chosen in the menu wins over weasel.yaml
++      _ApplyLayoutOverride(m_base_style);
++      m_ui->style() = m_base_style;
++      excel_edition::SaveFlag(excel_edition::kHorizontalValue,
++                              m_base_style.layout_type ==
++                                  UIStyle::LAYOUT_HORIZONTAL);
+     }
+     Bool global_ascii = false;
+     if (rime_api->config_get_bool(&config, "global_ascii", &global_ascii))
+@@ -213,6 +224,8 @@ DWORD RimeWithWeaselHandler::AddSession(LPWSTR buffer, EatLine eat) {
        return 0;
    }
    RimeSessionId session_id = (RimeSessionId)rime_api->create_session();
@@ -38,7 +50,7 @@ index 3f4e59d..be65543 100644
    if (m_global_ascii_mode) {
      for (const auto& pair : m_session_status_map) {
        if (pair.first) {
-@@ -252,7 +267,7 @@ DWORD RimeWithWeaselHandler::AddSession(LPWSTR buffer, EatLine eat) {
+@@ -252,7 +265,7 @@ DWORD RimeWithWeaselHandler::AddSession(LPWSTR buffer, EatLine eat) {
    add_session = true;
    _UpdateUI(ipc_id);
    add_session = false;
@@ -47,7 +59,7 @@ index 3f4e59d..be65543 100644
    return ipc_id;
  }
  
-@@ -266,6 +281,8 @@ DWORD RimeWithWeaselHandler::RemoveSession(WeaselSessionId ipc_id) {
+@@ -266,6 +279,8 @@ DWORD RimeWithWeaselHandler::RemoveSession(WeaselSessionId ipc_id) {
    rime_api->destroy_session(to_session_id(ipc_id));
    m_session_status_map.erase(ipc_id);
    m_active_session = 0;
@@ -56,7 +68,20 @@ index 3f4e59d..be65543 100644
    return 0;
  }
  
-@@ -329,7 +346,7 @@ BOOL RimeWithWeaselHandler::ProcessKeyEvent(KeyEvent keyEvent,
+@@ -285,6 +300,12 @@ void RimeWithWeaselHandler::UpdateColorTheme(BOOL darkMode) {
+         }
+       }
+       m_base_style = m_ui->style();
++      // Excel edition: layout chosen in the menu wins over weasel.yaml
++      _ApplyLayoutOverride(m_base_style);
++      m_ui->style() = m_base_style;
++      excel_edition::SaveFlag(excel_edition::kHorizontalValue,
++                              m_base_style.layout_type ==
++                                  UIStyle::LAYOUT_HORIZONTAL);
+     }
+     rime_api->config_close(&config);
+   }
+@@ -329,7 +350,7 @@ BOOL RimeWithWeaselHandler::ProcessKeyEvent(KeyEvent keyEvent,
    }
    _Respond(ipc_id, eat);
    _UpdateUI(ipc_id);
@@ -65,7 +90,7 @@ index 3f4e59d..be65543 100644
    return (BOOL)handled;
  }
  
-@@ -339,7 +356,7 @@ void RimeWithWeaselHandler::CommitComposition(WeaselSessionId ipc_id) {
+@@ -339,7 +360,7 @@ void RimeWithWeaselHandler::CommitComposition(WeaselSessionId ipc_id) {
      return;
    rime_api->commit_composition(to_session_id(ipc_id));
    _UpdateUI(ipc_id);
@@ -74,7 +99,7 @@ index 3f4e59d..be65543 100644
  }
  
  void RimeWithWeaselHandler::ClearComposition(WeaselSessionId ipc_id) {
-@@ -348,7 +365,7 @@ void RimeWithWeaselHandler::ClearComposition(WeaselSessionId ipc_id) {
+@@ -348,7 +369,7 @@ void RimeWithWeaselHandler::ClearComposition(WeaselSessionId ipc_id) {
      return;
    rime_api->clear_composition(to_session_id(ipc_id));
    _UpdateUI(ipc_id);
@@ -83,7 +108,7 @@ index 3f4e59d..be65543 100644
  }
  
  void RimeWithWeaselHandler::SelectCandidateOnCurrentPage(
-@@ -391,7 +408,7 @@ void RimeWithWeaselHandler::FocusIn(DWORD client_caps, WeaselSessionId ipc_id) {
+@@ -391,7 +412,7 @@ void RimeWithWeaselHandler::FocusIn(DWORD client_caps, WeaselSessionId ipc_id) {
    if (m_disabled)
      return;
    _UpdateUI(ipc_id);
@@ -92,7 +117,7 @@ index 3f4e59d..be65543 100644
  }
  
  void RimeWithWeaselHandler::FocusOut(DWORD param, WeaselSessionId ipc_id) {
-@@ -412,7 +429,7 @@ void RimeWithWeaselHandler::UpdateInputPosition(RECT const& rc,
+@@ -412,7 +433,7 @@ void RimeWithWeaselHandler::UpdateInputPosition(RECT const& rc,
      return;
    if (m_active_session != ipc_id) {
      _UpdateUI(ipc_id);
@@ -101,7 +126,16 @@ index 3f4e59d..be65543 100644
    }
  }
  
-@@ -794,6 +811,8 @@ bool RimeWithWeaselHandler::_Respond(WeaselSessionId ipc_id, EatLine eat) {
+@@ -617,6 +638,8 @@ void RimeWithWeaselHandler::_LoadSchemaSpecificSettings(
+   m_ui->style() = m_base_style;
+   _UpdateUIStyle(&config, m_ui, false);
+   SessionStatus& session_status = get_session_status(ipc_id);
++  // Excel edition: a schema's own style must not undo the menu's layout
++  _ApplyLayoutOverride(m_ui->style());
+   session_status.style = m_ui->style();
+   UIStyle& style = session_status.style;
+   // load schema color style config
+@@ -794,6 +817,8 @@ bool RimeWithWeaselHandler::_Respond(WeaselSessionId ipc_id, EatLine eat) {
    if (rime_api->get_commit(session_id, &commit)) {
      actions.insert("commit");
  
@@ -110,27 +144,26 @@ index 3f4e59d..be65543 100644
      std::string commit_text = escape_string<char>(commit.text);
      messages.push_back(std::string("commit=") + commit_text + '\n');
      rime_api->free_commit(&commit);
-@@ -1496,3 +1515,231 @@ void RimeWithWeaselHandler::_UpdateInlinePreeditStatus(WeaselSessionId ipc_id) {
+@@ -1430,6 +1455,7 @@ void RimeWithWeaselHandler::_GetStatus(Status& stat,
+     if (schema_id != m_last_schema_id) {
+       session_status.__synced = false;
+       m_last_schema_id = schema_id;
++      _OnSchemaChanged(schema_id);  // Excel edition
+       if (schema_id != ".default") {  // don't load for schema select menu
+         bool inline_preedit = session_status.style.inline_preedit;
+         _LoadSchemaSpecificSettings(ipc_id, schema_id);
+@@ -1496,3 +1522,275 @@ void RimeWithWeaselHandler::_UpdateInlinePreeditStatus(WeaselSessionId ipc_id) {
    // show soft cursor on weasel panel but not inline
    rime_api->set_option(session_id, "soft_cursor", Bool(!inline_preedit));
  }
 +
 +// ---------------------------------------------------------------------------
-+// Excel edition: tray menu toggles (mixed wubi/pinyin, single character mode)
-+// and typing statistics.
++// Excel edition: menu toggles (pinyin mode, single character mode, horizontal
++// candidate list) and typing statistics. See include/ExcelEdition.h.
++
++using namespace excel_edition;
 +
 +namespace {
-+
-+const char kWubiSchema[] = "xiaobing_wubi86";
-+const char kMixSchema[] = "xiaobing_wubi86_mix";
-+const char kSingleCharOption[] = "single_char";
-+const wchar_t kExcelEditionKey[] = L"Software\\Rime\\Weasel\\ExcelEdition";
-+
-+void SaveExcelEditionFlag(const wchar_t* name, bool on) {
-+  DWORD value = on ? 1 : 0;
-+  RegSetKeyValueW(HKEY_CURRENT_USER, kExcelEditionKey, name, REG_DWORD, &value,
-+                  sizeof(value));
-+}
 +
 +std::string SchemaOf(RimeSessionId session_id) {
 +  std::string schema_id;
@@ -191,28 +224,63 @@ index 3f4e59d..be65543 100644
 +  return it->second.session_id;
 +}
 +
++void RimeWithWeaselHandler::_LoadExcelEditionFlags() {
++  m_pinyin_mode = LoadFlag(kPinyinModeValue);
++  m_single_char = LoadFlag(kSingleCharValue);
++  DWORD layout = 0;
++  m_layout_override = ReadFlag(kLayoutOverrideValue, &layout) ? (layout ? 1 : 0)
++                                                               : -1;
++}
++
 +void RimeWithWeaselHandler::_ApplyExcelEditionState(RimeSessionId session_id) {
 +  if (!session_id)
 +    return;
 +  std::string schema_id = SchemaOf(session_id);
-+  if (m_mix_mode && schema_id == kWubiSchema)
-+    rime_api->select_schema(session_id, kMixSchema);
-+  else if (!m_mix_mode && schema_id == kMixSchema)
++  if (m_pinyin_mode && schema_id == kWubiSchema)
++    rime_api->select_schema(session_id, kPinyinSchema);
++  else if (!m_pinyin_mode && schema_id == kPinyinSchema)
 +    rime_api->select_schema(session_id, kWubiSchema);
 +  if (m_single_char)
 +    rime_api->set_option(session_id, kSingleCharOption, True);
 +}
 +
-+bool RimeWithWeaselHandler::IsMixMode() {
-+  RimeSessionId session_id = m_disabled ? 0 : _LastUsedRimeSession();
-+  if (!session_id)
-+    return m_mix_mode;
-+  return SchemaOf(session_id) == kMixSchema;
++void RimeWithWeaselHandler::_OnSchemaChanged(const std::string& schema_id) {
++  // keep the stored state in step when the schema is switched elsewhere
++  // (e.g. with F4), so that the language bar menu shows the right check mark
++  bool pinyin = schema_id == kPinyinSchema;
++  if ((pinyin || schema_id == kWubiSchema) && pinyin != m_pinyin_mode) {
++    m_pinyin_mode = pinyin;
++    SaveFlag(kPinyinModeValue, pinyin);
++  }
 +}
 +
-+void RimeWithWeaselHandler::SetMixMode(bool on) {
-+  m_mix_mode = on;
-+  SaveExcelEditionFlag(L"MixMode", on);
++void RimeWithWeaselHandler::_ApplyLayoutOverride(weasel::UIStyle& style) {
++  if (m_layout_override < 0)
++    return;
++  // only switch between the plain layouts; leave full screen and vertical
++  // text layouts alone
++  if (style.layout_type != UIStyle::LAYOUT_VERTICAL &&
++      style.layout_type != UIStyle::LAYOUT_HORIZONTAL)
++    return;
++  style.layout_type = m_layout_override ? UIStyle::LAYOUT_HORIZONTAL
++                                        : UIStyle::LAYOUT_VERTICAL;
++}
++
++static bool IsHorizontalLayout(const weasel::UIStyle& style) {
++  return style.layout_type == UIStyle::LAYOUT_HORIZONTAL ||
++         style.layout_type == UIStyle::LAYOUT_HORIZONTAL_FULLSCREEN;
++}
++
++bool RimeWithWeaselHandler::IsPinyinMode() {
++  RimeSessionId session_id = m_disabled ? 0 : _LastUsedRimeSession();
++  if (!session_id)
++    return m_pinyin_mode;
++  return SchemaOf(session_id) == kPinyinSchema;
++}
++
++void RimeWithWeaselHandler::SetPinyinMode(bool on) {
++  m_pinyin_mode = on;
++  SaveFlag(kPinyinModeValue, on);
 +  if (m_disabled)
 +    return;
 +  RimeSessionId last = _LastUsedRimeSession();
@@ -222,10 +290,10 @@ index 3f4e59d..be65543 100644
 +      continue;
 +    std::string schema_id = SchemaOf(session_id);
 +    const char* target = nullptr;
-+    if (on && schema_id != kMixSchema &&
++    if (on && schema_id != kPinyinSchema &&
 +        (schema_id == kWubiSchema || session_id == last))
-+      target = kMixSchema;
-+    else if (!on && schema_id == kMixSchema)
++      target = kPinyinSchema;
++    else if (!on && schema_id == kPinyinSchema)
 +      target = kWubiSchema;
 +    if (!target)
 +      continue;
@@ -247,7 +315,7 @@ index 3f4e59d..be65543 100644
 +
 +void RimeWithWeaselHandler::SetSingleChar(bool on) {
 +  m_single_char = on;
-+  SaveExcelEditionFlag(L"SingleChar", on);
++  SaveFlag(kSingleCharValue, on);
 +  if (m_disabled)
 +    return;
 +  for (auto& pair : m_session_status_map) {
@@ -255,6 +323,24 @@ index 3f4e59d..be65543 100644
 +      rime_api->set_option(pair.second.session_id, kSingleCharOption,
 +                           on ? True : False);
 +  }
++}
++
++bool RimeWithWeaselHandler::IsHorizontal() {
++  auto it = m_session_status_map.find(m_last_used_session);
++  if (it != m_session_status_map.end())
++    return IsHorizontalLayout(it->second.style);
++  return IsHorizontalLayout(m_base_style);
++}
++
++void RimeWithWeaselHandler::SetHorizontal(bool on) {
++  m_layout_override = on ? 1 : 0;
++  SaveFlag(kLayoutOverrideValue, on);
++  _ApplyLayoutOverride(m_base_style);
++  for (auto& pair : m_session_status_map)
++    _ApplyLayoutOverride(pair.second.style);
++  if (m_ui)
++    _ApplyLayoutOverride(m_ui->style());
++  SaveFlag(kHorizontalValue, IsHorizontalLayout(m_base_style));
 +}
 +
 +std::filesystem::path RimeWithWeaselHandler::TypingStatsFile() {
@@ -960,7 +1046,7 @@ index 9054fc4..db913d4 100644
        <Filter>Header Files</Filter>
      </ClInclude>
 diff --git a/WeaselServer/WeaselServerApp.cpp b/WeaselServer/WeaselServerApp.cpp
-index e09c4c5..81b80d6 100644
+index e09c4c5..6706106 100644
 --- a/WeaselServer/WeaselServerApp.cpp
 +++ b/WeaselServer/WeaselServerApp.cpp
 @@ -33,10 +33,16 @@ int WeaselServerApp::Run() {
@@ -980,42 +1066,45 @@ index e09c4c5..81b80d6 100644
    m_handler->Finalize();
    m_ui.Destroy();
    tray_icon.RemoveIcon();
-@@ -73,4 +79,83 @@ void WeaselServerApp::SetupMenuHandlers() {
+@@ -73,4 +79,86 @@ void WeaselServerApp::SetupMenuHandlers() {
                            std::bind(explore, WeaselUserDataPath()));
    m_server.AddMenuHandler(ID_WEASELTRAY_LOGDIR,
                            std::bind(explore, WeaselLogPath()));
-+  // Excel edition
-+  m_server.AddMenuHandler(ID_EXCEL_MIX_MODE, [this] {
++  // Excel edition: these commands also arrive from the language bar menu of
++  // WeaselTSF, forwarded as tray commands over the IPC pipe
++  using namespace excel_edition;
++  m_server.AddMenuHandler(ID_PINYIN_MODE, [this] {
 +    m_server.WithApiLock(
-+        [this] { m_handler->SetMixMode(!m_handler->IsMixMode()); });
++        [this] { m_handler->SetPinyinMode(!m_handler->IsPinyinMode()); });
 +    return true;
 +  });
-+  m_server.AddMenuHandler(ID_EXCEL_SINGLE_CHAR, [this] {
++  m_server.AddMenuHandler(ID_SINGLE_CHAR, [this] {
 +    m_server.WithApiLock(
 +        [this] { m_handler->SetSingleChar(!m_handler->IsSingleChar()); });
 +    return true;
 +  });
-+  m_server.AddMenuHandler(ID_EXCEL_TYPING_STATS,
-+                          [this] { return ShowTypingStats(); });
++  m_server.AddMenuHandler(ID_HORIZONTAL, [this] {
++    m_server.WithApiLock(
++        [this] { m_handler->SetHorizontal(!m_handler->IsHorizontal()); });
++    return true;
++  });
++  m_server.AddMenuHandler(ID_TYPING_STATS, [this] {
++    // show the dialog on its own thread: a request from the language bar is
++    // handled while holding the API lock, and typing must not wait for the
++    // dialog to be closed
++    std::thread([this] { ShowTypingStats(); }).detach();
++    return true;
++  });
 +}
 +
 +void WeaselServerApp::CustomizeTrayMenu(HMENU menu) {
-+  bool mix = false, single_char = false;
++  bool pinyin = false, single_char = false, horizontal = false;
 +  m_server.WithApiLock([&] {
-+    mix = m_handler->IsMixMode();
++    pinyin = m_handler->IsPinyinMode();
 +    single_char = m_handler->IsSingleChar();
++    horizontal = m_handler->IsHorizontal();
 +  });
-+  UINT pos = 0;
-+  InsertMenuW(menu, pos++,
-+              MF_BYPOSITION | MF_STRING | (mix ? MF_CHECKED : MF_UNCHECKED),
-+              ID_EXCEL_MIX_MODE, L"五笔拼音混输 (&M)");
-+  InsertMenuW(
-+      menu, pos++,
-+      MF_BYPOSITION | MF_STRING | (single_char ? MF_CHECKED : MF_UNCHECKED),
-+      ID_EXCEL_SINGLE_CHAR, L"单字模式 (&W)");
-+  InsertMenuW(menu, pos++, MF_BYPOSITION | MF_STRING, ID_EXCEL_TYPING_STATS,
-+              L"打字统计… (&T)");
-+  InsertMenuW(menu, pos++, MF_BYPOSITION | MF_SEPARATOR, 0, NULL);
++  excel_edition::InsertMenuItems(menu, pinyin, single_char, horizontal);
 +}
 +
 +static std::wstring FormatCount(long long n) {
@@ -1065,10 +1154,10 @@ index e09c4c5..81b80d6 100644
 +  return true;
  }
 diff --git a/WeaselServer/WeaselServerApp.h b/WeaselServer/WeaselServerApp.h
-index d5e32e0..4cb9f7c 100644
+index d5e32e0..fad25cd 100644
 --- a/WeaselServer/WeaselServerApp.h
 +++ b/WeaselServer/WeaselServerApp.h
-@@ -12,9 +12,15 @@
+@@ -12,9 +12,14 @@
  #include <winsparkle.h>
  
  #include "WeaselTrayIcon.h"
@@ -1076,15 +1165,14 @@ index d5e32e0..4cb9f7c 100644
  
  namespace fs = std::filesystem;
  
-+// Excel edition: tray menu items
-+constexpr UINT ID_EXCEL_MIX_MODE = 41101;
-+constexpr UINT ID_EXCEL_SINGLE_CHAR = 41102;
-+constexpr UINT ID_EXCEL_TYPING_STATS = 41103;
++// Excel edition: menu ids, registry flags and menu items
++#include <ExcelEdition.h>
++#include <thread>
 +
  class WeaselServerApp {
   public:
    static bool execute(const fs::path& cmd, const std::wstring& args) {
-@@ -62,9 +68,13 @@ class WeaselServerApp {
+@@ -62,9 +67,13 @@ class WeaselServerApp {
  
   protected:
    void SetupMenuHandlers();
@@ -1143,8 +1231,142 @@ index 42d407a..80a1a10 100644
    bool m_disabled;
 +  std::function<void(HMENU)> m_menu_customizer;
  };
+diff --git a/WeaselTSF/LanguageBar.cpp b/WeaselTSF/LanguageBar.cpp
+index a03b615..131cace 100644
+--- a/WeaselTSF/LanguageBar.cpp
++++ b/WeaselTSF/LanguageBar.cpp
+@@ -6,6 +6,7 @@
+ #include "LanguageBar.h"
+ #include "CandidateList.h"
+ #include <WeaselUtility.h>
++#include <ExcelEdition.h>
+ 
+ static const DWORD LANGBARITEMSINK_COOKIE = 0x42424242;
+ 
+@@ -15,7 +16,7 @@ static void HMENU2ITfMenu(HMENU hMenu, ITfMenu* pTfMenu) {
+   for (int i = 0; i < N; i++) {
+     MENUITEMINFO mii;
+     mii.cbSize = sizeof(MENUITEMINFO);
+-    mii.fMask = MIIM_FTYPE | MIIM_ID | MIIM_STRING;
++    mii.fMask = MIIM_FTYPE | MIIM_ID | MIIM_STRING | MIIM_STATE;
+     mii.dwTypeData = NULL;
+     if (GetMenuItemInfo(hMenu, i, TRUE, &mii)) {
+       UINT id = mii.wID;
+@@ -26,8 +27,9 @@ static void HMENU2ITfMenu(HMENU hMenu, ITfMenu* pTfMenu) {
+         mii.dwTypeData = (LPWSTR)malloc(sizeof(WCHAR) * (mii.cch + 1));
+         mii.cch++;
+         if (GetMenuItemInfo(hMenu, i, TRUE, &mii))
+-          pTfMenu->AddMenuItem(id, 0, NULL, NULL, mii.dwTypeData, mii.cch,
+-                               NULL);
++          pTfMenu->AddMenuItem(
++              id, (mii.fState & MFS_CHECKED) ? TF_LBMENUF_CHECKED : 0, NULL,
++              NULL, mii.dwTypeData, mii.cch, NULL);
+         free(mii.dwTypeData);
+       }
+     }
+@@ -178,6 +180,9 @@ STDAPI CLangBarItemButton::OnClick(TfLBIClick click,
+         menu = LoadMenuW(g_hInst, MAKEINTRESOURCE(IDR_MENU_POPUP));
+       }
+       HMENU popupMenu = GetSubMenu(menu, 0);
++      // Excel edition: pinyin / single char / horizontal / typing stats; the
++      // commands are forwarded to the server by _HandleLangBarMenuSelect
++      excel_edition::InsertMenuItemsFromRegistry(popupMenu);
+       UINT wID = TrackPopupMenuEx(
+           popupMenu, TPM_NONOTIFY | TPM_RETURNCMD | TPM_HORPOSANIMATION, pt.x,
+           pt.y, hwnd, NULL);
+@@ -191,6 +196,7 @@ STDAPI CLangBarItemButton::OnClick(TfLBIClick click,
+ STDAPI CLangBarItemButton::InitMenu(ITfMenu* pMenu) {
+   HMENU menu = LoadMenuW(g_hInst, MAKEINTRESOURCE(IDR_MENU_POPUP));
+   HMENU popupMenu = GetSubMenu(menu, 0);
++  excel_edition::InsertMenuItemsFromRegistry(popupMenu);  // Excel edition
+   HMENU2ITfMenu(popupMenu, pMenu);
+   DestroyMenu(menu);
+   return S_OK;
+diff --git a/include/ExcelEdition.h b/include/ExcelEdition.h
+new file mode 100644
+index 0000000..8e5bfd0
+--- /dev/null
++++ b/include/ExcelEdition.h
+@@ -0,0 +1,77 @@
++#pragma once
++//
++// Excel edition (小兵五笔86) additions shared by WeaselServer, RimeWithWeasel
++// and WeaselTSF: menu command ids, registry flags and the menu items.
++//
++// The server applies the toggles and stores their state under
++// HKCU\Software\Rime\Weasel\ExcelEdition; the language bar menu in WeaselTSF
++// reads it from there to show check marks and forwards the commands to the
++// server as tray commands.
++//
++#include <windows.h>
++
++namespace excel_edition {
++
++// menu command ids (must not clash with ID_WEASELTRAY_* in resource.h)
++constexpr UINT ID_PINYIN_MODE = 41101;
++constexpr UINT ID_SINGLE_CHAR = 41102;
++constexpr UINT ID_TYPING_STATS = 41103;
++constexpr UINT ID_HORIZONTAL = 41105;
++
++// schemas and options
++constexpr char kWubiSchema[] = "xiaobing_wubi86";
++constexpr char kPinyinSchema[] = "xiaobing_pinyin";
++constexpr char kSingleCharOption[] = "single_char";
++
++// registry
++constexpr wchar_t kRegKey[] = L"Software\\Rime\\Weasel\\ExcelEdition";
++constexpr wchar_t kPinyinModeValue[] = L"PinyinMode";
++constexpr wchar_t kSingleCharValue[] = L"SingleChar";
++// effective layout, written by the server for the language bar menu
++constexpr wchar_t kHorizontalValue[] = L"Horizontal";
++// layout chosen in the menu; absent = follow weasel.yaml
++constexpr wchar_t kLayoutOverrideValue[] = L"LayoutOverride";
++
++inline bool ReadFlag(const wchar_t* name, DWORD* value) {
++  DWORD size = sizeof(*value);
++  return RegGetValueW(HKEY_CURRENT_USER, kRegKey, name, RRF_RT_REG_DWORD, NULL,
++                      value, &size) == ERROR_SUCCESS;
++}
++
++inline bool LoadFlag(const wchar_t* name) {
++  DWORD value = 0;
++  return ReadFlag(name, &value) && value != 0;
++}
++
++inline void SaveFlag(const wchar_t* name, bool on) {
++  DWORD value = on ? 1 : 0;
++  RegSetKeyValueW(HKEY_CURRENT_USER, kRegKey, name, REG_DWORD, &value,
++                  sizeof(value));
++}
++
++// Inserts the edition's items (and a separator) at the top of a popup menu.
++inline void InsertMenuItems(HMENU menu,
++                            bool pinyin_mode,
++                            bool single_char,
++                            bool horizontal) {
++  UINT pos = 0;
++  auto check = [](bool on) { return on ? MF_CHECKED : MF_UNCHECKED; };
++  // 拼音模式 / 单字模式 / 候选横排 / 打字统计…
++  InsertMenuW(menu, pos++, MF_BYPOSITION | MF_STRING | check(pinyin_mode),
++              ID_PINYIN_MODE, L"拼音模式 (&P)");
++  InsertMenuW(menu, pos++, MF_BYPOSITION | MF_STRING | check(single_char),
++              ID_SINGLE_CHAR, L"单字模式 (&W)");
++  InsertMenuW(menu, pos++, MF_BYPOSITION | MF_STRING | check(horizontal),
++              ID_HORIZONTAL, L"候选横排 (&H)");
++  InsertMenuW(menu, pos++, MF_BYPOSITION | MF_STRING, ID_TYPING_STATS,
++              L"打字统计… (&T)");
++  InsertMenuW(menu, pos++, MF_BYPOSITION | MF_SEPARATOR, 0, NULL);
++}
++
++// state as last stored by the server (used by the language bar menu)
++inline void InsertMenuItemsFromRegistry(HMENU menu) {
++  InsertMenuItems(menu, LoadFlag(kPinyinModeValue), LoadFlag(kSingleCharValue),
++                  LoadFlag(kHorizontalValue));
++}
++
++}  // namespace excel_edition
 diff --git a/include/RimeWithWeasel.h b/include/RimeWithWeasel.h
-index 6fb0a4c..e68df86 100644
+index 6fb0a4c..02a66d2 100644
 --- a/include/RimeWithWeasel.h
 +++ b/include/RimeWithWeasel.h
 @@ -1,6 +1,7 @@
@@ -1155,16 +1377,18 @@ index 6fb0a4c..e68df86 100644
  #include <map>
  #include <string>
  
-@@ -64,6 +65,20 @@ class RimeWithWeaselHandler : public weasel::RequestHandler {
+@@ -64,6 +65,22 @@ class RimeWithWeaselHandler : public weasel::RequestHandler {
  
    void OnUpdateUI(std::function<void()> const& cb);
  
-+  // ---- Excel edition: tray menu toggles and typing statistics ----
++  // ---- Excel edition: menu toggles and typing statistics ----
 +  // Callers on the UI thread must hold the server's API lock.
-+  bool IsMixMode();             // current schema is xiaobing_wubi86_mix
-+  void SetMixMode(bool on);     // switch all sessions wubi <-> mix
++  bool IsPinyinMode();          // current schema is xiaobing_pinyin
++  void SetPinyinMode(bool on);  // switch all sessions wubi <-> pinyin
 +  bool IsSingleChar();          // option single_char
 +  void SetSingleChar(bool on);  // set option single_char on all sessions
++  bool IsHorizontal();          // candidate list laid out horizontally
++  void SetHorizontal(bool on);  // override style/horizontal for all sessions
 +  struct TypingStats {
 +    long long today_han = 0, today_other = 0;
 +    long long month_han = 0, total_han = 0;
@@ -1176,18 +1400,22 @@ index 6fb0a4c..e68df86 100644
   private:
    void _Setup();
    bool _IsDeployerRunning();
-@@ -82,6 +97,19 @@ class RimeWithWeaselHandler : public weasel::RequestHandler {
+@@ -82,6 +99,23 @@ class RimeWithWeaselHandler : public weasel::RequestHandler {
    void _GetContext(weasel::Context& ctx, RimeSessionId session_id);
    void _UpdateShowNotifications(RimeConfig* config, bool initialize = false);
  
 +  // Excel edition
++  void _LoadExcelEditionFlags();
 +  void _ApplyExcelEditionState(RimeSessionId session_id);
++  void _OnSchemaChanged(const std::string& schema_id);
++  void _ApplyLayoutOverride(weasel::UIStyle& style);
 +  RimeSessionId _LastUsedRimeSession();
 +  void _CountTyping(const char* text);
 +  void _LoadTypingStats();
 +  bool _SaveTypingStats();
-+  bool m_mix_mode = false;
++  bool m_pinyin_mode = false;
 +  bool m_single_char = false;
++  int m_layout_override = -1;  // -1: follow weasel.yaml, 0: vertical, 1: horizontal
 +  WeaselSessionId m_last_used_session = 0;
 +  // date (YYYY-MM-DD) -> {Chinese characters, other characters}
 +  std::map<std::string, std::pair<long long, long long>> m_typing;
@@ -1209,3 +1437,10 @@ index 3065cb5..9234b83 100644
    HWND GetHWnd();
  
   private:
+diff --git a/output/data/essay.txt b/output/data/essay.txt
+new file mode 100644
+index 0000000..92f2e41
+--- /dev/null
++++ b/output/data/essay.txt
+@@ -0,0 +1 @@
++placeholder: data files are not rebuilt in this edition; only WeaselServer.exe and rime.dll are used.

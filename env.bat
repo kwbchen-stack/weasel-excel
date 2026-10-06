@@ -1,4 +1,4 @@
-rem Build settings for Weasel (Excel dictionary edition v3), Visual Studio 2022
+rem Build settings for Weasel (Excel dictionary edition v4), Visual Studio 2022
 
 rem REQUIRED: path to Boost 1.84.0 source directory
 if not defined BOOST_ROOT set BOOST_ROOT=C:\Libraries\boost_1_84_0
