@@ -162,7 +162,9 @@ int ServerImpl::Stop() {
   return 0;
 }
 
-static std::mutex g_api_mutex;
+// recursive: tray menu commands (main thread) and pipe requests share it,
+// and a pipe request may itself run a tray command
+static std::recursive_mutex g_api_mutex;
 
 int ServerImpl::Run() {
   // This workaround causes a VC internal error:
@@ -172,7 +174,7 @@ int ServerImpl::Run() {
   // auto listener = boost::bind(&PipeServer::Listen, channel.get(), handler);
   //
   auto listener = [this](PipeMessage msg, PipeServer::Respond resp) -> void {
-    std::lock_guard guard(g_api_mutex);
+    std::lock_guard<std::recursive_mutex> guard(g_api_mutex);
     HandlePipeMessage(msg, resp);
   };
   pipeThread = std::make_unique<boost::thread>(
@@ -460,6 +462,11 @@ int Server::Run() {
 
 void Server::SetRequestHandler(RequestHandler* pHandler) {
   m_pImpl->SetRequestHandler(pHandler);
+}
+
+void Server::WithApiLock(const std::function<void()>& func) {
+  std::lock_guard<std::recursive_mutex> guard(g_api_mutex);
+  func();
 }
 
 void Server::AddMenuHandler(UINT uID, CommandHandler handler) {

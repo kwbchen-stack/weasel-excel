@@ -1,6 +1,7 @@
 #pragma once
 #include <WeaselIPC.h>
 #include <WeaselUI.h>
+#include <filesystem>
 #include <map>
 #include <string>
 
@@ -64,6 +65,20 @@ class RimeWithWeaselHandler : public weasel::RequestHandler {
 
   void OnUpdateUI(std::function<void()> const& cb);
 
+  // ---- Excel edition: tray menu toggles and typing statistics ----
+  // Callers on the UI thread must hold the server's API lock.
+  bool IsMixMode();             // current schema is xiaobing_wubi86_mix
+  void SetMixMode(bool on);     // switch all sessions wubi <-> mix
+  bool IsSingleChar();          // option single_char
+  void SetSingleChar(bool on);  // set option single_char on all sessions
+  struct TypingStats {
+    long long today_han = 0, today_other = 0;
+    long long month_han = 0, total_han = 0;
+    int days = 0;  // days with any Chinese characters typed
+  };
+  TypingStats GetTypingStats();
+  std::filesystem::path TypingStatsFile();
+
  private:
   void _Setup();
   bool _IsDeployerRunning();
@@ -81,6 +96,19 @@ class RimeWithWeaselHandler : public weasel::RequestHandler {
                   weasel::Context& ctx);
   void _GetContext(weasel::Context& ctx, RimeSessionId session_id);
   void _UpdateShowNotifications(RimeConfig* config, bool initialize = false);
+
+  // Excel edition
+  void _ApplyExcelEditionState(RimeSessionId session_id);
+  RimeSessionId _LastUsedRimeSession();
+  void _CountTyping(const char* text);
+  void _LoadTypingStats();
+  bool _SaveTypingStats();
+  bool m_mix_mode = false;
+  bool m_single_char = false;
+  WeaselSessionId m_last_used_session = 0;
+  // date (YYYY-MM-DD) -> {Chinese characters, other characters}
+  std::map<std::string, std::pair<long long, long long>> m_typing;
+  bool m_typing_loaded = false;
 
   bool _IsSessionTSF(RimeSessionId session_id);
   void _UpdateInlinePreeditStatus(WeaselSessionId ipc_id);

@@ -161,6 +161,8 @@ class Server {
 
   void SetRequestHandler(RequestHandler* pHandler);
   void AddMenuHandler(UINT uID, CommandHandler handler);
+  // runs func while holding the lock that serializes all Rime API calls
+  void WithApiLock(const std::function<void()>& func);
   HWND GetHWnd();
 
  private:

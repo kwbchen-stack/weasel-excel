@@ -17,7 +17,10 @@ WeaselTrayIcon::WeaselTrayIcon(weasel::UI& ui)
       m_schema_ascii_icon(),
       m_disabled(false) {}
 
-void WeaselTrayIcon::CustomizeMenu(HMENU hMenu) {}
+void WeaselTrayIcon::CustomizeMenu(HMENU hMenu) {
+  if (m_menu_customizer)
+    m_menu_customizer(hMenu);
+}
 
 BOOL WeaselTrayIcon::Create(HWND hTargetWnd) {
   HMODULE hModule = GetModuleHandle(NULL);

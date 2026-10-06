@@ -31,6 +31,15 @@ typedef enum { COLOR_ABGR = 0, COLOR_ARGB, COLOR_RGBA } ColorFormat;
 using namespace weasel;
 
 static RimeApi* rime_api;
+
+// Excel edition: read a flag saved by the tray menu toggles
+static bool LoadExcelEditionFlagPublic(const wchar_t* name) {
+  DWORD value = 0, size = sizeof(value);
+  return RegGetValueW(HKEY_CURRENT_USER, L"Software\\Rime\\Weasel\\ExcelEdition",
+                      name, RRF_RT_REG_DWORD, NULL, &value, &size) ==
+             ERROR_SUCCESS &&
+         value != 0;
+}
 WeaselSessionId _GenerateNewWeaselSessionId(SessionStatusMap sm, DWORD pid) {
   if (sm.empty())
     return (WeaselSessionId)(pid + 1);
@@ -152,6 +161,10 @@ void RimeWithWeaselHandler::Initialize() {
 
   LOG(INFO) << "Initializing la rime.";
   rime_api->initialize(NULL);
+  // Excel edition: restore tray menu toggles and typing statistics
+  m_mix_mode = LoadExcelEditionFlagPublic(L"MixMode");
+  m_single_char = LoadExcelEditionFlagPublic(L"SingleChar");
+  _LoadTypingStats();
 #if 0
   if (rime_api->start_maintenance(/*full_check = */ False)) {
     m_disabled = true;
@@ -213,6 +226,8 @@ DWORD RimeWithWeaselHandler::AddSession(LPWSTR buffer, EatLine eat) {
       return 0;
   }
   RimeSessionId session_id = (RimeSessionId)rime_api->create_session();
+  // Excel edition: apply tray menu toggles to the new session
+  _ApplyExcelEditionState(session_id);
   if (m_global_ascii_mode) {
     for (const auto& pair : m_session_status_map) {
       if (pair.first) {
@@ -252,7 +267,7 @@ DWORD RimeWithWeaselHandler::AddSession(LPWSTR buffer, EatLine eat) {
   add_session = true;
   _UpdateUI(ipc_id);
   add_session = false;
-  m_active_session = ipc_id;
+  m_active_session = m_last_used_session = ipc_id;
   return ipc_id;
 }
 
@@ -266,6 +281,8 @@ DWORD RimeWithWeaselHandler::RemoveSession(WeaselSessionId ipc_id) {
   rime_api->destroy_session(to_session_id(ipc_id));
   m_session_status_map.erase(ipc_id);
   m_active_session = 0;
+  if (m_last_used_session == ipc_id)
+    m_last_used_session = 0;
   return 0;
 }
 
@@ -329,7 +346,7 @@ BOOL RimeWithWeaselHandler::ProcessKeyEvent(KeyEvent keyEvent,
   }
   _Respond(ipc_id, eat);
   _UpdateUI(ipc_id);
-  m_active_session = ipc_id;
+  m_active_session = m_last_used_session = ipc_id;
   return (BOOL)handled;
 }
 
@@ -339,7 +356,7 @@ void RimeWithWeaselHandler::CommitComposition(WeaselSessionId ipc_id) {
     return;
   rime_api->commit_composition(to_session_id(ipc_id));
   _UpdateUI(ipc_id);
-  m_active_session = ipc_id;
+  m_active_session = m_last_used_session = ipc_id;
 }
 
 void RimeWithWeaselHandler::ClearComposition(WeaselSessionId ipc_id) {
@@ -348,7 +365,7 @@ void RimeWithWeaselHandler::ClearComposition(WeaselSessionId ipc_id) {
     return;
   rime_api->clear_composition(to_session_id(ipc_id));
   _UpdateUI(ipc_id);
-  m_active_session = ipc_id;
+  m_active_session = m_last_used_session = ipc_id;
 }
 
 void RimeWithWeaselHandler::SelectCandidateOnCurrentPage(
@@ -391,7 +408,7 @@ void RimeWithWeaselHandler::FocusIn(DWORD client_caps, WeaselSessionId ipc_id) {
   if (m_disabled)
     return;
   _UpdateUI(ipc_id);
-  m_active_session = ipc_id;
+  m_active_session = m_last_used_session = ipc_id;
 }
 
 void RimeWithWeaselHandler::FocusOut(DWORD param, WeaselSessionId ipc_id) {
@@ -412,7 +429,7 @@ void RimeWithWeaselHandler::UpdateInputPosition(RECT const& rc,
     return;
   if (m_active_session != ipc_id) {
     _UpdateUI(ipc_id);
-    m_active_session = ipc_id;
+    m_active_session = m_last_used_session = ipc_id;
   }
 }
 
@@ -794,6 +811,8 @@ bool RimeWithWeaselHandler::_Respond(WeaselSessionId ipc_id, EatLine eat) {
   if (rime_api->get_commit(session_id, &commit)) {
     actions.insert("commit");
 
+    // Excel edition: typing statistics
+    _CountTyping(commit.text);
     std::string commit_text = escape_string<char>(commit.text);
     messages.push_back(std::string("commit=") + commit_text + '\n');
     rime_api->free_commit(&commit);
@@ -1495,4 +1514,232 @@ void RimeWithWeaselHandler::_UpdateInlinePreeditStatus(WeaselSessionId ipc_id) {
   rime_api->set_option(session_id, "inline_preedit", Bool(inline_preedit));
   // show soft cursor on weasel panel but not inline
   rime_api->set_option(session_id, "soft_cursor", Bool(!inline_preedit));
+}
+
+// ---------------------------------------------------------------------------
+// Excel edition: tray menu toggles (mixed wubi/pinyin, single character mode)
+// and typing statistics.
+
+namespace {
+
+const char kWubiSchema[] = "xiaobing_wubi86";
+const char kMixSchema[] = "xiaobing_wubi86_mix";
+const char kSingleCharOption[] = "single_char";
+const wchar_t kExcelEditionKey[] = L"Software\\Rime\\Weasel\\ExcelEdition";
+
+void SaveExcelEditionFlag(const wchar_t* name, bool on) {
+  DWORD value = on ? 1 : 0;
+  RegSetKeyValueW(HKEY_CURRENT_USER, kExcelEditionKey, name, REG_DWORD, &value,
+                  sizeof(value));
+}
+
+std::string SchemaOf(RimeSessionId session_id) {
+  std::string schema_id;
+  RIME_STRUCT(RimeStatus, status);
+  if (rime_api->get_status(session_id, &status)) {
+    if (status.schema_id)
+      schema_id = status.schema_id;
+    rime_api->free_status(&status);
+  }
+  return schema_id;
+}
+
+std::string TodayString() {
+  SYSTEMTIME t;
+  GetLocalTime(&t);
+  char buf[16];
+  snprintf(buf, sizeof(buf), "%04d-%02d-%02d", t.wYear, t.wMonth, t.wDay);
+  return buf;
+}
+
+bool IsHan(uint32_t cp) {
+  return (cp >= 0x3400 && cp <= 0x4DBF) || (cp >= 0x4E00 && cp <= 0x9FFF) ||
+         (cp >= 0xF900 && cp <= 0xFAFF) || (cp >= 0x20000 && cp <= 0x3134F);
+}
+
+// counts Chinese characters and other visible characters in UTF-8 text
+void CountUtf8(const char* s, long long* han, long long* other) {
+  const unsigned char* p = reinterpret_cast<const unsigned char*>(s);
+  while (*p) {
+    uint32_t cp = *p;
+    int extra = 0;
+    if (cp >= 0xF0) {
+      cp &= 0x07;
+      extra = 3;
+    } else if (cp >= 0xE0) {
+      cp &= 0x0F;
+      extra = 2;
+    } else if (cp >= 0xC0) {
+      cp &= 0x1F;
+      extra = 1;
+    }
+    ++p;
+    for (int i = 0; i < extra && (*p & 0xC0) == 0x80; ++i, ++p)
+      cp = (cp << 6) | (*p & 0x3F);
+    if (IsHan(cp))
+      ++*han;
+    else if (cp > 0x20 && cp != 0x7F && cp != 0x3000)
+      ++*other;
+  }
+}
+
+}  // namespace
+
+RimeSessionId RimeWithWeaselHandler::_LastUsedRimeSession() {
+  auto it = m_session_status_map.find(m_last_used_session);
+  if (it == m_session_status_map.end())
+    return 0;
+  return it->second.session_id;
+}
+
+void RimeWithWeaselHandler::_ApplyExcelEditionState(RimeSessionId session_id) {
+  if (!session_id)
+    return;
+  std::string schema_id = SchemaOf(session_id);
+  if (m_mix_mode && schema_id == kWubiSchema)
+    rime_api->select_schema(session_id, kMixSchema);
+  else if (!m_mix_mode && schema_id == kMixSchema)
+    rime_api->select_schema(session_id, kWubiSchema);
+  if (m_single_char)
+    rime_api->set_option(session_id, kSingleCharOption, True);
+}
+
+bool RimeWithWeaselHandler::IsMixMode() {
+  RimeSessionId session_id = m_disabled ? 0 : _LastUsedRimeSession();
+  if (!session_id)
+    return m_mix_mode;
+  return SchemaOf(session_id) == kMixSchema;
+}
+
+void RimeWithWeaselHandler::SetMixMode(bool on) {
+  m_mix_mode = on;
+  SaveExcelEditionFlag(L"MixMode", on);
+  if (m_disabled)
+    return;
+  RimeSessionId last = _LastUsedRimeSession();
+  for (auto& pair : m_session_status_map) {
+    RimeSessionId session_id = pair.second.session_id;
+    if (!session_id)
+      continue;
+    std::string schema_id = SchemaOf(session_id);
+    const char* target = nullptr;
+    if (on && schema_id != kMixSchema &&
+        (schema_id == kWubiSchema || session_id == last))
+      target = kMixSchema;
+    else if (!on && schema_id == kMixSchema)
+      target = kWubiSchema;
+    if (!target)
+      continue;
+    // keep the session's single character setting across the switch
+    Bool single_char = rime_api->get_option(session_id, kSingleCharOption);
+    rime_api->select_schema(session_id, target);
+    rime_api->set_option(session_id, kSingleCharOption, single_char);
+  }
+  if (_UpdateUICallback)
+    _UpdateUICallback();
+}
+
+bool RimeWithWeaselHandler::IsSingleChar() {
+  RimeSessionId session_id = m_disabled ? 0 : _LastUsedRimeSession();
+  if (!session_id)
+    return m_single_char;
+  return !!rime_api->get_option(session_id, kSingleCharOption);
+}
+
+void RimeWithWeaselHandler::SetSingleChar(bool on) {
+  m_single_char = on;
+  SaveExcelEditionFlag(L"SingleChar", on);
+  if (m_disabled)
+    return;
+  for (auto& pair : m_session_status_map) {
+    if (pair.second.session_id)
+      rime_api->set_option(pair.second.session_id, kSingleCharOption,
+                           on ? True : False);
+  }
+}
+
+std::filesystem::path RimeWithWeaselHandler::TypingStatsFile() {
+  return WeaselUserDataPath() / L"打字统计.csv";  // 打字统计.csv
+}
+
+void RimeWithWeaselHandler::_LoadTypingStats() {
+  if (m_typing_loaded)
+    return;
+  m_typing_loaded = true;
+  FILE* f = _wfopen(TypingStatsFile().c_str(), L"rb");
+  if (!f)
+    return;
+  char line[256];
+  while (fgets(line, sizeof(line), f)) {
+    char date[32] = {0};
+    long long han = 0, other = 0;
+    const char* p = line;
+    if ((unsigned char)p[0] == 0xEF && (unsigned char)p[1] == 0xBB &&
+        (unsigned char)p[2] == 0xBF)
+      p += 3;  // UTF-8 BOM
+    if (sscanf(p, "%10[0-9-],%lld,%lld", date, &han, &other) >= 2 &&
+        strlen(date) == 10) {
+      auto& entry = m_typing[date];
+      entry.first += han;
+      entry.second += other;
+    }
+  }
+  fclose(f);
+}
+
+bool RimeWithWeaselHandler::_SaveTypingStats() {
+  std::filesystem::path file = TypingStatsFile();
+  std::filesystem::path tmp = file;
+  tmp += L".tmp";
+  FILE* f = _wfopen(tmp.c_str(), L"wb");
+  if (!f)
+    return false;
+  // UTF-8 BOM so that Excel shows the Chinese header correctly
+  fputs("\xEF\xBB\xBF\xE6\x97\xA5\xE6\x9C\x9F,\xE6\xB1\x89\xE5\xAD\x97,"
+        "\xE5\x85\xB6\xE4\xBB\x96\xE5\xAD\x97\xE7\xAC\xA6\r\n",  // 日期,汉字,其他字符
+        f);
+  for (const auto& entry : m_typing)
+    fprintf(f, "%s,%lld,%lld\r\n", entry.first.c_str(), entry.second.first,
+            entry.second.second);
+  bool ok = fclose(f) == 0;
+  if (ok)
+    ok = MoveFileExW(tmp.c_str(), file.c_str(), MOVEFILE_REPLACE_EXISTING) != 0;
+  if (!ok)
+    DeleteFileW(tmp.c_str());
+  return ok;
+}
+
+void RimeWithWeaselHandler::_CountTyping(const char* text) {
+  if (!text || !*text)
+    return;
+  long long han = 0, other = 0;
+  CountUtf8(text, &han, &other);
+  if (!han && !other)
+    return;
+  _LoadTypingStats();
+  auto& entry = m_typing[TodayString()];
+  entry.first += han;
+  entry.second += other;
+  // if the file is locked (e.g. opened in Excel) the counts stay in memory
+  // and are written with the next commit
+  _SaveTypingStats();
+}
+
+RimeWithWeaselHandler::TypingStats RimeWithWeaselHandler::GetTypingStats() {
+  _LoadTypingStats();
+  TypingStats stats;
+  std::string today = TodayString();
+  std::string month = today.substr(0, 7);
+  for (const auto& entry : m_typing) {
+    stats.total_han += entry.second.first;
+    if (entry.second.first > 0)
+      ++stats.days;
+    if (entry.first.compare(0, 7, month) == 0)
+      stats.month_han += entry.second.first;
+    if (entry.first == today) {
+      stats.today_han = entry.second.first;
+      stats.today_other = entry.second.second;
+    }
+  }
+  return stats;
 }

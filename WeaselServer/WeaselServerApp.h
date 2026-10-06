@@ -16,6 +16,11 @@
 
 namespace fs = std::filesystem;
 
+// Excel edition: tray menu items
+constexpr UINT ID_EXCEL_MIX_MODE = 41101;
+constexpr UINT ID_EXCEL_SINGLE_CHAR = 41102;
+constexpr UINT ID_EXCEL_TYPING_STATS = 41103;
+
 class WeaselServerApp {
  public:
   static bool execute(const fs::path& cmd, const std::wstring& args) {
@@ -63,6 +68,8 @@ class WeaselServerApp {
 
  protected:
   void SetupMenuHandlers();
+  void CustomizeTrayMenu(HMENU menu);
+  bool ShowTypingStats();
 
   weasel::Server m_server;
   weasel::UI m_ui;
