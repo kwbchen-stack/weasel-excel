@@ -1,0 +1,1366 @@
+PRODUCT_VERSION=0.17.4.0.1d5e389
+WEASEL_VERSION=0.17.4
+WEASEL_BUILD=0
+WEASEL_ROOT=D:\a\weasel-excel\weasel-excel
+WEASEL_BUNDLED_RECIPES=
+
+BOOST_ROOT=D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0
+
+D:\a\weasel-excel\weasel-excel\librime\share\opencc\hk2s.json
+D:\a\weasel-excel\weasel-excel\librime\share\opencc\hk2t.json
+D:\a\weasel-excel\weasel-excel\librime\share\opencc\HKVariants.ocd2
+D:\a\weasel-excel\weasel-excel\librime\share\opencc\HKVariantsRev.ocd2
+D:\a\weasel-excel\weasel-excel\librime\share\opencc\HKVariantsRevPhrases.ocd2
+D:\a\weasel-excel\weasel-excel\librime\share\opencc\jp2t.json
+D:\a\weasel-excel\weasel-excel\librime\share\opencc\JPShinjitaiCharacters.ocd2
+D:\a\weasel-excel\weasel-excel\librime\share\opencc\JPShinjitaiPhrases.ocd2
+D:\a\weasel-excel\weasel-excel\librime\share\opencc\JPVariants.ocd2
+D:\a\weasel-excel\weasel-excel\librime\share\opencc\JPVariantsRev.ocd2
+D:\a\weasel-excel\weasel-excel\librime\share\opencc\s2hk.json
+D:\a\weasel-excel\weasel-excel\librime\share\opencc\s2t.json
+D:\a\weasel-excel\weasel-excel\librime\share\opencc\s2tw.json
+D:\a\weasel-excel\weasel-excel\librime\share\opencc\s2twp.json
+D:\a\weasel-excel\weasel-excel\librime\share\opencc\STCharacters.ocd2
+D:\a\weasel-excel\weasel-excel\librime\share\opencc\STPhrases.ocd2
+D:\a\weasel-excel\weasel-excel\librime\share\opencc\t2hk.json
+D:\a\weasel-excel\weasel-excel\librime\share\opencc\t2jp.json
+D:\a\weasel-excel\weasel-excel\librime\share\opencc\t2s.json
+D:\a\weasel-excel\weasel-excel\librime\share\opencc\t2tw.json
+D:\a\weasel-excel\weasel-excel\librime\share\opencc\TSCharacters.ocd2
+D:\a\weasel-excel\weasel-excel\librime\share\opencc\TSPhrases.ocd2
+D:\a\weasel-excel\weasel-excel\librime\share\opencc\tw2s.json
+D:\a\weasel-excel\weasel-excel\librime\share\opencc\tw2sp.json
+D:\a\weasel-excel\weasel-excel\librime\share\opencc\tw2t.json
+D:\a\weasel-excel\weasel-excel\librime\share\opencc\TWPhrases.ocd2
+D:\a\weasel-excel\weasel-excel\librime\share\opencc\TWPhrasesRev.ocd2
+D:\a\weasel-excel\weasel-excel\librime\share\opencc\TWVariants.ocd2
+D:\a\weasel-excel\weasel-excel\librime\share\opencc\TWVariantsRev.ocd2
+D:\a\weasel-excel\weasel-excel\librime\share\opencc\TWVariantsRevPhrases.ocd2
+       30 file(s) copied.
+Microsoft (R) Windows Script Host Version 10.0
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+BOOST_ROOT=D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0
+PLATFORM_TOOLSET=v143
+VERSION_MAJOR=0
+VERSION_MINOR=17
+VERSION_PATCH=4
+PRODUCT_VERSION=0.17.4.0.1d5e389
+FILE_VERSION=0.17.4.0
+Generated weasel.props
+Could Not Find D:\a\weasel-excel\weasel-excel\msbuild*.log
+MSBuild version 17.14.60+43b635718 for .NET Framework
+Build started 10/7/2026 7:43:45 AM.
+
+Project "D:\a\weasel-excel\weasel-excel\weasel.sln" on node 1 (Build target(s)).
+ValidateSolutionConfiguration:
+  Building solution configuration "Release|x64".
+ValidateProjects:
+  The project "TestWeaselIPC" is not selected for building in solution configuration "Release|x64".
+  The project "TestResponseParser" is not selected for building in solution configuration "Release|x64".
+  The project "WeaselSetup" is not selected for building in solution configuration "Release|x64".
+Project "D:\a\weasel-excel\weasel-excel\weasel.sln" (1) is building "D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj" (2) on node 1 (default targets).
+Project "D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj" (2) is building "D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj" (3) on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPC\".
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+  Creating directory "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPC\WeaselIPC.tlog\".
+InitializeBuildStatus:
+  Creating "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPC\WeaselIPC.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+  Touching "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPC\WeaselIPC.tlog\unsuccessfulbuild".
+ClCompile:
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x64\CL.exe /c /I"D:\a\weasel-excel\weasel-excel\\include" /I"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0" /Zi /nologo /W3 /WX- /diagnostics:column /MP /O2 /Oi /GL /D WIN32 /D NDEBUG /D _LIB /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Yc"stdafx.h" /Fp"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPC\WeaselIPC.pch" /Fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPC\\" /Fd"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPC.pdb" /external:W3 /Gd /TP /FC /errorReport:queue /Zc:threadSafeInit- /utf-8 stdafx.cpp
+  stdafx.cpp
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x64\CL.exe /c /I"D:\a\weasel-excel\weasel-excel\\include" /I"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0" /Zi /nologo /W3 /WX- /diagnostics:column /MP /O2 /Oi /GL /D WIN32 /D NDEBUG /D _LIB /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Yu"stdafx.h" /Fp"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPC\WeaselIPC.pch" /Fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPC\\" /Fd"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPC.pdb" /external:W3 /Gd /TP /FC /errorReport:queue /Zc:threadSafeInit- /utf-8 Configurator.cpp Deserializer.cpp PipeChannel.cpp ResponseParser.cpp Styler.cpp WeaselClientImpl.cpp ActionLoader.cpp Committer.cpp ContextUpdater.cpp
+  Configurator.cpp
+  Deserializer.cpp
+  PipeChannel.cpp
+  ResponseParser.cpp
+  Styler.cpp
+  WeaselClientImpl.cpp
+  ActionLoader.cpp
+  Committer.cpp
+  ContextUpdater.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj]
+  (compiling source file '/ResponseParser.cpp')
+  
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj]
+  (compiling source file '/WeaselClientImpl.cpp')
+  
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj]
+  (compiling source file '/Committer.cpp')
+  
+D:\a\weasel-excel\weasel-excel\WeaselIPC\PipeChannel.cpp(86,29): warning C4267: 'argument': conversion from 'size_t' to 'DWORD', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj]
+  (compiling source file '/PipeChannel.cpp')
+  
+D:\a\weasel-excel\weasel-excel\WeaselIPC\PipeChannel.cpp(103,40): warning C4267: 'argument': conversion from 'size_t' to 'DWORD', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj]
+  (compiling source file '/PipeChannel.cpp')
+  
+D:\a\weasel-excel\weasel-excel\WeaselIPC\PipeChannel.cpp(108,46): warning C4267: 'argument': conversion from 'size_t' to 'DWORD', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj]
+  (compiling source file '/PipeChannel.cpp')
+  
+D:\a\weasel-excel\weasel-excel\WeaselIPC\PipeChannel.cpp(120,60): warning C4267: 'argument': conversion from 'size_t' to 'DWORD', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj]
+  (compiling source file '/PipeChannel.cpp')
+  
+D:\a\weasel-excel\weasel-excel\WeaselIPC\PipeChannel.cpp(120,49): warning C4267: 'argument': conversion from 'size_t' to 'DWORD', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj]
+  (compiling source file '/PipeChannel.cpp')
+  
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj]
+  (compiling source file '/ContextUpdater.cpp')
+  
+D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselClientImpl.cpp(86,75): warning C4267: 'argument': conversion from 'size_t' to 'DWORD', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj]
+  (compiling source file '/WeaselClientImpl.cpp')
+  
+D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselClientImpl.cpp(95,30): warning C4267: 'argument': conversion from 'size_t' to 'DWORD', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj]
+  (compiling source file '/WeaselClientImpl.cpp')
+  
+D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselClientImpl.cpp(150,12): warning C4244: 'initializing': conversion from 'LRESULT' to 'UINT', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj]
+  (compiling source file '/WeaselClientImpl.cpp')
+  
+D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselClientImpl.cpp(173,19): warning C4244: 'initializing': conversion from 'LRESULT' to 'UINT', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj]
+  (compiling source file '/WeaselClientImpl.cpp')
+  
+Lib:
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x64\Lib.exe /OUT:"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPC.lib" /NOLOGO /MACHINE:X64 /LTCG "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPC\Configurator.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPC\Deserializer.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPC\PipeChannel.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPC\ResponseParser.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPC\stdafx.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPC\Styler.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPC\WeaselClientImpl.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPC\ActionLoader.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPC\Committer.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPC\ContextUpdater.obj"
+  WeaselIPC.vcxproj -> D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPC.lib
+FinalizeBuildStatus:
+  Deleting file "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPC\WeaselIPC.tlog\unsuccessfulbuild".
+  Touching "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPC\WeaselIPC.tlog\WeaselIPC.lastbuildstate".
+Done Building Project "D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj" (default targets).
+Project "D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj" (2) is building "D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj" (4) on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselUI\".
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+  Creating directory "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselUI\WeaselUI.tlog\".
+InitializeBuildStatus:
+  Creating "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselUI\WeaselUI.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+  Touching "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselUI\WeaselUI.tlog\unsuccessfulbuild".
+ClCompile:
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x64\CL.exe /c /I"D:\a\weasel-excel\weasel-excel\\include" /I"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0" /Zi /nologo /W3 /WX- /diagnostics:column /MP /O2 /Oi /GL /D WIN32 /D NDEBUG /D _LIB /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Yc"stdafx.h" /Fp"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselUI\WeaselUI.pch" /Fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselUI\\" /Fd"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselUI.pdb" /external:W3 /Gd /TP /FC /errorReport:queue /Zc:threadSafeInit- /utf-8 stdafx.cpp
+  stdafx.cpp
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x64\CL.exe /c /I"D:\a\weasel-excel\weasel-excel\\include" /I"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0" /Zi /nologo /W3 /WX- /diagnostics:column /MP /O2 /Oi /GL /D WIN32 /D NDEBUG /D _LIB /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Yu"stdafx.h" /Fp"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselUI\WeaselUI.pch" /Fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselUI\\" /Fd"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselUI.pdb" /external:W3 /Gd /TP /FC /errorReport:queue /Zc:threadSafeInit- /utf-8 DirectWriteResources.cpp FullScreenLayout.cpp GdiplusBlur.cpp HorizontalLayout.cpp Layout.cpp StandardLayout.cpp VerticalLayout.cpp VHorizontalLayout.cpp WeaselPanel.cpp WeaselUI.cpp
+  DirectWriteResources.cpp
+  FullScreenLayout.cpp
+  GdiplusBlur.cpp
+  HorizontalLayout.cpp
+  Layout.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj]
+  (compiling source file '/DirectWriteResources.cpp')
+  
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj]
+  (compiling source file '/FullScreenLayout.cpp')
+  
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj]
+  (compiling source file '/HorizontalLayout.cpp')
+  
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj]
+  (compiling source file '/Layout.cpp')
+  
+  StandardLayout.cpp
+  VerticalLayout.cpp
+  VHorizontalLayout.cpp
+  WeaselPanel.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj]
+  (compiling source file '/StandardLayout.cpp')
+  
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj]
+  (compiling source file '/VerticalLayout.cpp')
+  
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj]
+  (compiling source file '/VHorizontalLayout.cpp')
+  
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj]
+  (compiling source file '/WeaselPanel.cpp')
+  
+  WeaselUI.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj]
+  (compiling source file '/WeaselUI.cpp')
+  
+Lib:
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x64\Lib.exe /OUT:"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselUI.lib" /NOLOGO /MACHINE:X64 /LTCG "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselUI\DirectWriteResources.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselUI\FullScreenLayout.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselUI\GdiplusBlur.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselUI\HorizontalLayout.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselUI\Layout.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselUI\StandardLayout.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselUI\stdafx.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselUI\VerticalLayout.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselUI\VHorizontalLayout.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselUI\WeaselPanel.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselUI\WeaselUI.obj"
+  WeaselUI.vcxproj -> D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselUI.lib
+FinalizeBuildStatus:
+  Deleting file "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselUI\WeaselUI.tlog\unsuccessfulbuild".
+  Touching "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselUI\WeaselUI.tlog\WeaselUI.lastbuildstate".
+Done Building Project "D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj" (default targets).
+PrepareForBuild:
+  Creating directory "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselTSF\".
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+  Creating directory "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselTSF\WeaselTSF.tlog\".
+InitializeBuildStatus:
+  Creating "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselTSF\WeaselTSF.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+  Touching "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselTSF\WeaselTSF.tlog\unsuccessfulbuild".
+ClCompile:
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x64\CL.exe /c /I"D:\a\weasel-excel\weasel-excel\\include" /I"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0" /Zi /nologo /W3 /WX- /diagnostics:column /MP /O2 /Oi /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D WEASELTSF_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Yc"stdafx.h" /Fp"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselTSF\weaselx64.pch" /Fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselTSF\\" /Fd"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselTSF\vc143.pdb" /external:W3 /Gd /TP /FC /errorReport:queue /Zc:threadSafeInit- /utf-8 stdafx.cpp
+  stdafx.cpp
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x64\CL.exe /c /I"D:\a\weasel-excel\weasel-excel\\include" /I"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0" /Zi /nologo /W3 /WX- /diagnostics:column /MP /O2 /Oi /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D WEASELTSF_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Yu"stdafx.h" /Fp"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselTSF\weaselx64.pch" /Fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselTSF\\" /Fd"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselTSF\vc143.pdb" /external:W3 /Gd /TP /FC /errorReport:queue /Zc:threadSafeInit- /utf-8 CandidateList.cpp Compartment.cpp Composition.cpp DisplayAttribute.cpp DisplayAttributeInfo.cpp DisplayAttributeProvider.cpp EditSession.cpp EnumDisplayAttributeInfo.cpp Globals.cpp KeyEvent.cpp KeyEventSink.cpp LanguageBar.cpp Register.cpp Server.cpp TextEditSink.cpp ThreadMgrEventSink.cpp WeaselTSF.cpp
+  CandidateList.cpp
+  Compartment.cpp
+  Composition.cpp
+  DisplayAttribute.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  (compiling source file '/Composition.cpp')
+  
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  (compiling source file '/DisplayAttribute.cpp')
+  
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  (compiling source file '/CandidateList.cpp')
+  
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  (compiling source file '/Compartment.cpp')
+  
+  DisplayAttributeInfo.cpp
+  DisplayAttributeProvider.cpp
+  EditSession.cpp
+  EnumDisplayAttributeInfo.cpp
+  Globals.cpp
+  KeyEvent.cpp
+  KeyEventSink.cpp
+  LanguageBar.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  (compiling source file '/DisplayAttributeProvider.cpp')
+  
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  (compiling source file '/EditSession.cpp')
+  
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  (compiling source file '/KeyEventSink.cpp')
+  
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  (compiling source file '/LanguageBar.cpp')
+  
+  Register.cpp
+  Server.cpp
+  TextEditSink.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  (compiling source file '/Register.cpp')
+  
+D:\a\weasel-excel\weasel-excel\WeaselTSF\Register.cpp(35,17): warning C4312: 'type cast': conversion from 'DWORD' to 'HKL' of greater size [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  (compiling source file '/Register.cpp')
+  
+D:\a\weasel-excel\weasel-excel\WeaselTSF\Register.cpp(66,31): warning C4267: 'initializing': conversion from 'size_t' to 'ULONG', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  (compiling source file '/Register.cpp')
+  
+D:\a\weasel-excel\weasel-excel\WeaselTSF\Register.cpp(232,56): warning C4267: 'argument': conversion from 'size_t' to 'DWORD', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  (compiling source file '/Register.cpp')
+  
+  ThreadMgrEventSink.cpp
+  WeaselTSF.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  (compiling source file '/Server.cpp')
+  
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  (compiling source file '/TextEditSink.cpp')
+  
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  (compiling source file '/ThreadMgrEventSink.cpp')
+  
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  (compiling source file '/WeaselTSF.cpp')
+  
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x64\CL.exe /c /I"D:\a\weasel-excel\weasel-excel\\include" /I"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0" /Zi /nologo /W3 /WX- /diagnostics:column /MP /O2 /Oi /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D WEASELTSF_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselTSF\\" /Fd"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselTSF\vc143.pdb" /external:W3 /Gd /TP /FC /errorReport:queue /Zc:threadSafeInit- /utf-8 dllmain.cpp
+  dllmain.cpp
+ResourceCompile:
+  C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x86\rc.exe /D WIN64 /D _UNICODE /D UNICODE /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /D PRODUCT_VERSION=0.17.4.0.1d5e389 /D FILE_VERSION=0.17.4.0 /l"0x0409" /I"D:\a\weasel-excel\weasel-excel\\include" /nologo /fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselTSF\WeaselTSF.res" WeaselTSF.rc 
+Link:
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x64\link.exe /ERRORREPORT:QUEUE /OUT:"D:\a\weasel-excel\weasel-excel\output\weaselx64.dll" /INCREMENTAL:NO /NOLOGO /LIBPATH:"D:\a\weasel-excel\weasel-excel\\lib" /LIBPATH:"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0\stage\lib" Usp10.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /DEF:"WeaselTSF.def" /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\Include\Manifest\PerMonitorHighDPIAware.manifest" /DEBUG /PDB:"D:\a\weasel-excel\weasel-excel\output\weaselx64.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG:incremental /LTCGOUT:"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselTSF\weaselx64.iobj" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\a\weasel-excel\weasel-excel\output\weaselx64.lib" /MACHINE:X64 /DLL "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselTSF\WeaselTSF.res"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselTSF\CandidateList.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselTSF\Compartment.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselTSF\Composition.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselTSF\DisplayAttribute.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselTSF\DisplayAttributeInfo.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselTSF\DisplayAttributeProvider.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselTSF\dllmain.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselTSF\EditSession.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselTSF\EnumDisplayAttributeInfo.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselTSF\Globals.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselTSF\KeyEvent.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselTSF\KeyEventSink.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselTSF\LanguageBar.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselTSF\Register.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselTSF\Server.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselTSF\stdafx.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselTSF\TextEditSink.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselTSF\ThreadMgrEventSink.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselTSF\WeaselTSF.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPC.lib"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselUI.lib"
+     Creating library D:\a\weasel-excel\weasel-excel\output\weaselx64.lib and object D:\a\weasel-excel\weasel-excel\output\weaselx64.exp
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+  All 5204 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  WeaselTSF.vcxproj -> D:\a\weasel-excel\weasel-excel\output\weaselx64.dll
+FinalizeBuildStatus:
+  Deleting file "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselTSF\WeaselTSF.tlog\unsuccessfulbuild".
+  Touching "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselTSF\WeaselTSF.tlog\WeaselTSF.lastbuildstate".
+Done Building Project "D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj" (default targets).
+Project "D:\a\weasel-excel\weasel-excel\weasel.sln" (1) is building "D:\a\weasel-excel\weasel-excel\WeaselIME\WeaselIME.vcxproj" (5) on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIME\".
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+  Creating directory "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIME\WeaselIME.tlog\".
+InitializeBuildStatus:
+  Creating "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIME\WeaselIME.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+  Touching "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIME\WeaselIME.tlog\unsuccessfulbuild".
+ClCompile:
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x64\CL.exe /c /I"D:\a\weasel-excel\weasel-excel\\include" /I"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0" /Zi /nologo /W3 /WX- /diagnostics:column /O2 /Oi /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D WEASELIME_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Yc"stdafx.h" /Fp"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIME\weaselx64.pch" /Fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIME\\" /Fd"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIME\vc143.pdb" /external:W3 /Gd /TP /FC /errorReport:queue /Zc:threadSafeInit- /utf-8 stdafx.cpp
+  stdafx.cpp
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x64\CL.exe /c /I"D:\a\weasel-excel\weasel-excel\\include" /I"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0" /Zi /nologo /W3 /WX- /diagnostics:column /O2 /Oi /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D WEASELIME_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIME\\" /Fd"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIME\vc143.pdb" /external:W3 /Gd /TP /FC /errorReport:queue /Zc:threadSafeInit- /utf-8 dllmain.cpp
+  dllmain.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselIME\WeaselIME.vcxproj]
+  (compiling source file 'dllmain.cpp')
+  
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x64\CL.exe /c /I"D:\a\weasel-excel\weasel-excel\\include" /I"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0" /Zi /nologo /W3 /WX- /diagnostics:column /O2 /Oi /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D WEASELIME_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Yu"stdafx.h" /Fp"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIME\weaselx64.pch" /Fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIME\\" /Fd"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIME\vc143.pdb" /external:W3 /Gd /TP /FC /errorReport:queue /Zc:threadSafeInit- /utf-8 ime.cpp KeyEvent.cpp WeaselIME.cpp
+  ime.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselIME\WeaselIME.vcxproj]
+  (compiling source file '/ime.cpp')
+  
+D:\a\weasel-excel\weasel-excel\WeaselIME\ime.cpp(86,14): warning C4244: 'initializing': conversion from 'LRESULT' to 'HRESULT', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselIME\WeaselIME.vcxproj]
+  (compiling source file '/ime.cpp')
+  
+D:\a\weasel-excel\weasel-excel\WeaselIME\ime.cpp(101,16): warning C4244: 'initializing': conversion from 'LRESULT' to 'HRESULT', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselIME\WeaselIME.vcxproj]
+  (compiling source file '/ime.cpp')
+  
+  KeyEvent.cpp
+  WeaselIME.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselIME\WeaselIME.vcxproj]
+  (compiling source file '/WeaselIME.cpp')
+  
+D:\a\weasel-excel\weasel-excel\WeaselIME\WeaselIME.cpp(471,39): warning C4267: '=': conversion from 'size_t' to 'DWORD', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselIME\WeaselIME.vcxproj]
+  (compiling source file '/WeaselIME.cpp')
+  
+ResourceCompile:
+  C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x86\rc.exe /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /D PRODUCT_VERSION=0.17.4.0.1d5e389 /D FILE_VERSION=0.17.4.0 /l"0x0409" /I"D:\a\weasel-excel\weasel-excel\\include" /nologo /fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIME\WeaselIME.res" WeaselIME.rc 
+Link:
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x64\link.exe /ERRORREPORT:QUEUE /OUT:"D:\a\weasel-excel\weasel-excel\output\weaselx64.ime" /INCREMENTAL:NO /NOLOGO /LIBPATH:"D:\a\weasel-excel\weasel-excel\\lib" /LIBPATH:"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0\stage\lib" imm32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /DEF:"weasel.def" /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\Include\Manifest\PerMonitorHighDPIAware.manifest" /PDB:"D:\a\weasel-excel\weasel-excel\output\weaselx64.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG:incremental /LTCGOUT:"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIME\weaselx64.iobj" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\a\weasel-excel\weasel-excel\output\weaselx64.lib" /MACHINE:X64 /DLL "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIME\WeaselIME.res"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIME\dllmain.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIME\ime.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIME\KeyEvent.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIME\stdafx.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIME\WeaselIME.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPC.lib"
+     Creating library D:\a\weasel-excel\weasel-excel\output\weaselx64.lib and object D:\a\weasel-excel\weasel-excel\output\weaselx64.exp
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+  All 2434 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  WeaselIME.vcxproj -> D:\a\weasel-excel\weasel-excel\output\weaselx64.ime
+FinalizeBuildStatus:
+  Deleting file "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIME\WeaselIME.tlog\unsuccessfulbuild".
+  Touching "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIME\WeaselIME.tlog\WeaselIME.lastbuildstate".
+Done Building Project "D:\a\weasel-excel\weasel-excel\WeaselIME\WeaselIME.vcxproj" (default targets).
+Project "D:\a\weasel-excel\weasel-excel\weasel.sln" (1) is building "D:\a\weasel-excel\weasel-excel\WeaselServer\WeaselServer.vcxproj" (6) on node 1 (default targets).
+Project "D:\a\weasel-excel\weasel-excel\WeaselServer\WeaselServer.vcxproj" (6) is building "D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.vcxproj" (7) on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\RimeWithWeasel\".
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+  Creating directory "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\RimeWithWeasel\RimeWithWeasel.tlog\".
+InitializeBuildStatus:
+  Creating "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\RimeWithWeasel\RimeWithWeasel.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+  Touching "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\RimeWithWeasel\RimeWithWeasel.tlog\unsuccessfulbuild".
+ClCompile:
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x64\CL.exe /c /I"D:\a\weasel-excel\weasel-excel\\include" /I"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0" /I"D:\a\weasel-excel\weasel-excel\\librime\include" /Zi /nologo /W3 /WX- /diagnostics:column /O2 /Oi /GL /D WIN32 /D NDEBUG /D _LIB /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Yc"stdafx.h" /Fp"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\RimeWithWeasel\RimeWithWeasel.pch" /Fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\RimeWithWeasel\\" /Fd"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\RimeWithWeasel.pdb" /external:W3 /Gd /TP /FC /errorReport:queue /Zc:threadSafeInit- /utf-8 stdafx.cpp
+  stdafx.cpp
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x64\CL.exe /c /I"D:\a\weasel-excel\weasel-excel\\include" /I"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0" /I"D:\a\weasel-excel\weasel-excel\\librime\include" /Zi /nologo /W3 /WX- /diagnostics:column /O2 /Oi /GL /D WIN32 /D NDEBUG /D _LIB /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Yu"stdafx.h" /Fp"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\RimeWithWeasel\RimeWithWeasel.pch" /Fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\RimeWithWeasel\\" /Fd"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\RimeWithWeasel.pdb" /external:W3 /Gd /TP /FC /errorReport:queue /Zc:threadSafeInit- /utf-8 RimeWithWeasel.cpp WeaselUtility.cpp
+  RimeWithWeasel.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.vcxproj]
+  (compiling source file '/RimeWithWeasel.cpp')
+  
+D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.cpp(49,41): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.vcxproj]
+  (compiling source file '/RimeWithWeasel.cpp')
+  
+D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.cpp(1748,13): warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.vcxproj]
+  (compiling source file '/RimeWithWeasel.cpp')
+  
+D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.cpp(1759,9): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.vcxproj]
+  (compiling source file '/RimeWithWeasel.cpp')
+  
+D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.cpp(1773,13): warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.vcxproj]
+  (compiling source file '/RimeWithWeasel.cpp')
+  
+  WeaselUtility.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.vcxproj]
+  (compiling source file '/WeaselUtility.cpp')
+  
+Lib:
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x64\Lib.exe /OUT:"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\RimeWithWeasel.lib" /NOLOGO /MACHINE:X64 /LTCG "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\RimeWithWeasel\RimeWithWeasel.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\RimeWithWeasel\stdafx.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\RimeWithWeasel\WeaselUtility.obj"
+  RimeWithWeasel.vcxproj -> D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\RimeWithWeasel.lib
+FinalizeBuildStatus:
+  Deleting file "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\RimeWithWeasel\RimeWithWeasel.tlog\unsuccessfulbuild".
+  Touching "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\RimeWithWeasel\RimeWithWeasel.tlog\RimeWithWeasel.lastbuildstate".
+Done Building Project "D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.vcxproj" (default targets).
+Project "D:\a\weasel-excel\weasel-excel\WeaselServer\WeaselServer.vcxproj" (6) is building "D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselIPCServer.vcxproj" (8) on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPCServer\".
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+  Creating directory "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPCServer\WeaselIPCServer.tlog\".
+InitializeBuildStatus:
+  Creating "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPCServer\WeaselIPCServer.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+  Touching "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPCServer\WeaselIPCServer.tlog\unsuccessfulbuild".
+ClCompile:
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x64\CL.exe /c /I"D:\a\weasel-excel\weasel-excel\\include" /I"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0" /Zi /nologo /W3 /WX- /diagnostics:column /O2 /Oi /GL /D WIN32 /D NDEBUG /D _LIB /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Yc"stdafx.h" /Fp"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPCServer\WeaselIPCServer.pch" /Fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPCServer\\" /Fd"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPCServer.pdb" /external:W3 /Gd /TP /FC /errorReport:queue /Zc:threadSafeInit- /utf-8 stdafx.cpp
+  stdafx.cpp
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x64\CL.exe /c /I"D:\a\weasel-excel\weasel-excel\\include" /I"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0" /Zi /nologo /W3 /WX- /diagnostics:column /O2 /Oi /GL /D WIN32 /D NDEBUG /D _LIB /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Yu"stdafx.h" /Fp"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPCServer\WeaselIPCServer.pch" /Fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPCServer\\" /Fd"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPCServer.pdb" /external:W3 /Gd /TP /FC /errorReport:queue /Zc:threadSafeInit- /utf-8 SecurityAttribute.cpp WeaselServerImpl.cpp
+  SecurityAttribute.cpp
+  WeaselServerImpl.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselIPCServer.vcxproj]
+  (compiling source file '/WeaselServerImpl.cpp')
+  
+D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselServerImpl.cpp(117,36): warning C4244: 'argument': conversion from 'LPARAM' to 'DWORD', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselIPCServer.vcxproj]
+  (compiling source file '/WeaselServerImpl.cpp')
+  
+D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselServerImpl.cpp(120,36): warning C4244: 'argument': conversion from 'LPARAM' to 'DWORD', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselIPCServer.vcxproj]
+  (compiling source file '/WeaselServerImpl.cpp')
+  
+D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselServerImpl.cpp(155,10): warning C4311: 'type cast': pointer truncation from 'HWND' to 'int' [D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselIPCServer.vcxproj]
+  (compiling source file '/WeaselServerImpl.cpp')
+  
+D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselServerImpl.cpp(155,10): warning C4302: 'type cast': truncation from 'HWND' to 'int' [D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselIPCServer.vcxproj]
+  (compiling source file '/WeaselServerImpl.cpp')
+  
+D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselServerImpl.cpp(418,20): warning C4101: 'ex': unreferenced local variable [D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselIPCServer.vcxproj]
+  (compiling source file '/WeaselServerImpl.cpp')
+  
+D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselServerImpl.cpp(402,3): warning C4244: '=': conversion from 'LRESULT' to 'DWORD', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselIPCServer.vcxproj]
+  (compiling source file '/WeaselServerImpl.cpp')
+      D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselServerImpl.cpp(402,3):
+      the template instantiation context (the oldest one first) is
+          D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselServerImpl.cpp(178,5):
+          see reference to function template instantiation 'void weasel::ServerImpl::HandlePipeMessage<weasel::PipeServer::Respond>(weasel::PipeMessage,_Resp)' being compiled
+          with
+          [
+              _Resp=weasel::PipeServer::Respond
+          ]
+  
+Lib:
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x64\Lib.exe /OUT:"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPCServer.lib" /NOLOGO /MACHINE:X64 /LTCG "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPCServer\SecurityAttribute.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPCServer\stdafx.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPCServer\WeaselServerImpl.obj"
+  WeaselIPCServer.vcxproj -> D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPCServer.lib
+FinalizeBuildStatus:
+  Deleting file "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPCServer\WeaselIPCServer.tlog\unsuccessfulbuild".
+  Touching "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPCServer\WeaselIPCServer.tlog\WeaselIPCServer.lastbuildstate".
+Done Building Project "D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselIPCServer.vcxproj" (default targets).
+PrepareForBuild:
+  Creating directory "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselServer\".
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+  Creating directory "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselServer\WeaselServer.tlog\".
+InitializeBuildStatus:
+  Creating "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselServer\WeaselServer.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+  Touching "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselServer\WeaselServer.tlog\unsuccessfulbuild".
+ClCompile:
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x64\CL.exe /c /I"D:\a\weasel-excel\weasel-excel\\include" /I"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0" /I"D:\a\weasel-excel\weasel-excel\\librime\include" /Zi /nologo /W3 /WX- /diagnostics:column /O2 /D WIN32 /D _WINDOWS /D STRICT /D NDEBUG /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /Gm- /EHsc /MT /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Yc"stdafx.h" /Fp"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselServer\WeaselServer.pch" /Fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselServer\\" /Fd"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselServer\vc143.pdb" /external:W3 /Gd /TP /FC /errorReport:queue /Zc:threadSafeInit- /utf-8 stdafx.cpp
+  stdafx.cpp
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x64\CL.exe /c /I"D:\a\weasel-excel\weasel-excel\\include" /I"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0" /I"D:\a\weasel-excel\weasel-excel\\librime\include" /Zi /nologo /W3 /WX- /diagnostics:column /O2 /D WIN32 /D _WINDOWS /D STRICT /D NDEBUG /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /Gm- /EHsc /MT /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Yu"stdafx.h" /Fp"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselServer\WeaselServer.pch" /Fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselServer\\" /Fd"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselServer\vc143.pdb" /external:W3 /Gd /TP /FC /errorReport:queue /Zc:threadSafeInit- /utf-8 ExcelDictWatcher.cpp SettingsDialog.cpp SystemTraySDK.cpp WeaselServer.cpp WeaselServerApp.cpp WeaselService.cpp WeaselTrayIcon.cpp
+  ExcelDictWatcher.cpp
+  SettingsDialog.cpp
+  SystemTraySDK.cpp
+D:\a\weasel-excel\weasel-excel\WeaselServer\SystemTraySDK.cpp(865,31): warning C4244: 'argument': conversion from 'WPARAM' to 'UINT', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselServer\WeaselServer.vcxproj]
+  (compiling source file '/SystemTraySDK.cpp')
+  
+D:\a\weasel-excel\weasel-excel\WeaselServer\SystemTraySDK.cpp(869,39): warning C4244: 'argument': conversion from 'WPARAM' to 'UINT', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselServer\WeaselServer.vcxproj]
+  (compiling source file '/SystemTraySDK.cpp')
+  
+  WeaselServer.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselServer\WeaselServer.vcxproj]
+  (compiling source file '/WeaselServer.cpp')
+  
+  WeaselServerApp.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselServer\WeaselServer.vcxproj]
+  (compiling source file '/WeaselServerApp.cpp')
+  
+  WeaselService.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselServer\WeaselServer.vcxproj]
+  (compiling source file '/WeaselService.cpp')
+  
+  WeaselTrayIcon.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselServer\WeaselServer.vcxproj]
+  (compiling source file '/WeaselTrayIcon.cpp')
+  
+  Generating Code...
+ResourceCompile:
+  C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x86\rc.exe /D NDEBUG /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /D PRODUCT_VERSION=0.17.4.0.1d5e389 /D FILE_VERSION=0.17.4.0 /l"0x0409" /I"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselServer\\" /I"D:\a\weasel-excel\weasel-excel\\include" /nologo /fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselServer\WeaselServer.res" WeaselServer.rc 
+Link:
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x64\link.exe /ERRORREPORT:QUEUE /OUT:"D:\a\weasel-excel\weasel-excel\\output\WeaselServer.exe" /NOLOGO /LIBPATH:"D:\a\weasel-excel\weasel-excel\\lib64" /LIBPATH:"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0\stage\lib" /LIBPATH:"D:\a\weasel-excel\weasel-excel\\librime\build\lib\Release" imm32.lib usp10.lib rime.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\Include\Manifest\PerMonitorHighDPIAware.manifest" /DEBUG /PDB:"D:\a\weasel-excel\weasel-excel\output\WeaselServer.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\a\weasel-excel\weasel-excel\output\WeaselServer.lib" /MACHINE:X64 "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselServer\WeaselServer.res"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselServer\stdafx.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselServer\ExcelDictWatcher.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselServer\SettingsDialog.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselServer\SystemTraySDK.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselServer\WeaselServer.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselServer\WeaselServerApp.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselServer\WeaselService.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselServer\WeaselTrayIcon.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselUI.lib"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\RimeWithWeasel.lib"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPCServer.lib"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPC.lib"
+  WeaselUI.lib(WeaselUI.obj) : MSIL .netmodule or module compiled with /GL found; restarting link with /LTCG; add /LTCG to the link command line to improve linker performance
+     Creating library D:\a\weasel-excel\weasel-excel\output\WeaselServer.lib and object D:\a\weasel-excel\weasel-excel\output\WeaselServer.exp
+  Generating code
+  Finished generating code
+  WeaselServer.vcxproj -> D:\a\weasel-excel\weasel-excel\output\WeaselServer.exe
+FinalizeBuildStatus:
+  Deleting file "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselServer\WeaselServer.tlog\unsuccessfulbuild".
+  Touching "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselServer\WeaselServer.tlog\WeaselServer.lastbuildstate".
+Done Building Project "D:\a\weasel-excel\weasel-excel\WeaselServer\WeaselServer.vcxproj" (default targets).
+Project "D:\a\weasel-excel\weasel-excel\weasel.sln" (1) is building "D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj" (9) on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselDeployer\".
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+  Creating directory "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselDeployer\WeaselDeployer.tlog\".
+InitializeBuildStatus:
+  Creating "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselDeployer\WeaselDeployer.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+  Touching "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselDeployer\WeaselDeployer.tlog\unsuccessfulbuild".
+ClCompile:
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x64\CL.exe /c /I"D:\a\weasel-excel\weasel-excel\\include" /I"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0" /I"D:\a\weasel-excel\weasel-excel\\librime\include" /Zi /nologo /W3 /WX- /diagnostics:column /Od /Oi /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Yc"stdafx.h" /Fp"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselDeployer\WeaselDeployer.pch" /Fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselDeployer\\" /Fd"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselDeployer\vc143.pdb" /external:W3 /Gd /TP /FC /errorReport:queue /Zc:threadSafeInit- /utf-8 stdafx.cpp
+  stdafx.cpp
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x64\CL.exe /c /I"D:\a\weasel-excel\weasel-excel\\include" /I"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0" /I"D:\a\weasel-excel\weasel-excel\\librime\include" /Zi /nologo /W3 /WX- /diagnostics:column /Od /Oi /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Yu"stdafx.h" /Fp"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselDeployer\WeaselDeployer.pch" /Fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselDeployer\\" /Fd"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselDeployer\vc143.pdb" /external:W3 /Gd /TP /FC /errorReport:queue /Zc:threadSafeInit- /utf-8 ..\RimeWithWeasel\WeaselUtility.cpp Configurator.cpp DictManagementDialog.cpp SwitcherSettingsDialog.cpp UIStyleSettings.cpp UIStyleSettingsDialog.cpp WeaselDeployer.cpp
+  WeaselUtility.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  (compiling source file '/RimeWithWeasel/WeaselUtility.cpp')
+  
+  Configurator.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  (compiling source file '/Configurator.cpp')
+  
+  DictManagementDialog.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  (compiling source file '/DictManagementDialog.cpp')
+  
+D:\a\weasel-excel\weasel-excel\WeaselDeployer\DictManagementDialog.cpp(15,22): warning C4090: 'initializing': different '__unaligned' qualifiers [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  (compiling source file '/DictManagementDialog.cpp')
+  
+D:\a\weasel-excel\weasel-excel\WeaselDeployer\DictManagementDialog.cpp(19,44): warning C4267: 'argument': conversion from 'size_t' to 'UINT', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  (compiling source file '/DictManagementDialog.cpp')
+  
+  SwitcherSettingsDialog.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  (compiling source file '/SwitcherSettingsDialog.cpp')
+  
+D:\a\weasel-excel\weasel-excel\WeaselDeployer\SwitcherSettingsDialog.cpp(36,30): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  (compiling source file '/SwitcherSettingsDialog.cpp')
+  
+D:\a\weasel-excel\weasel-excel\WeaselDeployer\SwitcherSettingsDialog.cpp(37,34): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  (compiling source file '/SwitcherSettingsDialog.cpp')
+  
+D:\a\weasel-excel\weasel-excel\WeaselDeployer\SwitcherSettingsDialog.cpp(38,36): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  (compiling source file '/SwitcherSettingsDialog.cpp')
+  
+D:\a\weasel-excel\weasel-excel\WeaselDeployer\SwitcherSettingsDialog.cpp(50,28): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  (compiling source file '/SwitcherSettingsDialog.cpp')
+  
+D:\a\weasel-excel\weasel-excel\WeaselDeployer\SwitcherSettingsDialog.cpp(51,32): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  (compiling source file '/SwitcherSettingsDialog.cpp')
+  
+  UIStyleSettings.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  (compiling source file '/UIStyleSettings.cpp')
+  
+  UIStyleSettingsDialog.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  (compiling source file '/UIStyleSettingsDialog.cpp')
+  
+D:\a\weasel-excel\weasel-excel\WeaselDeployer\UIStyleSettingsDialog.cpp(24,22): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  (compiling source file '/UIStyleSettingsDialog.cpp')
+  
+  WeaselDeployer.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  (compiling source file '/WeaselDeployer.cpp')
+  
+ResourceCompile:
+  C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x86\rc.exe /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /D PRODUCT_VERSION=0.17.4.0.1d5e389 /D FILE_VERSION=0.17.4.0 /l"0x0409" /nologo /fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselDeployer\WeaselDeployer.res" WeaselDeployer.rc 
+Link:
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x64\link.exe /ERRORREPORT:QUEUE /OUT:"D:\a\weasel-excel\weasel-excel\output\WeaselDeployer.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:"D:\a\weasel-excel\weasel-excel\\lib64" /LIBPATH:"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0\stage\lib" /LIBPATH:"D:\a\weasel-excel\weasel-excel\\librime\build\lib\Release" rime.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\Include\Manifest\PerMonitorHighDPIAware.manifest" /DEBUG /PDB:"D:\a\weasel-excel\weasel-excel\output\WeaselDeployer.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG:incremental /LTCGOUT:"D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselDeployer\WeaselDeployer.iobj" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\a\weasel-excel\weasel-excel\output\WeaselDeployer.lib" /MACHINE:X64 "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselDeployer\WeaselDeployer.res"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselDeployer\WeaselUtility.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselDeployer\Configurator.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselDeployer\DictManagementDialog.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselDeployer\stdafx.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselDeployer\SwitcherSettingsDialog.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselDeployer\UIStyleSettings.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselDeployer\UIStyleSettingsDialog.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselDeployer\WeaselDeployer.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselIPC.lib"
+     Creating library D:\a\weasel-excel\weasel-excel\output\WeaselDeployer.lib and object D:\a\weasel-excel\weasel-excel\output\WeaselDeployer.exp
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+  All 2691 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  WeaselDeployer.vcxproj -> D:\a\weasel-excel\weasel-excel\output\WeaselDeployer.exe
+FinalizeBuildStatus:
+  Deleting file "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselDeployer\WeaselDeployer.tlog\unsuccessfulbuild".
+  Touching "D:\a\weasel-excel\weasel-excel\msbuild\Release\x64\WeaselDeployer\WeaselDeployer.tlog\WeaselDeployer.lastbuildstate".
+Done Building Project "D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj" (default targets).
+Done Building Project "D:\a\weasel-excel\weasel-excel\weasel.sln" (Build target(s)).
+
+Build succeeded.
+
+"D:\a\weasel-excel\weasel-excel\weasel.sln" (Build target) (1) ->
+"D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj" (default target) (2) ->
+"D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj" (default target) (3) ->
+(ClCompile target) -> 
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj]
+  D:\a\weasel-excel\weasel-excel\WeaselIPC\PipeChannel.cpp(86,29): warning C4267: 'argument': conversion from 'size_t' to 'DWORD', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj]
+  D:\a\weasel-excel\weasel-excel\WeaselIPC\PipeChannel.cpp(103,40): warning C4267: 'argument': conversion from 'size_t' to 'DWORD', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj]
+  D:\a\weasel-excel\weasel-excel\WeaselIPC\PipeChannel.cpp(108,46): warning C4267: 'argument': conversion from 'size_t' to 'DWORD', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj]
+  D:\a\weasel-excel\weasel-excel\WeaselIPC\PipeChannel.cpp(120,60): warning C4267: 'argument': conversion from 'size_t' to 'DWORD', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj]
+  D:\a\weasel-excel\weasel-excel\WeaselIPC\PipeChannel.cpp(120,49): warning C4267: 'argument': conversion from 'size_t' to 'DWORD', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj]
+  D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselClientImpl.cpp(86,75): warning C4267: 'argument': conversion from 'size_t' to 'DWORD', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj]
+  D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselClientImpl.cpp(95,30): warning C4267: 'argument': conversion from 'size_t' to 'DWORD', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj]
+  D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselClientImpl.cpp(150,12): warning C4244: 'initializing': conversion from 'LRESULT' to 'UINT', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj]
+  D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselClientImpl.cpp(173,19): warning C4244: 'initializing': conversion from 'LRESULT' to 'UINT', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj]
+
+
+"D:\a\weasel-excel\weasel-excel\weasel.sln" (Build target) (1) ->
+"D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj" (default target) (2) ->
+"D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj" (default target) (4) ->
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj]
+
+
+"D:\a\weasel-excel\weasel-excel\weasel.sln" (Build target) (1) ->
+"D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj" (default target) (2) ->
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  D:\a\weasel-excel\weasel-excel\WeaselTSF\Register.cpp(35,17): warning C4312: 'type cast': conversion from 'DWORD' to 'HKL' of greater size [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  D:\a\weasel-excel\weasel-excel\WeaselTSF\Register.cpp(66,31): warning C4267: 'initializing': conversion from 'size_t' to 'ULONG', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  D:\a\weasel-excel\weasel-excel\WeaselTSF\Register.cpp(232,56): warning C4267: 'argument': conversion from 'size_t' to 'DWORD', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+
+
+"D:\a\weasel-excel\weasel-excel\weasel.sln" (Build target) (1) ->
+"D:\a\weasel-excel\weasel-excel\WeaselIME\WeaselIME.vcxproj" (default target) (5) ->
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselIME\WeaselIME.vcxproj]
+
+
+"D:\a\weasel-excel\weasel-excel\weasel.sln" (Build target) (1) ->
+"D:\a\weasel-excel\weasel-excel\WeaselIME\WeaselIME.vcxproj" (default target) (5) ->
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselIME\WeaselIME.vcxproj]
+  D:\a\weasel-excel\weasel-excel\WeaselIME\ime.cpp(86,14): warning C4244: 'initializing': conversion from 'LRESULT' to 'HRESULT', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselIME\WeaselIME.vcxproj]
+  D:\a\weasel-excel\weasel-excel\WeaselIME\ime.cpp(101,16): warning C4244: 'initializing': conversion from 'LRESULT' to 'HRESULT', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselIME\WeaselIME.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselIME\WeaselIME.vcxproj]
+  D:\a\weasel-excel\weasel-excel\WeaselIME\WeaselIME.cpp(471,39): warning C4267: '=': conversion from 'size_t' to 'DWORD', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselIME\WeaselIME.vcxproj]
+
+
+"D:\a\weasel-excel\weasel-excel\weasel.sln" (Build target) (1) ->
+"D:\a\weasel-excel\weasel-excel\WeaselServer\WeaselServer.vcxproj" (default target) (6) ->
+"D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.vcxproj" (default target) (7) ->
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.vcxproj]
+  D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.cpp(49,41): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.vcxproj]
+  D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.cpp(1748,13): warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.vcxproj]
+  D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.cpp(1759,9): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.vcxproj]
+  D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.cpp(1773,13): warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.vcxproj]
+
+
+"D:\a\weasel-excel\weasel-excel\weasel.sln" (Build target) (1) ->
+"D:\a\weasel-excel\weasel-excel\WeaselServer\WeaselServer.vcxproj" (default target) (6) ->
+"D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselIPCServer.vcxproj" (default target) (8) ->
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselIPCServer.vcxproj]
+  D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselServerImpl.cpp(117,36): warning C4244: 'argument': conversion from 'LPARAM' to 'DWORD', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselIPCServer.vcxproj]
+  D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselServerImpl.cpp(120,36): warning C4244: 'argument': conversion from 'LPARAM' to 'DWORD', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselIPCServer.vcxproj]
+  D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselServerImpl.cpp(155,10): warning C4311: 'type cast': pointer truncation from 'HWND' to 'int' [D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselIPCServer.vcxproj]
+  D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselServerImpl.cpp(155,10): warning C4302: 'type cast': truncation from 'HWND' to 'int' [D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselIPCServer.vcxproj]
+  D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselServerImpl.cpp(418,20): warning C4101: 'ex': unreferenced local variable [D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselIPCServer.vcxproj]
+  D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselServerImpl.cpp(402,3): warning C4244: '=': conversion from 'LRESULT' to 'DWORD', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselIPCServer.vcxproj]
+
+
+"D:\a\weasel-excel\weasel-excel\weasel.sln" (Build target) (1) ->
+"D:\a\weasel-excel\weasel-excel\WeaselServer\WeaselServer.vcxproj" (default target) (6) ->
+  D:\a\weasel-excel\weasel-excel\WeaselServer\SystemTraySDK.cpp(865,31): warning C4244: 'argument': conversion from 'WPARAM' to 'UINT', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselServer\WeaselServer.vcxproj]
+  D:\a\weasel-excel\weasel-excel\WeaselServer\SystemTraySDK.cpp(869,39): warning C4244: 'argument': conversion from 'WPARAM' to 'UINT', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselServer\WeaselServer.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselServer\WeaselServer.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselServer\WeaselServer.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselServer\WeaselServer.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselServer\WeaselServer.vcxproj]
+
+
+"D:\a\weasel-excel\weasel-excel\weasel.sln" (Build target) (1) ->
+"D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj" (default target) (9) ->
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  D:\a\weasel-excel\weasel-excel\WeaselDeployer\DictManagementDialog.cpp(15,22): warning C4090: 'initializing': different '__unaligned' qualifiers [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  D:\a\weasel-excel\weasel-excel\WeaselDeployer\DictManagementDialog.cpp(19,44): warning C4267: 'argument': conversion from 'size_t' to 'UINT', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  D:\a\weasel-excel\weasel-excel\WeaselDeployer\SwitcherSettingsDialog.cpp(36,30): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  D:\a\weasel-excel\weasel-excel\WeaselDeployer\SwitcherSettingsDialog.cpp(37,34): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  D:\a\weasel-excel\weasel-excel\WeaselDeployer\SwitcherSettingsDialog.cpp(38,36): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  D:\a\weasel-excel\weasel-excel\WeaselDeployer\SwitcherSettingsDialog.cpp(50,28): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  D:\a\weasel-excel\weasel-excel\WeaselDeployer\SwitcherSettingsDialog.cpp(51,32): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  D:\a\weasel-excel\weasel-excel\WeaselDeployer\UIStyleSettingsDialog.cpp(24,22): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+
+    78 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:58.78
+MSBuild version 17.14.60+43b635718 for .NET Framework
+Build started 10/7/2026 7:44:44 AM.
+
+Project "D:\a\weasel-excel\weasel-excel\weasel.sln" on node 1 (Build target(s)).
+ValidateSolutionConfiguration:
+  Building solution configuration "Release|Win32".
+ValidateProjects:
+  The project "TestWeaselIPC" is not selected for building in solution configuration "Release|Win32".
+  The project "TestResponseParser" is not selected for building in solution configuration "Release|Win32".
+Project "D:\a\weasel-excel\weasel-excel\weasel.sln" (1) is building "D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj" (2) on node 1 (default targets).
+Project "D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj" (2) is building "D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj" (3) on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPC\".
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+  Creating directory "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPC\WeaselIPC.tlog\".
+InitializeBuildStatus:
+  Creating "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPC\WeaselIPC.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+  Touching "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPC\WeaselIPC.tlog\unsuccessfulbuild".
+ClCompile:
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\CL.exe /c /I"D:\a\weasel-excel\weasel-excel\\include" /I"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0" /Zi /nologo /W3 /WX- /diagnostics:column /MP /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _LIB /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Yc"stdafx.h" /Fp"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPC\WeaselIPC.pch" /Fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPC\\" /Fd"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPC.pdb" /external:W3 /Gd /TP /analyze- /FC /errorReport:queue /Zc:threadSafeInit- /utf-8 stdafx.cpp
+  stdafx.cpp
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\CL.exe /c /I"D:\a\weasel-excel\weasel-excel\\include" /I"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0" /Zi /nologo /W3 /WX- /diagnostics:column /MP /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _LIB /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Yu"stdafx.h" /Fp"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPC\WeaselIPC.pch" /Fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPC\\" /Fd"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPC.pdb" /external:W3 /Gd /TP /analyze- /FC /errorReport:queue /Zc:threadSafeInit- /utf-8 Configurator.cpp Deserializer.cpp PipeChannel.cpp ResponseParser.cpp Styler.cpp WeaselClientImpl.cpp ActionLoader.cpp Committer.cpp ContextUpdater.cpp
+  Configurator.cpp
+  Deserializer.cpp
+  PipeChannel.cpp
+  ResponseParser.cpp
+  Styler.cpp
+  WeaselClientImpl.cpp
+  ActionLoader.cpp
+  Committer.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj]
+  (compiling source file '/ResponseParser.cpp')
+  
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj]
+  (compiling source file '/WeaselClientImpl.cpp')
+  
+  ContextUpdater.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj]
+  (compiling source file '/Committer.cpp')
+  
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj]
+  (compiling source file '/ContextUpdater.cpp')
+  
+Lib:
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\Lib.exe /OUT:"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPC.lib" /NOLOGO /MACHINE:X86 /LTCG "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPC\Configurator.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPC\Deserializer.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPC\PipeChannel.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPC\ResponseParser.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPC\stdafx.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPC\Styler.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPC\WeaselClientImpl.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPC\ActionLoader.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPC\Committer.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPC\ContextUpdater.obj"
+  WeaselIPC.vcxproj -> D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPC.lib
+FinalizeBuildStatus:
+  Deleting file "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPC\WeaselIPC.tlog\unsuccessfulbuild".
+  Touching "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPC\WeaselIPC.tlog\WeaselIPC.lastbuildstate".
+Done Building Project "D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj" (default targets).
+Project "D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj" (2) is building "D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj" (4) on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselUI\".
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+  Creating directory "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselUI\WeaselUI.tlog\".
+InitializeBuildStatus:
+  Creating "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselUI\WeaselUI.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+  Touching "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselUI\WeaselUI.tlog\unsuccessfulbuild".
+ClCompile:
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\CL.exe /c /I"D:\a\weasel-excel\weasel-excel\\include" /I"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0" /Zi /nologo /W3 /WX- /diagnostics:column /MP /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _LIB /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Yc"stdafx.h" /Fp"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselUI\WeaselUI.pch" /Fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselUI\\" /Fd"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselUI.pdb" /external:W3 /Gd /TP /analyze- /FC /errorReport:queue /Zc:threadSafeInit- /utf-8 stdafx.cpp
+  stdafx.cpp
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\CL.exe /c /I"D:\a\weasel-excel\weasel-excel\\include" /I"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0" /Zi /nologo /W3 /WX- /diagnostics:column /MP /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _LIB /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Yu"stdafx.h" /Fp"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselUI\WeaselUI.pch" /Fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselUI\\" /Fd"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselUI.pdb" /external:W3 /Gd /TP /analyze- /FC /errorReport:queue /Zc:threadSafeInit- /utf-8 DirectWriteResources.cpp FullScreenLayout.cpp GdiplusBlur.cpp HorizontalLayout.cpp Layout.cpp StandardLayout.cpp VerticalLayout.cpp VHorizontalLayout.cpp WeaselPanel.cpp WeaselUI.cpp
+  DirectWriteResources.cpp
+  FullScreenLayout.cpp
+  GdiplusBlur.cpp
+  HorizontalLayout.cpp
+  Layout.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj]
+  (compiling source file '/HorizontalLayout.cpp')
+  
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj]
+  (compiling source file '/FullScreenLayout.cpp')
+  
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj]
+  (compiling source file '/DirectWriteResources.cpp')
+  
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj]
+  (compiling source file '/Layout.cpp')
+  
+  StandardLayout.cpp
+  VerticalLayout.cpp
+  VHorizontalLayout.cpp
+  WeaselPanel.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj]
+  (compiling source file '/StandardLayout.cpp')
+  
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj]
+  (compiling source file '/VerticalLayout.cpp')
+  
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj]
+  (compiling source file '/VHorizontalLayout.cpp')
+  
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj]
+  (compiling source file '/WeaselPanel.cpp')
+  
+  WeaselUI.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj]
+  (compiling source file '/WeaselUI.cpp')
+  
+Lib:
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\Lib.exe /OUT:"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselUI.lib" /NOLOGO /MACHINE:X86 /LTCG "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselUI\DirectWriteResources.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselUI\FullScreenLayout.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselUI\GdiplusBlur.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselUI\HorizontalLayout.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselUI\Layout.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselUI\StandardLayout.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselUI\stdafx.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselUI\VerticalLayout.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselUI\VHorizontalLayout.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselUI\WeaselPanel.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselUI\WeaselUI.obj"
+  WeaselUI.vcxproj -> D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselUI.lib
+FinalizeBuildStatus:
+  Deleting file "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselUI\WeaselUI.tlog\unsuccessfulbuild".
+  Touching "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselUI\WeaselUI.tlog\WeaselUI.lastbuildstate".
+Done Building Project "D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj" (default targets).
+PrepareForBuild:
+  Creating directory "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselTSF\".
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+  Creating directory "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselTSF\WeaselTSF.tlog\".
+InitializeBuildStatus:
+  Creating "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselTSF\WeaselTSF.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+  Touching "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselTSF\WeaselTSF.tlog\unsuccessfulbuild".
+ClCompile:
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\CL.exe /c /I"D:\a\weasel-excel\weasel-excel\\include" /I"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0" /Zi /nologo /W3 /WX- /diagnostics:column /MP /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D WEASELTSF_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Yc"stdafx.h" /Fp"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselTSF\weasel.pch" /Fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselTSF\\" /Fd"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselTSF\vc143.pdb" /external:W3 /Gd /TP /analyze- /FC /errorReport:queue /Zc:threadSafeInit- /utf-8 stdafx.cpp
+  stdafx.cpp
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\CL.exe /c /I"D:\a\weasel-excel\weasel-excel\\include" /I"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0" /Zi /nologo /W3 /WX- /diagnostics:column /MP /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D WEASELTSF_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Yu"stdafx.h" /Fp"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselTSF\weasel.pch" /Fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselTSF\\" /Fd"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselTSF\vc143.pdb" /external:W3 /Gd /TP /analyze- /FC /errorReport:queue /Zc:threadSafeInit- /utf-8 CandidateList.cpp Compartment.cpp Composition.cpp DisplayAttribute.cpp DisplayAttributeInfo.cpp DisplayAttributeProvider.cpp EditSession.cpp EnumDisplayAttributeInfo.cpp Globals.cpp KeyEvent.cpp KeyEventSink.cpp LanguageBar.cpp Register.cpp Server.cpp TextEditSink.cpp ThreadMgrEventSink.cpp WeaselTSF.cpp
+  CandidateList.cpp
+  Compartment.cpp
+  Composition.cpp
+  DisplayAttribute.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  (compiling source file '/CandidateList.cpp')
+  
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  (compiling source file '/Composition.cpp')
+  
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  (compiling source file '/DisplayAttribute.cpp')
+  
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  (compiling source file '/Compartment.cpp')
+  
+  DisplayAttributeInfo.cpp
+  DisplayAttributeProvider.cpp
+  EditSession.cpp
+  EnumDisplayAttributeInfo.cpp
+  Globals.cpp
+  KeyEvent.cpp
+  KeyEventSink.cpp
+  LanguageBar.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  (compiling source file '/DisplayAttributeProvider.cpp')
+  
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  (compiling source file '/EditSession.cpp')
+  
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  (compiling source file '/KeyEventSink.cpp')
+  
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  (compiling source file '/LanguageBar.cpp')
+  
+  Register.cpp
+  Server.cpp
+  TextEditSink.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  (compiling source file '/Register.cpp')
+  
+  ThreadMgrEventSink.cpp
+  WeaselTSF.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  (compiling source file '/Server.cpp')
+  
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  (compiling source file '/TextEditSink.cpp')
+  
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  (compiling source file '/ThreadMgrEventSink.cpp')
+  
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  (compiling source file '/WeaselTSF.cpp')
+  
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\CL.exe /c /I"D:\a\weasel-excel\weasel-excel\\include" /I"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0" /Zi /nologo /W3 /WX- /diagnostics:column /MP /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D WEASELTSF_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselTSF\\" /Fd"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselTSF\vc143.pdb" /external:W3 /Gd /TP /analyze- /FC /errorReport:queue /Zc:threadSafeInit- /utf-8 dllmain.cpp
+  dllmain.cpp
+ResourceCompile:
+  C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x86\rc.exe /D _UNICODE /D UNICODE /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /D PRODUCT_VERSION=0.17.4.0.1d5e389 /D FILE_VERSION=0.17.4.0 /l"0x0409" /I"D:\a\weasel-excel\weasel-excel\\include" /nologo /fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselTSF\WeaselTSF.res" WeaselTSF.rc 
+Link:
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\link.exe /ERRORREPORT:QUEUE /OUT:"D:\a\weasel-excel\weasel-excel\output\weasel.dll" /INCREMENTAL:NO /NOLOGO /LIBPATH:"D:\a\weasel-excel\weasel-excel\\lib" /LIBPATH:"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0\stage\lib" Usp10.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /DEF:"WeaselTSF.def" /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\Include\Manifest\PerMonitorHighDPIAware.manifest" /DEBUG /PDB:"D:\a\weasel-excel\weasel-excel\output\weasel.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG:incremental /LTCGOUT:"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselTSF\weasel.iobj" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\a\weasel-excel\weasel-excel\output\weasel.lib" /MACHINE:X86 /SAFESEH /DLL "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselTSF\WeaselTSF.res"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselTSF\CandidateList.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselTSF\Compartment.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselTSF\Composition.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselTSF\DisplayAttribute.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselTSF\DisplayAttributeInfo.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselTSF\DisplayAttributeProvider.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselTSF\dllmain.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselTSF\EditSession.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselTSF\EnumDisplayAttributeInfo.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselTSF\Globals.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselTSF\KeyEvent.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselTSF\KeyEventSink.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselTSF\LanguageBar.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselTSF\Register.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselTSF\Server.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselTSF\stdafx.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselTSF\TextEditSink.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselTSF\ThreadMgrEventSink.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselTSF\WeaselTSF.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPC.lib"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselUI.lib"
+     Creating library D:\a\weasel-excel\weasel-excel\output\weasel.lib and object D:\a\weasel-excel\weasel-excel\output\weasel.exp
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+  All 5202 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  WeaselTSF.vcxproj -> D:\a\weasel-excel\weasel-excel\output\weasel.dll
+FinalizeBuildStatus:
+  Deleting file "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselTSF\WeaselTSF.tlog\unsuccessfulbuild".
+  Touching "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselTSF\WeaselTSF.tlog\WeaselTSF.lastbuildstate".
+Done Building Project "D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj" (default targets).
+Project "D:\a\weasel-excel\weasel-excel\weasel.sln" (1) is building "D:\a\weasel-excel\weasel-excel\WeaselIME\WeaselIME.vcxproj" (5) on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIME\".
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+  Creating directory "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIME\WeaselIME.tlog\".
+InitializeBuildStatus:
+  Creating "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIME\WeaselIME.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+  Touching "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIME\WeaselIME.tlog\unsuccessfulbuild".
+ClCompile:
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\CL.exe /c /I"D:\a\weasel-excel\weasel-excel\\include" /I"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0" /Zi /nologo /W3 /WX- /diagnostics:column /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D WEASELIME_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Yc"stdafx.h" /Fp"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIME\weasel.pch" /Fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIME\\" /Fd"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIME\vc143.pdb" /external:W3 /Gd /TP /analyze- /FC /errorReport:queue /Zc:threadSafeInit- /utf-8 stdafx.cpp
+  stdafx.cpp
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\CL.exe /c /I"D:\a\weasel-excel\weasel-excel\\include" /I"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0" /Zi /nologo /W3 /WX- /diagnostics:column /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D WEASELIME_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIME\\" /Fd"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIME\vc143.pdb" /external:W3 /Gd /TP /analyze- /FC /errorReport:queue /Zc:threadSafeInit- /utf-8 dllmain.cpp
+  dllmain.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselIME\WeaselIME.vcxproj]
+  (compiling source file 'dllmain.cpp')
+  
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\CL.exe /c /I"D:\a\weasel-excel\weasel-excel\\include" /I"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0" /Zi /nologo /W3 /WX- /diagnostics:column /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D WEASELIME_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Yu"stdafx.h" /Fp"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIME\weasel.pch" /Fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIME\\" /Fd"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIME\vc143.pdb" /external:W3 /Gd /TP /analyze- /FC /errorReport:queue /Zc:threadSafeInit- /utf-8 ime.cpp KeyEvent.cpp WeaselIME.cpp
+  ime.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselIME\WeaselIME.vcxproj]
+  (compiling source file '/ime.cpp')
+  
+  KeyEvent.cpp
+  WeaselIME.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselIME\WeaselIME.vcxproj]
+  (compiling source file '/WeaselIME.cpp')
+  
+ResourceCompile:
+  C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x86\rc.exe /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /D PRODUCT_VERSION=0.17.4.0.1d5e389 /D FILE_VERSION=0.17.4.0 /l"0x0409" /I"D:\a\weasel-excel\weasel-excel\\include" /nologo /fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIME\WeaselIME.res" WeaselIME.rc 
+Link:
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\link.exe /ERRORREPORT:QUEUE /OUT:"D:\a\weasel-excel\weasel-excel\output\weasel.ime" /INCREMENTAL:NO /NOLOGO /LIBPATH:"D:\a\weasel-excel\weasel-excel\\lib" /LIBPATH:"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0\stage\lib" imm32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /DEF:"weasel.def" /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\Include\Manifest\PerMonitorHighDPIAware.manifest" /PDB:"D:\a\weasel-excel\weasel-excel\output\weasel.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG:incremental /LTCGOUT:"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIME\weasel.iobj" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\a\weasel-excel\weasel-excel\output\weasel.lib" /MACHINE:X86 /SAFESEH /DLL "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIME\WeaselIME.res"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIME\dllmain.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIME\ime.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIME\KeyEvent.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIME\stdafx.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIME\WeaselIME.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPC.lib"
+     Creating library D:\a\weasel-excel\weasel-excel\output\weasel.lib and object D:\a\weasel-excel\weasel-excel\output\weasel.exp
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+  All 2431 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  WeaselIME.vcxproj -> D:\a\weasel-excel\weasel-excel\output\weasel.ime
+FinalizeBuildStatus:
+  Deleting file "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIME\WeaselIME.tlog\unsuccessfulbuild".
+  Touching "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIME\WeaselIME.tlog\WeaselIME.lastbuildstate".
+Done Building Project "D:\a\weasel-excel\weasel-excel\WeaselIME\WeaselIME.vcxproj" (default targets).
+Project "D:\a\weasel-excel\weasel-excel\weasel.sln" (1) is building "D:\a\weasel-excel\weasel-excel\WeaselServer\WeaselServer.vcxproj" (6) on node 1 (default targets).
+Project "D:\a\weasel-excel\weasel-excel\WeaselServer\WeaselServer.vcxproj" (6) is building "D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.vcxproj" (7) on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\RimeWithWeasel\".
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+  Creating directory "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\RimeWithWeasel\RimeWithWeasel.tlog\".
+InitializeBuildStatus:
+  Creating "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\RimeWithWeasel\RimeWithWeasel.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+  Touching "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\RimeWithWeasel\RimeWithWeasel.tlog\unsuccessfulbuild".
+ClCompile:
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\CL.exe /c /I"D:\a\weasel-excel\weasel-excel\\include" /I"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0" /I"D:\a\weasel-excel\weasel-excel\\librime\include" /Zi /nologo /W3 /WX- /diagnostics:column /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _LIB /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Yc"stdafx.h" /Fp"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\RimeWithWeasel\RimeWithWeasel.pch" /Fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\RimeWithWeasel\\" /Fd"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\RimeWithWeasel.pdb" /external:W3 /Gd /TP /analyze- /FC /errorReport:queue /Zc:threadSafeInit- /utf-8 stdafx.cpp
+  stdafx.cpp
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\CL.exe /c /I"D:\a\weasel-excel\weasel-excel\\include" /I"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0" /I"D:\a\weasel-excel\weasel-excel\\librime\include" /Zi /nologo /W3 /WX- /diagnostics:column /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _LIB /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Yu"stdafx.h" /Fp"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\RimeWithWeasel\RimeWithWeasel.pch" /Fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\RimeWithWeasel\\" /Fd"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\RimeWithWeasel.pdb" /external:W3 /Gd /TP /analyze- /FC /errorReport:queue /Zc:threadSafeInit- /utf-8 RimeWithWeasel.cpp WeaselUtility.cpp
+  RimeWithWeasel.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.vcxproj]
+  (compiling source file '/RimeWithWeasel.cpp')
+  
+D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.cpp(49,41): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.vcxproj]
+  (compiling source file '/RimeWithWeasel.cpp')
+  
+D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.cpp(1748,13): warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.vcxproj]
+  (compiling source file '/RimeWithWeasel.cpp')
+  
+D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.cpp(1759,9): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.vcxproj]
+  (compiling source file '/RimeWithWeasel.cpp')
+  
+D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.cpp(1773,13): warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.vcxproj]
+  (compiling source file '/RimeWithWeasel.cpp')
+  
+  WeaselUtility.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.vcxproj]
+  (compiling source file '/WeaselUtility.cpp')
+  
+Lib:
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\Lib.exe /OUT:"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\RimeWithWeasel.lib" /NOLOGO /MACHINE:X86 /LTCG "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\RimeWithWeasel\RimeWithWeasel.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\RimeWithWeasel\stdafx.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\RimeWithWeasel\WeaselUtility.obj"
+  RimeWithWeasel.vcxproj -> D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\RimeWithWeasel.lib
+FinalizeBuildStatus:
+  Deleting file "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\RimeWithWeasel\RimeWithWeasel.tlog\unsuccessfulbuild".
+  Touching "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\RimeWithWeasel\RimeWithWeasel.tlog\RimeWithWeasel.lastbuildstate".
+Done Building Project "D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.vcxproj" (default targets).
+Project "D:\a\weasel-excel\weasel-excel\WeaselServer\WeaselServer.vcxproj" (6) is building "D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselIPCServer.vcxproj" (8) on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPCServer\".
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+  Creating directory "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPCServer\WeaselIPCServer.tlog\".
+InitializeBuildStatus:
+  Creating "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPCServer\WeaselIPCServer.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+  Touching "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPCServer\WeaselIPCServer.tlog\unsuccessfulbuild".
+ClCompile:
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\CL.exe /c /I"D:\a\weasel-excel\weasel-excel\\include" /I"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0" /Zi /nologo /W3 /WX- /diagnostics:column /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _LIB /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Yc"stdafx.h" /Fp"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPCServer\WeaselIPCServer.pch" /Fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPCServer\\" /Fd"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPCServer.pdb" /external:W3 /Gd /TP /analyze- /FC /errorReport:queue /Zc:threadSafeInit- /utf-8 stdafx.cpp
+  stdafx.cpp
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\CL.exe /c /I"D:\a\weasel-excel\weasel-excel\\include" /I"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0" /Zi /nologo /W3 /WX- /diagnostics:column /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _LIB /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Yu"stdafx.h" /Fp"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPCServer\WeaselIPCServer.pch" /Fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPCServer\\" /Fd"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPCServer.pdb" /external:W3 /Gd /TP /analyze- /FC /errorReport:queue /Zc:threadSafeInit- /utf-8 SecurityAttribute.cpp WeaselServerImpl.cpp
+  SecurityAttribute.cpp
+  WeaselServerImpl.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselIPCServer.vcxproj]
+  (compiling source file '/WeaselServerImpl.cpp')
+  
+D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselServerImpl.cpp(418,20): warning C4101: 'ex': unreferenced local variable [D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselIPCServer.vcxproj]
+  (compiling source file '/WeaselServerImpl.cpp')
+  
+Lib:
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\Lib.exe /OUT:"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPCServer.lib" /NOLOGO /MACHINE:X86 /LTCG "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPCServer\SecurityAttribute.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPCServer\stdafx.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPCServer\WeaselServerImpl.obj"
+  WeaselIPCServer.vcxproj -> D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPCServer.lib
+FinalizeBuildStatus:
+  Deleting file "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPCServer\WeaselIPCServer.tlog\unsuccessfulbuild".
+  Touching "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPCServer\WeaselIPCServer.tlog\WeaselIPCServer.lastbuildstate".
+Done Building Project "D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselIPCServer.vcxproj" (default targets).
+PrepareForBuild:
+  Creating directory "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselServer\".
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+  Creating directory "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselServer\WeaselServer.tlog\".
+InitializeBuildStatus:
+  Creating "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselServer\WeaselServer.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+  Touching "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselServer\WeaselServer.tlog\unsuccessfulbuild".
+ClCompile:
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\CL.exe /c /I"D:\a\weasel-excel\weasel-excel\\include" /I"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0" /I"D:\a\weasel-excel\weasel-excel\\librime\include" /Zi /nologo /W3 /WX- /diagnostics:column /O2 /Oy- /D WIN32 /D _WINDOWS /D STRICT /D NDEBUG /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /Gm- /EHsc /MT /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Yc"stdafx.h" /Fp"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselServer\WeaselServer.pch" /Fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselServer\\" /Fd"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselServer\vc143.pdb" /external:W3 /Gd /TP /analyze- /FC /errorReport:queue /Zc:threadSafeInit- /utf-8 stdafx.cpp
+  stdafx.cpp
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\CL.exe /c /I"D:\a\weasel-excel\weasel-excel\\include" /I"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0" /I"D:\a\weasel-excel\weasel-excel\\librime\include" /Zi /nologo /W3 /WX- /diagnostics:column /O2 /Oy- /D WIN32 /D _WINDOWS /D STRICT /D NDEBUG /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /Gm- /EHsc /MT /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Yu"stdafx.h" /Fp"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselServer\WeaselServer.pch" /Fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselServer\\" /Fd"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselServer\vc143.pdb" /external:W3 /Gd /TP /analyze- /FC /errorReport:queue /Zc:threadSafeInit- /utf-8 ExcelDictWatcher.cpp SettingsDialog.cpp SystemTraySDK.cpp WeaselServer.cpp WeaselServerApp.cpp WeaselService.cpp WeaselTrayIcon.cpp
+  ExcelDictWatcher.cpp
+  SettingsDialog.cpp
+  SystemTraySDK.cpp
+  WeaselServer.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselServer\WeaselServer.vcxproj]
+  (compiling source file '/WeaselServer.cpp')
+  
+  WeaselServerApp.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselServer\WeaselServer.vcxproj]
+  (compiling source file '/WeaselServerApp.cpp')
+  
+  WeaselService.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselServer\WeaselServer.vcxproj]
+  (compiling source file '/WeaselService.cpp')
+  
+  WeaselTrayIcon.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselServer\WeaselServer.vcxproj]
+  (compiling source file '/WeaselTrayIcon.cpp')
+  
+  Generating Code...
+ResourceCompile:
+  C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x86\rc.exe /D NDEBUG /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /D PRODUCT_VERSION=0.17.4.0.1d5e389 /D FILE_VERSION=0.17.4.0 /l"0x0409" /I"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselServer\\" /I"D:\a\weasel-excel\weasel-excel\\include" /nologo /fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselServer\WeaselServer.res" WeaselServer.rc 
+Link:
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\link.exe /ERRORREPORT:QUEUE /OUT:"D:\a\weasel-excel\weasel-excel\\output\Win32\WeaselServer.exe" /NOLOGO /LIBPATH:"D:\a\weasel-excel\weasel-excel\\lib" /LIBPATH:"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0\stage\lib" /LIBPATH:"D:\a\weasel-excel\weasel-excel\\librime\build\lib\Release" imm32.lib usp10.lib rime.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\Include\Manifest\PerMonitorHighDPIAware.manifest" /DEBUG /PDB:"D:\a\weasel-excel\weasel-excel\output\Win32\WeaselServer.pdb" /SUBSYSTEM:WINDOWS /LARGEADDRESSAWARE /LTCG /LTCGOUT:"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselServer\WeaselServer.iobj" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\a\weasel-excel\weasel-excel\output\Win32\WeaselServer.lib" /MACHINE:X86 /SAFESEH "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselServer\WeaselServer.res"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselServer\stdafx.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselServer\ExcelDictWatcher.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselServer\SettingsDialog.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselServer\SystemTraySDK.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselServer\WeaselServer.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselServer\WeaselServerApp.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselServer\WeaselService.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselServer\WeaselTrayIcon.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\RimeWithWeasel\RimeWithWeasel.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\RimeWithWeasel\stdafx.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\RimeWithWeasel\WeaselUtility.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselUI\DirectWriteResources.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselUI\FullScreenLayout.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselUI\GdiplusBlur.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselUI\HorizontalLayout.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselUI\Layout.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselUI\StandardLayout.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselUI\stdafx.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselUI\VerticalLayout.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselUI\VHorizontalLayout.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselUI\WeaselPanel.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselUI\WeaselUI.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPCServer\SecurityAttribute.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPCServer\stdafx.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPCServer\WeaselServerImpl.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPC\Configurator.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPC\Deserializer.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPC\PipeChannel.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPC\ResponseParser.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPC\stdafx.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPC\Styler.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPC\WeaselClientImpl.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPC\ActionLoader.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPC\Committer.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPC\ContextUpdater.obj"
+     Creating library D:\a\weasel-excel\weasel-excel\output\Win32\WeaselServer.lib and object D:\a\weasel-excel\weasel-excel\output\Win32\WeaselServer.exp
+  Generating code
+  Finished generating code
+  WeaselServer.vcxproj -> D:\a\weasel-excel\weasel-excel\output\Win32\WeaselServer.exe
+FinalizeBuildStatus:
+  Deleting file "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselServer\WeaselServer.tlog\unsuccessfulbuild".
+  Touching "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselServer\WeaselServer.tlog\WeaselServer.lastbuildstate".
+Done Building Project "D:\a\weasel-excel\weasel-excel\WeaselServer\WeaselServer.vcxproj" (default targets).
+Project "D:\a\weasel-excel\weasel-excel\weasel.sln" (1) is building "D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj" (9) on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselDeployer\".
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+  Creating directory "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselDeployer\WeaselDeployer.tlog\".
+InitializeBuildStatus:
+  Creating "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselDeployer\WeaselDeployer.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+  Touching "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselDeployer\WeaselDeployer.tlog\unsuccessfulbuild".
+ClCompile:
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\CL.exe /c /I"D:\a\weasel-excel\weasel-excel\\include" /I"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0" /I"D:\a\weasel-excel\weasel-excel\\librime\include" /Zi /nologo /W3 /WX- /diagnostics:column /Od /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Yc"stdafx.h" /Fp"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselDeployer\WeaselDeployer.pch" /Fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselDeployer\\" /Fd"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselDeployer\vc143.pdb" /external:W3 /Gd /TP /analyze- /FC /errorReport:queue /Zc:threadSafeInit- /utf-8 stdafx.cpp
+  stdafx.cpp
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\CL.exe /c /I"D:\a\weasel-excel\weasel-excel\\include" /I"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0" /I"D:\a\weasel-excel\weasel-excel\\librime\include" /Zi /nologo /W3 /WX- /diagnostics:column /Od /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Yu"stdafx.h" /Fp"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselDeployer\WeaselDeployer.pch" /Fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselDeployer\\" /Fd"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselDeployer\vc143.pdb" /external:W3 /Gd /TP /analyze- /FC /errorReport:queue /Zc:threadSafeInit- /utf-8 ..\RimeWithWeasel\WeaselUtility.cpp Configurator.cpp DictManagementDialog.cpp SwitcherSettingsDialog.cpp UIStyleSettings.cpp UIStyleSettingsDialog.cpp WeaselDeployer.cpp
+  WeaselUtility.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  (compiling source file '/RimeWithWeasel/WeaselUtility.cpp')
+  
+  Configurator.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  (compiling source file '/Configurator.cpp')
+  
+  DictManagementDialog.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  (compiling source file '/DictManagementDialog.cpp')
+  
+  SwitcherSettingsDialog.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  (compiling source file '/SwitcherSettingsDialog.cpp')
+  
+  UIStyleSettings.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  (compiling source file '/UIStyleSettings.cpp')
+  
+  UIStyleSettingsDialog.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  (compiling source file '/UIStyleSettingsDialog.cpp')
+  
+  WeaselDeployer.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  (compiling source file '/WeaselDeployer.cpp')
+  
+ResourceCompile:
+  C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x86\rc.exe /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /D PRODUCT_VERSION=0.17.4.0.1d5e389 /D FILE_VERSION=0.17.4.0 /l"0x0409" /nologo /fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselDeployer\WeaselDeployer.res" WeaselDeployer.rc 
+Link:
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\link.exe /ERRORREPORT:QUEUE /OUT:"D:\a\weasel-excel\weasel-excel\output\Win32\WeaselDeployer.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:"D:\a\weasel-excel\weasel-excel\\lib" /LIBPATH:"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0\stage\lib" /LIBPATH:"D:\a\weasel-excel\weasel-excel\\librime\build\lib\Release" rime.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\Include\Manifest\PerMonitorHighDPIAware.manifest" /DEBUG /PDB:"D:\a\weasel-excel\weasel-excel\output\Win32\WeaselDeployer.pdb" /SUBSYSTEM:WINDOWS /LARGEADDRESSAWARE /OPT:REF /OPT:ICF /LTCG:incremental /LTCGOUT:"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselDeployer\WeaselDeployer.iobj" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\a\weasel-excel\weasel-excel\output\Win32\WeaselDeployer.lib" /MACHINE:X86 /SAFESEH "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselDeployer\WeaselDeployer.res"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselDeployer\WeaselUtility.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselDeployer\Configurator.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselDeployer\DictManagementDialog.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselDeployer\stdafx.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselDeployer\SwitcherSettingsDialog.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselDeployer\UIStyleSettings.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselDeployer\UIStyleSettingsDialog.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselDeployer\WeaselDeployer.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselIPC.lib"
+     Creating library D:\a\weasel-excel\weasel-excel\output\Win32\WeaselDeployer.lib and object D:\a\weasel-excel\weasel-excel\output\Win32\WeaselDeployer.exp
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+  All 2689 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  WeaselDeployer.vcxproj -> D:\a\weasel-excel\weasel-excel\output\Win32\WeaselDeployer.exe
+FinalizeBuildStatus:
+  Deleting file "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselDeployer\WeaselDeployer.tlog\unsuccessfulbuild".
+  Touching "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselDeployer\WeaselDeployer.tlog\WeaselDeployer.lastbuildstate".
+Done Building Project "D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj" (default targets).
+Project "D:\a\weasel-excel\weasel-excel\weasel.sln" (1) is building "D:\a\weasel-excel\weasel-excel\WeaselSetup\WeaselSetup.vcxproj" (10) on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselSetup\".
+  Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+  Creating directory "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselSetup\WeaselSetup.tlog\".
+InitializeBuildStatus:
+  Creating "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselSetup\WeaselSetup.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+  Touching "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselSetup\WeaselSetup.tlog\unsuccessfulbuild".
+ClCompile:
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\CL.exe /c /I"D:\a\weasel-excel\weasel-excel\include" /I"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0" /nologo /W3 /WX- /diagnostics:column /O2 /Oy- /GL /D WIN32 /D _WINDOWS /D STRICT /D NDEBUG /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /Gm- /EHsc /MT /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Yc"stdafx.h" /Fp"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselSetup\WeaselSetup.pch" /Fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselSetup\\" /Fd"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselSetup\vc143.pdb" /external:W3 /Gd /TP /analyze- /FC /errorReport:queue /utf-8 stdafx.cpp
+  stdafx.cpp
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\CL.exe /c /I"D:\a\weasel-excel\weasel-excel\include" /I"D:\a\weasel-excel\weasel-excel\deps\boost_1_84_0" /nologo /W3 /WX- /diagnostics:column /O2 /Oy- /GL /D WIN32 /D _WINDOWS /D STRICT /D NDEBUG /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /Gm- /EHsc /MT /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c++17 /Yu"stdafx.h" /Fp"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselSetup\WeaselSetup.pch" /Fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselSetup\\" /Fd"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselSetup\vc143.pdb" /external:W3 /Gd /TP /analyze- /FC /errorReport:queue /utf-8 imesetup.cpp InstallOptionsDlg.cpp WeaselSetup.cpp
+  imesetup.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselSetup\WeaselSetup.vcxproj]
+  (compiling source file '/imesetup.cpp')
+  
+  InstallOptionsDlg.cpp
+  WeaselSetup.cpp
+D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselSetup\WeaselSetup.vcxproj]
+  (compiling source file '/WeaselSetup.cpp')
+  
+ResourceCompile:
+  C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x86\rc.exe /D NDEBUG /D _UNICODE /D UNICODE /D VERSION_MAJOR=0 /D VERSION_MINOR=17 /D VERSION_PATCH=4 /D PRODUCT_VERSION=0.17.4.0.1d5e389 /D FILE_VERSION=0.17.4.0 /l"0x7804" /I"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselSetup\\" /I"D:\a\weasel-excel\weasel-excel\\include\wtl" /nologo /fo"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselSetup\WeaselSetup.res" WeaselSetup.rc 
+Link:
+  C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\HostX86\x86\link.exe /ERRORREPORT:QUEUE /OUT:"D:\a\weasel-excel\weasel-excel\output\WeaselSetup.exe" /INCREMENTAL:NO /NOLOGO Imm32.lib Kernel32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\Include\Manifest\PerMonitorHighDPIAware.manifest" /DEBUG:FULL /PDB:"D:\a\weasel-excel\weasel-excel\output\WeaselSetup.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /LTCGOUT:"D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselSetup\WeaselSetup.iobj" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\a\weasel-excel\weasel-excel\output\WeaselSetup.lib" /MACHINE:X86 /SAFESEH "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselSetup\WeaselSetup.res"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselSetup\imesetup.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselSetup\InstallOptionsDlg.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselSetup\stdafx.obj"
+  "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselSetup\WeaselSetup.obj"
+  Generating code
+  Finished generating code
+  WeaselSetup.vcxproj -> D:\a\weasel-excel\weasel-excel\output\WeaselSetup.exe
+FinalizeBuildStatus:
+  Deleting file "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselSetup\WeaselSetup.tlog\unsuccessfulbuild".
+  Touching "D:\a\weasel-excel\weasel-excel\msbuild\Release\Win32\WeaselSetup\WeaselSetup.tlog\WeaselSetup.lastbuildstate".
+Done Building Project "D:\a\weasel-excel\weasel-excel\WeaselSetup\WeaselSetup.vcxproj" (default targets).
+Done Building Project "D:\a\weasel-excel\weasel-excel\weasel.sln" (Build target(s)).
+
+Build succeeded.
+
+"D:\a\weasel-excel\weasel-excel\weasel.sln" (Build target) (1) ->
+"D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj" (default target) (2) ->
+"D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj" (default target) (3) ->
+(ClCompile target) -> 
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselIPC\WeaselIPC.vcxproj]
+
+
+"D:\a\weasel-excel\weasel-excel\weasel.sln" (Build target) (1) ->
+"D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj" (default target) (2) ->
+"D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj" (default target) (4) ->
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselUI\WeaselUI.vcxproj]
+
+
+"D:\a\weasel-excel\weasel-excel\weasel.sln" (Build target) (1) ->
+"D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj" (default target) (2) ->
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselTSF\WeaselTSF.vcxproj]
+
+
+"D:\a\weasel-excel\weasel-excel\weasel.sln" (Build target) (1) ->
+"D:\a\weasel-excel\weasel-excel\WeaselIME\WeaselIME.vcxproj" (default target) (5) ->
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselIME\WeaselIME.vcxproj]
+
+
+"D:\a\weasel-excel\weasel-excel\weasel.sln" (Build target) (1) ->
+"D:\a\weasel-excel\weasel-excel\WeaselIME\WeaselIME.vcxproj" (default target) (5) ->
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselIME\WeaselIME.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselIME\WeaselIME.vcxproj]
+
+
+"D:\a\weasel-excel\weasel-excel\weasel.sln" (Build target) (1) ->
+"D:\a\weasel-excel\weasel-excel\WeaselServer\WeaselServer.vcxproj" (default target) (6) ->
+"D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.vcxproj" (default target) (7) ->
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.vcxproj]
+  D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.cpp(49,41): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.vcxproj]
+  D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.cpp(1748,13): warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.vcxproj]
+  D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.cpp(1759,9): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.vcxproj]
+  D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.cpp(1773,13): warning C4996: '_wfopen': This function or variable may be unsafe. Consider using _wfopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\RimeWithWeasel\RimeWithWeasel.vcxproj]
+
+
+"D:\a\weasel-excel\weasel-excel\weasel.sln" (Build target) (1) ->
+"D:\a\weasel-excel\weasel-excel\WeaselServer\WeaselServer.vcxproj" (default target) (6) ->
+"D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselIPCServer.vcxproj" (default target) (8) ->
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselIPCServer.vcxproj]
+  D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselServerImpl.cpp(418,20): warning C4101: 'ex': unreferenced local variable [D:\a\weasel-excel\weasel-excel\WeaselIPCServer\WeaselIPCServer.vcxproj]
+
+
+"D:\a\weasel-excel\weasel-excel\weasel.sln" (Build target) (1) ->
+"D:\a\weasel-excel\weasel-excel\WeaselServer\WeaselServer.vcxproj" (default target) (6) ->
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselServer\WeaselServer.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselServer\WeaselServer.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselServer\WeaselServer.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselServer\WeaselServer.vcxproj]
+
+
+"D:\a\weasel-excel\weasel-excel\weasel.sln" (Build target) (1) ->
+"D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj" (default target) (9) ->
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselDeployer\WeaselDeployer.vcxproj]
+
+
+"D:\a\weasel-excel\weasel-excel\weasel.sln" (Build target) (1) ->
+"D:\a\weasel-excel\weasel-excel\WeaselSetup\WeaselSetup.vcxproj" (default target) (10) ->
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselSetup\WeaselSetup.vcxproj]
+  D:\a\weasel-excel\weasel-excel\include\WeaselUtility.h(279,22): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details. [D:\a\weasel-excel\weasel-excel\WeaselSetup\WeaselSetup.vcxproj]
+
+    50 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:55.09
