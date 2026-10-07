@@ -1,0 +1,1866 @@
+diff --git a/.github/workflows/build.yml b/.github/workflows/build.yml
+index ffe7f98..67b4c07 100644
+--- a/.github/workflows/build.yml
++++ b/.github/workflows/build.yml
+@@ -5,6 +5,9 @@ on:
+   push:
+     branches: [ main ]
+ 
++permissions:
++  contents: write
++
+ concurrency:
+   group: build
+   cancel-in-progress: true
+@@ -72,17 +75,23 @@ jobs:
+ 
+       - name: Build librime (with Excel support and plugins)
+         run: |
++          if not exist logs mkdir logs
+           python --version
+-          call build.bat rime
++          call build.bat rime > logs\librime-build.log 2>&1
++          powershell -Command "Get-Content logs\librime-build.log -Tail 40"
+           if not exist output\rime.dll exit /b 1
+           if not exist output\Win32\rime.dll exit /b 1
+           if not exist lib64\rime.lib exit /b 1
+ 
+       - name: Build Weasel
+         run: |
+-          call build.bat weasel
++          if not exist logs mkdir logs
++          call build.bat weasel > logs\weasel-build.log 2>&1
++          powershell -Command "Get-Content logs\weasel-build.log -Tail 40"
+           if not exist output\WeaselServer.exe exit /b 1
+           if not exist output\Win32\WeaselServer.exe exit /b 1
++          if not exist output\weasel.dll exit /b 1
++          if not exist output\weaselx64.dll exit /b 1
+ 
+       - name: Collect files
+         shell: pwsh
+@@ -90,9 +99,28 @@ jobs:
+           $ErrorActionPreference = 'Stop'
+           New-Item -ItemType Directory -Force -Path dist\x64, dist\Win32 | Out-Null
+           Copy-Item output\rime.dll, output\WeaselServer.exe dist\x64\
++          # input method (TSF) component: 32-bit for 32-bit apps, x64 for 64-bit apps
++          Copy-Item output\weasel.dll, output\weaselx64.dll dist\
+           Copy-Item output\Win32\rime.dll, output\Win32\WeaselServer.exe dist\Win32\
+           Get-ChildItem -Recurse dist | Format-Table FullName, Length, LastWriteTime
+ 
++      - name: Publish files and logs to the build-output branch
++        if: always()
++        shell: pwsh
++        run: |
++          New-Item -ItemType Directory -Force -Path publish\logs | Out-Null
++          if (Test-Path dist) { Copy-Item -Recurse dist\* publish\ }
++          if (Test-Path logs) { Copy-Item logs\* publish\logs\ }
++          Get-ChildItem -Filter msbuild*.log | Copy-Item -Destination publish\logs\
++          Set-Content publish\BUILD-INFO.txt "commit ${{ github.sha }}`nrun ${{ github.run_id }}`nstatus ${{ job.status }}"
++          Set-Location publish
++          git init -q -b build-output
++          git config user.name "github-actions[bot]"
++          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
++          git add -A
++          git commit -q -m "build output for ${{ github.sha }}"
++          git push -f -q "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" build-output
++
+       - name: Upload built files
+         uses: actions/upload-artifact@v4
+         with:
+diff --git a/RimeWithWeasel/RimeWithWeasel.cpp b/RimeWithWeasel/RimeWithWeasel.cpp
+index 3f4e59d..cd6c322 100644
+--- a/RimeWithWeasel/RimeWithWeasel.cpp
++++ b/RimeWithWeasel/RimeWithWeasel.cpp
+@@ -1,6 +1,7 @@
+ ﻿#include "stdafx.h"
+ #include <logging.h>
+ #include <RimeWithWeasel.h>
++#include <ExcelEdition.h>
+ #include <StringAlgorithm.hpp>
+ #include <WeaselConstants.h>
+ #include <WeaselUtility.h>
+@@ -31,6 +32,7 @@ typedef enum { COLOR_ABGR = 0, COLOR_ARGB, COLOR_RGBA } ColorFormat;
+ using namespace weasel;
+ 
+ static RimeApi* rime_api;
++
+ WeaselSessionId _GenerateNewWeaselSessionId(SessionStatusMap sm, DWORD pid) {
+   if (sm.empty())
+     return (WeaselSessionId)(pid + 1);
+@@ -152,6 +154,9 @@ void RimeWithWeaselHandler::Initialize() {
+ 
+   LOG(INFO) << "Initializing la rime.";
+   rime_api->initialize(NULL);
++  // Excel edition: restore menu toggles and typing statistics
++  _LoadExcelEditionFlags();
++  _LoadTypingStats();
+ #if 0
+   if (rime_api->start_maintenance(/*full_check = */ False)) {
+     m_disabled = true;
+@@ -175,6 +180,12 @@ void RimeWithWeaselHandler::Initialize() {
+         }
+       }
+       m_base_style = m_ui->style();
++      // Excel edition: layout chosen in the menu wins over weasel.yaml
++      _ApplyLayoutOverride(m_base_style);
++      m_ui->style() = m_base_style;
++      excel_edition::SaveFlag(excel_edition::kHorizontalValue,
++                              m_base_style.layout_type ==
++                                  UIStyle::LAYOUT_HORIZONTAL);
+     }
+     Bool global_ascii = false;
+     if (rime_api->config_get_bool(&config, "global_ascii", &global_ascii))
+@@ -213,6 +224,8 @@ DWORD RimeWithWeaselHandler::AddSession(LPWSTR buffer, EatLine eat) {
+       return 0;
+   }
+   RimeSessionId session_id = (RimeSessionId)rime_api->create_session();
++  // Excel edition: apply tray menu toggles to the new session
++  _ApplyExcelEditionState(session_id);
+   if (m_global_ascii_mode) {
+     for (const auto& pair : m_session_status_map) {
+       if (pair.first) {
+@@ -252,7 +265,7 @@ DWORD RimeWithWeaselHandler::AddSession(LPWSTR buffer, EatLine eat) {
+   add_session = true;
+   _UpdateUI(ipc_id);
+   add_session = false;
+-  m_active_session = ipc_id;
++  m_active_session = m_last_used_session = ipc_id;
+   return ipc_id;
+ }
+ 
+@@ -266,6 +279,8 @@ DWORD RimeWithWeaselHandler::RemoveSession(WeaselSessionId ipc_id) {
+   rime_api->destroy_session(to_session_id(ipc_id));
+   m_session_status_map.erase(ipc_id);
+   m_active_session = 0;
++  if (m_last_used_session == ipc_id)
++    m_last_used_session = 0;
+   return 0;
+ }
+ 
+@@ -285,6 +300,12 @@ void RimeWithWeaselHandler::UpdateColorTheme(BOOL darkMode) {
+         }
+       }
+       m_base_style = m_ui->style();
++      // Excel edition: layout chosen in the menu wins over weasel.yaml
++      _ApplyLayoutOverride(m_base_style);
++      m_ui->style() = m_base_style;
++      excel_edition::SaveFlag(excel_edition::kHorizontalValue,
++                              m_base_style.layout_type ==
++                                  UIStyle::LAYOUT_HORIZONTAL);
+     }
+     rime_api->config_close(&config);
+   }
+@@ -329,7 +350,7 @@ BOOL RimeWithWeaselHandler::ProcessKeyEvent(KeyEvent keyEvent,
+   }
+   _Respond(ipc_id, eat);
+   _UpdateUI(ipc_id);
+-  m_active_session = ipc_id;
++  m_active_session = m_last_used_session = ipc_id;
+   return (BOOL)handled;
+ }
+ 
+@@ -339,7 +360,7 @@ void RimeWithWeaselHandler::CommitComposition(WeaselSessionId ipc_id) {
+     return;
+   rime_api->commit_composition(to_session_id(ipc_id));
+   _UpdateUI(ipc_id);
+-  m_active_session = ipc_id;
++  m_active_session = m_last_used_session = ipc_id;
+ }
+ 
+ void RimeWithWeaselHandler::ClearComposition(WeaselSessionId ipc_id) {
+@@ -348,7 +369,7 @@ void RimeWithWeaselHandler::ClearComposition(WeaselSessionId ipc_id) {
+     return;
+   rime_api->clear_composition(to_session_id(ipc_id));
+   _UpdateUI(ipc_id);
+-  m_active_session = ipc_id;
++  m_active_session = m_last_used_session = ipc_id;
+ }
+ 
+ void RimeWithWeaselHandler::SelectCandidateOnCurrentPage(
+@@ -391,7 +412,7 @@ void RimeWithWeaselHandler::FocusIn(DWORD client_caps, WeaselSessionId ipc_id) {
+   if (m_disabled)
+     return;
+   _UpdateUI(ipc_id);
+-  m_active_session = ipc_id;
++  m_active_session = m_last_used_session = ipc_id;
+ }
+ 
+ void RimeWithWeaselHandler::FocusOut(DWORD param, WeaselSessionId ipc_id) {
+@@ -412,7 +433,7 @@ void RimeWithWeaselHandler::UpdateInputPosition(RECT const& rc,
+     return;
+   if (m_active_session != ipc_id) {
+     _UpdateUI(ipc_id);
+-    m_active_session = ipc_id;
++    m_active_session = m_last_used_session = ipc_id;
+   }
+ }
+ 
+@@ -617,6 +638,8 @@ void RimeWithWeaselHandler::_LoadSchemaSpecificSettings(
+   m_ui->style() = m_base_style;
+   _UpdateUIStyle(&config, m_ui, false);
+   SessionStatus& session_status = get_session_status(ipc_id);
++  // Excel edition: a schema's own style must not undo the menu's layout
++  _ApplyLayoutOverride(m_ui->style());
+   session_status.style = m_ui->style();
+   UIStyle& style = session_status.style;
+   // load schema color style config
+@@ -794,6 +817,8 @@ bool RimeWithWeaselHandler::_Respond(WeaselSessionId ipc_id, EatLine eat) {
+   if (rime_api->get_commit(session_id, &commit)) {
+     actions.insert("commit");
+ 
++    // Excel edition: typing statistics
++    _CountTyping(commit.text);
+     std::string commit_text = escape_string<char>(commit.text);
+     messages.push_back(std::string("commit=") + commit_text + '\n');
+     rime_api->free_commit(&commit);
+@@ -1430,6 +1455,7 @@ void RimeWithWeaselHandler::_GetStatus(Status& stat,
+     if (schema_id != m_last_schema_id) {
+       session_status.__synced = false;
+       m_last_schema_id = schema_id;
++      _OnSchemaChanged(schema_id);  // Excel edition
+       if (schema_id != ".default") {  // don't load for schema select menu
+         bool inline_preedit = session_status.style.inline_preedit;
+         _LoadSchemaSpecificSettings(ipc_id, schema_id);
+@@ -1496,3 +1522,303 @@ void RimeWithWeaselHandler::_UpdateInlinePreeditStatus(WeaselSessionId ipc_id) {
+   // show soft cursor on weasel panel but not inline
+   rime_api->set_option(session_id, "soft_cursor", Bool(!inline_preedit));
+ }
++
++// ---------------------------------------------------------------------------
++// Excel edition: menu toggles (pinyin mode, single character mode, horizontal
++// candidate list) and typing statistics. See include/ExcelEdition.h.
++
++using namespace excel_edition;
++
++namespace {
++
++std::string SchemaOf(RimeSessionId session_id) {
++  std::string schema_id;
++  RIME_STRUCT(RimeStatus, status);
++  if (rime_api->get_status(session_id, &status)) {
++    if (status.schema_id)
++      schema_id = status.schema_id;
++    rime_api->free_status(&status);
++  }
++  return schema_id;
++}
++
++std::string TodayString() {
++  SYSTEMTIME t;
++  GetLocalTime(&t);
++  char buf[16];
++  snprintf(buf, sizeof(buf), "%04d-%02d-%02d", t.wYear, t.wMonth, t.wDay);
++  return buf;
++}
++
++bool IsHan(uint32_t cp) {
++  return (cp >= 0x3400 && cp <= 0x4DBF) || (cp >= 0x4E00 && cp <= 0x9FFF) ||
++         (cp >= 0xF900 && cp <= 0xFAFF) || (cp >= 0x20000 && cp <= 0x3134F);
++}
++
++// counts Chinese characters and other visible characters in UTF-8 text
++void CountUtf8(const char* s, long long* han, long long* other) {
++  const unsigned char* p = reinterpret_cast<const unsigned char*>(s);
++  while (*p) {
++    uint32_t cp = *p;
++    int extra = 0;
++    if (cp >= 0xF0) {
++      cp &= 0x07;
++      extra = 3;
++    } else if (cp >= 0xE0) {
++      cp &= 0x0F;
++      extra = 2;
++    } else if (cp >= 0xC0) {
++      cp &= 0x1F;
++      extra = 1;
++    }
++    ++p;
++    for (int i = 0; i < extra && (*p & 0xC0) == 0x80; ++i, ++p)
++      cp = (cp << 6) | (*p & 0x3F);
++    if (IsHan(cp))
++      ++*han;
++    else if (cp > 0x20 && cp != 0x7F && cp != 0x3000)
++      ++*other;
++  }
++}
++
++}  // namespace
++
++RimeSessionId RimeWithWeaselHandler::_LastUsedRimeSession() {
++  auto it = m_session_status_map.find(m_last_used_session);
++  if (it == m_session_status_map.end())
++    return 0;
++  return it->second.session_id;
++}
++
++void RimeWithWeaselHandler::_LoadExcelEditionFlags() {
++  m_pinyin_mode = LoadFlag(kPinyinModeValue);
++  m_single_char = LoadFlag(kSingleCharValue);
++  m_completion = LoadFlag(kCompletionValue);
++  DWORD layout = 0;
++  m_layout_override = ReadFlag(kLayoutOverrideValue, &layout) ? (layout ? 1 : 0)
++                                                               : -1;
++}
++
++void RimeWithWeaselHandler::_ApplyExcelEditionState(RimeSessionId session_id) {
++  if (!session_id)
++    return;
++  std::string schema_id = SchemaOf(session_id);
++  if (m_pinyin_mode && schema_id == kWubiSchema)
++    rime_api->select_schema(session_id, kPinyinSchema);
++  else if (!m_pinyin_mode && schema_id == kPinyinSchema)
++    rime_api->select_schema(session_id, kWubiSchema);
++  if (m_single_char)
++    rime_api->set_option(session_id, kSingleCharOption, True);
++  if (m_completion)
++    rime_api->set_option(session_id, kCompletionOption, True);
++}
++
++void RimeWithWeaselHandler::_OnSchemaChanged(const std::string& schema_id) {
++  // keep the stored state in step when the schema is switched elsewhere
++  // (e.g. with F4), so that the language bar menu shows the right check mark
++  bool pinyin = schema_id == kPinyinSchema;
++  if ((pinyin || schema_id == kWubiSchema) && pinyin != m_pinyin_mode) {
++    m_pinyin_mode = pinyin;
++    SaveFlag(kPinyinModeValue, pinyin);
++  }
++}
++
++void RimeWithWeaselHandler::_ApplyLayoutOverride(weasel::UIStyle& style) {
++  if (m_layout_override < 0)
++    return;
++  // only switch between the plain layouts; leave full screen and vertical
++  // text layouts alone
++  if (style.layout_type != UIStyle::LAYOUT_VERTICAL &&
++      style.layout_type != UIStyle::LAYOUT_HORIZONTAL)
++    return;
++  style.layout_type = m_layout_override ? UIStyle::LAYOUT_HORIZONTAL
++                                        : UIStyle::LAYOUT_VERTICAL;
++}
++
++static bool IsHorizontalLayout(const weasel::UIStyle& style) {
++  return style.layout_type == UIStyle::LAYOUT_HORIZONTAL ||
++         style.layout_type == UIStyle::LAYOUT_HORIZONTAL_FULLSCREEN;
++}
++
++bool RimeWithWeaselHandler::IsPinyinMode() {
++  RimeSessionId session_id = m_disabled ? 0 : _LastUsedRimeSession();
++  if (!session_id)
++    return m_pinyin_mode;
++  return SchemaOf(session_id) == kPinyinSchema;
++}
++
++void RimeWithWeaselHandler::SetPinyinMode(bool on) {
++  m_pinyin_mode = on;
++  SaveFlag(kPinyinModeValue, on);
++  if (m_disabled)
++    return;
++  RimeSessionId last = _LastUsedRimeSession();
++  for (auto& pair : m_session_status_map) {
++    RimeSessionId session_id = pair.second.session_id;
++    if (!session_id)
++      continue;
++    std::string schema_id = SchemaOf(session_id);
++    const char* target = nullptr;
++    if (on && schema_id != kPinyinSchema &&
++        (schema_id == kWubiSchema || session_id == last))
++      target = kPinyinSchema;
++    else if (!on && schema_id == kPinyinSchema)
++      target = kWubiSchema;
++    if (!target)
++      continue;
++    // keep the session's single character setting across the switch
++    Bool single_char = rime_api->get_option(session_id, kSingleCharOption);
++    Bool completion = rime_api->get_option(session_id, kCompletionOption);
++    rime_api->select_schema(session_id, target);
++    rime_api->set_option(session_id, kSingleCharOption, single_char);
++    rime_api->set_option(session_id, kCompletionOption, completion);
++  }
++  if (_UpdateUICallback)
++    _UpdateUICallback();
++}
++
++bool RimeWithWeaselHandler::IsSingleChar() {
++  RimeSessionId session_id = m_disabled ? 0 : _LastUsedRimeSession();
++  if (!session_id)
++    return m_single_char;
++  return !!rime_api->get_option(session_id, kSingleCharOption);
++}
++
++void RimeWithWeaselHandler::SetSingleChar(bool on) {
++  m_single_char = on;
++  SaveFlag(kSingleCharValue, on);
++  if (m_disabled)
++    return;
++  for (auto& pair : m_session_status_map) {
++    if (pair.second.session_id)
++      rime_api->set_option(pair.second.session_id, kSingleCharOption,
++                           on ? True : False);
++  }
++}
++
++bool RimeWithWeaselHandler::IsCompletion() {
++  RimeSessionId session_id = m_disabled ? 0 : _LastUsedRimeSession();
++  if (!session_id)
++    return m_completion;
++  return !!rime_api->get_option(session_id, kCompletionOption);
++}
++
++void RimeWithWeaselHandler::SetCompletion(bool on) {
++  m_completion = on;
++  SaveFlag(kCompletionValue, on);
++  if (m_disabled)
++    return;
++  for (auto& pair : m_session_status_map) {
++    if (pair.second.session_id)
++      rime_api->set_option(pair.second.session_id, kCompletionOption,
++                           on ? True : False);
++  }
++}
++
++bool RimeWithWeaselHandler::IsHorizontal() {
++  auto it = m_session_status_map.find(m_last_used_session);
++  if (it != m_session_status_map.end())
++    return IsHorizontalLayout(it->second.style);
++  return IsHorizontalLayout(m_base_style);
++}
++
++void RimeWithWeaselHandler::SetHorizontal(bool on) {
++  m_layout_override = on ? 1 : 0;
++  SaveFlag(kLayoutOverrideValue, on);
++  _ApplyLayoutOverride(m_base_style);
++  for (auto& pair : m_session_status_map) {
++    _ApplyLayoutOverride(pair.second.style);
++    // the style is sent to a client only while it is not marked as synced;
++    // without this the candidate window never hears about the new layout
++    pair.second.__synced = false;
++  }
++  if (m_ui)
++    _ApplyLayoutOverride(m_ui->style());
++  SaveFlag(kHorizontalValue, IsHorizontalLayout(m_base_style));
++}
++
++std::filesystem::path RimeWithWeaselHandler::TypingStatsFile() {
++  return WeaselUserDataPath() / L"打字统计.csv";  // 打字统计.csv
++}
++
++void RimeWithWeaselHandler::_LoadTypingStats() {
++  if (m_typing_loaded)
++    return;
++  m_typing_loaded = true;
++  FILE* f = _wfopen(TypingStatsFile().c_str(), L"rb");
++  if (!f)
++    return;
++  char line[256];
++  while (fgets(line, sizeof(line), f)) {
++    char date[32] = {0};
++    long long han = 0, other = 0;
++    const char* p = line;
++    if ((unsigned char)p[0] == 0xEF && (unsigned char)p[1] == 0xBB &&
++        (unsigned char)p[2] == 0xBF)
++      p += 3;  // UTF-8 BOM
++    if (sscanf(p, "%10[0-9-],%lld,%lld", date, &han, &other) >= 2 &&
++        strlen(date) == 10) {
++      auto& entry = m_typing[date];
++      entry.first += han;
++      entry.second += other;
++    }
++  }
++  fclose(f);
++}
++
++bool RimeWithWeaselHandler::_SaveTypingStats() {
++  std::filesystem::path file = TypingStatsFile();
++  std::filesystem::path tmp = file;
++  tmp += L".tmp";
++  FILE* f = _wfopen(tmp.c_str(), L"wb");
++  if (!f)
++    return false;
++  // UTF-8 BOM so that Excel shows the Chinese header correctly
++  fputs("\xEF\xBB\xBF\xE6\x97\xA5\xE6\x9C\x9F,\xE6\xB1\x89\xE5\xAD\x97,"
++        "\xE5\x85\xB6\xE4\xBB\x96\xE5\xAD\x97\xE7\xAC\xA6\r\n",  // 日期,汉字,其他字符
++        f);
++  for (const auto& entry : m_typing)
++    fprintf(f, "%s,%lld,%lld\r\n", entry.first.c_str(), entry.second.first,
++            entry.second.second);
++  bool ok = fclose(f) == 0;
++  if (ok)
++    ok = MoveFileExW(tmp.c_str(), file.c_str(), MOVEFILE_REPLACE_EXISTING) != 0;
++  if (!ok)
++    DeleteFileW(tmp.c_str());
++  return ok;
++}
++
++void RimeWithWeaselHandler::_CountTyping(const char* text) {
++  if (!text || !*text)
++    return;
++  long long han = 0, other = 0;
++  CountUtf8(text, &han, &other);
++  if (!han && !other)
++    return;
++  _LoadTypingStats();
++  auto& entry = m_typing[TodayString()];
++  entry.first += han;
++  entry.second += other;
++  // if the file is locked (e.g. opened in Excel) the counts stay in memory
++  // and are written with the next commit
++  _SaveTypingStats();
++}
++
++RimeWithWeaselHandler::TypingStats RimeWithWeaselHandler::GetTypingStats() {
++  _LoadTypingStats();
++  TypingStats stats;
++  std::string today = TodayString();
++  std::string month = today.substr(0, 7);
++  for (const auto& entry : m_typing) {
++    stats.total_han += entry.second.first;
++    if (entry.second.first > 0)
++      ++stats.days;
++    if (entry.first.compare(0, 7, month) == 0)
++      stats.month_han += entry.second.first;
++    if (entry.first == today) {
++      stats.today_han = entry.second.first;
++      stats.today_other = entry.second.second;
++    }
++  }
++  return stats;
++}
+diff --git a/WeaselIPCServer/WeaselServerImpl.cpp b/WeaselIPCServer/WeaselServerImpl.cpp
+index 11225c4..58276b8 100644
+--- a/WeaselIPCServer/WeaselServerImpl.cpp
++++ b/WeaselIPCServer/WeaselServerImpl.cpp
+@@ -162,7 +162,9 @@ int ServerImpl::Stop() {
+   return 0;
+ }
+ 
+-static std::mutex g_api_mutex;
++// recursive: tray menu commands (main thread) and pipe requests share it,
++// and a pipe request may itself run a tray command
++static std::recursive_mutex g_api_mutex;
+ 
+ int ServerImpl::Run() {
+   // This workaround causes a VC internal error:
+@@ -172,7 +174,7 @@ int ServerImpl::Run() {
+   // auto listener = boost::bind(&PipeServer::Listen, channel.get(), handler);
+   //
+   auto listener = [this](PipeMessage msg, PipeServer::Respond resp) -> void {
+-    std::lock_guard guard(g_api_mutex);
++    std::lock_guard<std::recursive_mutex> guard(g_api_mutex);
+     HandlePipeMessage(msg, resp);
+   };
+   pipeThread = std::make_unique<boost::thread>(
+@@ -462,6 +464,11 @@ void Server::SetRequestHandler(RequestHandler* pHandler) {
+   m_pImpl->SetRequestHandler(pHandler);
+ }
+ 
++void Server::WithApiLock(const std::function<void()>& func) {
++  std::lock_guard<std::recursive_mutex> guard(g_api_mutex);
++  func();
++}
++
+ void Server::AddMenuHandler(UINT uID, CommandHandler handler) {
+   m_pImpl->AddMenuHandler(uID, handler);
+ }
+diff --git a/WeaselServer/ExcelDictWatcher.cpp b/WeaselServer/ExcelDictWatcher.cpp
+index 2077808..d0a21c2 100644
+--- a/WeaselServer/ExcelDictWatcher.cpp
++++ b/WeaselServer/ExcelDictWatcher.cpp
+@@ -210,10 +210,19 @@ void ExcelDictWatcher::ScanSources() {
+       continue;
+     Source s;
+     s.excel_file = excel;
++    {
++      // settings in the .dict.yaml (e.g. the sheet name) are part of what the
++      // table is built from: when they change, deploy again even though the
++      // workbook itself did not
++      std::string dict_content;
++      if (ReadAllShared(p, &dict_content))
++        s.dict_hash = Fnv1a(dict_content);
++    }
+     std::wstring dict_name = name.substr(0, name.size() - 10);  // .dict.yaml
+     s.table_file = user_data_dir_ / L"build" / (dict_name + L".table.bin");
+     for (const auto& o : old) {
+-      if (SameName(o.excel_file.wstring(), excel.wstring())) {
++      if (SameName(o.excel_file.wstring(), excel.wstring()) &&
++          o.dict_hash == s.dict_hash) {
+         s.deployed_hash = o.deployed_hash;
+         s.has_hash = o.has_hash;
+       }
+diff --git a/WeaselServer/ExcelDictWatcher.h b/WeaselServer/ExcelDictWatcher.h
+index d360e18..655d570 100644
+--- a/WeaselServer/ExcelDictWatcher.h
++++ b/WeaselServer/ExcelDictWatcher.h
+@@ -37,6 +37,7 @@ class ExcelDictWatcher {
+     std::filesystem::path table_file;  // build\<dict>.table.bin
+     uint64_t deployed_hash = 0;        // content hash at last deployment
+     bool has_hash = false;
++    uint64_t dict_hash = 0;  // hash of the .dict.yaml (path/sheet settings)
+   };
+   struct Folder {
+     std::filesystem::path dir;
+diff --git a/WeaselServer/SettingsDialog.cpp b/WeaselServer/SettingsDialog.cpp
+new file mode 100644
+index 0000000..f4d9e3c
+--- /dev/null
++++ b/WeaselServer/SettingsDialog.cpp
+@@ -0,0 +1,321 @@
++#include "stdafx.h"
++#include "SettingsDialog.h"
++#include <commdlg.h>
++#include <atomic>
++#include <thread>
++#include <mutex>
++
++#pragma comment(lib, "comdlg32.lib")
++
++namespace excel_edition {
++
++namespace {
++
++constexpr wchar_t kClassName[] = L"WeaselExcelEditionSettings";
++
++enum ControlId {
++  IDC_PINYIN = 1001,
++  IDC_SINGLE_CHAR,
++  IDC_HORIZONTAL,
++  IDC_COMPLETION,
++  IDC_FILE,
++  IDC_BROWSE,
++  IDC_SHEET,
++  IDC_INFO,
++  IDC_STATS,
++  IDC_APPLY,
++};
++
++std::mutex g_mutex;
++HWND g_window = NULL;       // the open window, if any
++bool g_starting = false;    // a window thread is being started
++
++struct SettingsWindow {
++  SettingsBackend backend;
++  SettingsState state;  // what is currently applied
++  HWND hwnd = NULL;
++  HFONT font = NULL;
++  int dpi = 96;
++
++  int Px(int v) const { return MulDiv(v, dpi, 96); }
++
++  HWND Add(const wchar_t* cls,
++           const wchar_t* text,
++           DWORD style,
++           int x,
++           int y,
++           int w,
++           int h,
++           int id,
++           DWORD ex_style = 0) {
++    HWND c = CreateWindowExW(ex_style, cls, text, WS_CHILD | WS_VISIBLE | style,
++                             Px(x), Px(y), Px(w), Px(h), hwnd,
++                             (HMENU)(INT_PTR)id, GetModuleHandle(NULL), NULL);
++    if (c && font)
++      SendMessageW(c, WM_SETFONT, (WPARAM)font, TRUE);
++    return c;
++  }
++
++  HWND Item(int id) const { return GetDlgItem(hwnd, id); }
++
++  void SetCheck(int id, bool on) {
++    SendMessageW(Item(id), BM_SETCHECK, on ? BST_CHECKED : BST_UNCHECKED, 0);
++  }
++  bool GetCheck(int id) const {
++    return SendMessageW(Item(id), BM_GETCHECK, 0, 0) == BST_CHECKED;
++  }
++  std::wstring GetText(int id) const {
++    int len = GetWindowTextLengthW(Item(id));
++    std::wstring s(len + 1, L'\0');
++    GetWindowTextW(Item(id), &s[0], len + 1);
++    s.resize(len);
++    return s;
++  }
++  static std::wstring Trim(const std::wstring& s) {
++    size_t b = s.find_first_not_of(L" \t\r\n\"");
++    if (b == std::wstring::npos)
++      return std::wstring();
++    size_t e = s.find_last_not_of(L" \t\r\n\"");
++    return s.substr(b, e - b + 1);
++  }
++
++  void ShowState(const SettingsState& s) {
++    SetCheck(IDC_PINYIN, s.pinyin);
++    SetCheck(IDC_SINGLE_CHAR, s.single_char);
++    SetCheck(IDC_HORIZONTAL, s.horizontal);
++    SetCheck(IDC_COMPLETION, s.completion);
++    SetWindowTextW(Item(IDC_FILE), s.excel_file.c_str());
++    SetWindowTextW(Item(IDC_SHEET), s.sheet.c_str());
++  }
++
++  SettingsState ReadState() const {
++    SettingsState s;
++    s.pinyin = GetCheck(IDC_PINYIN);
++    s.single_char = GetCheck(IDC_SINGLE_CHAR);
++    s.horizontal = GetCheck(IDC_HORIZONTAL);
++    s.completion = GetCheck(IDC_COMPLETION);
++    s.excel_file = Trim(GetText(IDC_FILE));
++    s.sheet = Trim(GetText(IDC_SHEET));
++    return s;
++  }
++
++  void Create() {
++    HDC dc = GetDC(NULL);
++    dpi = GetDeviceCaps(dc, LOGPIXELSY);
++    ReleaseDC(NULL, dc);
++    if (dpi <= 0)
++      dpi = 96;
++
++    NONCLIENTMETRICSW ncm = {};
++    ncm.cbSize = sizeof(ncm);
++    if (SystemParametersInfoW(SPI_GETNONCLIENTMETRICS, sizeof(ncm), &ncm, 0))
++      font = CreateFontIndirectW(&ncm.lfMessageFont);
++
++    const DWORD tab = WS_TABSTOP;
++    // 输入方案
++    Add(L"BUTTON", L"输入方案", BS_GROUPBOX, 12, 8, 496, 50, 0);
++    Add(L"BUTTON", L"拼音模式（不勾选 = 小兵五笔86）", BS_AUTOCHECKBOX | tab, 28,
++        28, 460, 20, IDC_PINYIN);
++    // 候选
++    Add(L"BUTTON", L"候选", BS_GROUPBOX, 12, 64, 496, 104, 0);
++    Add(L"BUTTON", L"单字模式（只显示单字，不显示词组）",
++        BS_AUTOCHECKBOX | tab, 28, 84, 460, 20, IDC_SINGLE_CHAR);
++    Add(L"BUTTON", L"候选横排", BS_AUTOCHECKBOX | tab, 28, 108, 460, 20,
++        IDC_HORIZONTAL);
++    Add(L"BUTTON", L"逐码提示（编码没打完时，也显示以已打编码开头的字词）",
++        BS_AUTOCHECKBOX | tab, 28, 132, 460, 20, IDC_COMPLETION);
++    // Excel 码表
++    Add(L"BUTTON", L"Excel 码表", BS_GROUPBOX, 12, 174, 496, 128, 0);
++    Add(L"STATIC", L"Excel 文件（.xlsx）：", SS_LEFT, 28, 194, 300, 18, 0);
++    Add(L"EDIT", L"", ES_AUTOHSCROLL | tab, 28, 214, 386, 24, IDC_FILE,
++        WS_EX_CLIENTEDGE);
++    Add(L"BUTTON", L"浏览…", BS_PUSHBUTTON | tab, 422, 213, 76, 26, IDC_BROWSE);
++    Add(L"STATIC", L"工作表名称：", SS_LEFT, 28, 250, 90, 18, 0);
++    Add(L"EDIT", L"", ES_AUTOHSCROLL | tab, 120, 247, 230, 24, IDC_SHEET,
++        WS_EX_CLIENTEDGE);
++    Add(L"STATIC", L"", SS_LEFT, 28, 278, 470, 18, IDC_INFO);
++    // buttons
++    Add(L"BUTTON", L"查看打字统计…", BS_PUSHBUTTON | tab, 12, 316, 130, 28,
++        IDC_STATS);
++    Add(L"BUTTON", L"确定", BS_DEFPUSHBUTTON | tab, 262, 316, 78, 28, IDOK);
++    Add(L"BUTTON", L"取消", BS_PUSHBUTTON | tab, 346, 316, 78, 28, IDCANCEL);
++    Add(L"BUTTON", L"应用", BS_PUSHBUTTON | tab, 430, 316, 78, 28, IDC_APPLY);
++
++    state = backend.load ? backend.load() : SettingsState();
++    ShowState(state);
++    if (backend.info)
++      SetWindowTextW(Item(IDC_INFO), backend.info().c_str());
++  }
++
++  void Browse() {
++    wchar_t buffer[MAX_PATH * 2] = {0};
++    std::wstring current = Trim(GetText(IDC_FILE));
++    wcsncpy_s(buffer, current.c_str(), _TRUNCATE);
++    OPENFILENAMEW ofn = {};
++    ofn.lStructSize = sizeof(ofn);
++    ofn.hwndOwner = hwnd;
++    ofn.lpstrFilter =
++        L"Excel 工作簿 (*.xlsx;*.xlsm)\0*.xlsx;*.xlsm\0所有文件 (*.*)\0*.*\0";
++    ofn.lpstrFile = buffer;
++    ofn.nMaxFile = _countof(buffer);
++    ofn.lpstrTitle = L"选择 Excel 码表";
++    ofn.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST | OFN_HIDEREADONLY;
++    if (GetOpenFileNameW(&ofn))
++      SetWindowTextW(Item(IDC_FILE), buffer);
++  }
++
++  // true: applied (or nothing to apply)
++  bool Apply() {
++    SettingsState next = ReadState();
++    SettingsResult result;
++    if (backend.apply)
++      result = backend.apply(state, next);
++    else
++      result.ok = true;
++    if (!result.ok) {
++      MessageBoxW(hwnd, result.message.c_str(), L"设置",
++                  MB_OK | MB_ICONWARNING);
++      return false;
++    }
++    state = next;
++    // show the cleaned-up values (e.g. quotes around a pasted path removed)
++    SetWindowTextW(Item(IDC_FILE), state.excel_file.c_str());
++    SetWindowTextW(Item(IDC_SHEET), state.sheet.c_str());
++    if (!result.message.empty())
++      SetWindowTextW(Item(IDC_INFO), result.message.c_str());
++    else if (backend.info)
++      SetWindowTextW(Item(IDC_INFO), backend.info().c_str());
++    return true;
++  }
++};
++
++LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
++  SettingsWindow* w = reinterpret_cast<SettingsWindow*>(GetWindowLongPtrW(hwnd, GWLP_USERDATA));
++  switch (msg) {
++    case WM_NCCREATE: {
++      auto cs = reinterpret_cast<CREATESTRUCTW*>(lp);
++      SetWindowLongPtrW(hwnd, GWLP_USERDATA, (LONG_PTR)cs->lpCreateParams);
++      break;
++    }
++    case WM_CREATE: {
++      w = reinterpret_cast<SettingsWindow*>(
++          reinterpret_cast<CREATESTRUCTW*>(lp)->lpCreateParams);
++      w->hwnd = hwnd;
++      w->Create();
++      return 0;
++    }
++    case WM_COMMAND:
++      if (!w)
++        break;
++      switch (LOWORD(wp)) {
++        case IDOK:
++          if (w->Apply())
++            DestroyWindow(hwnd);
++          return 0;
++        case IDCANCEL:
++          DestroyWindow(hwnd);
++          return 0;
++        case IDC_APPLY:
++          w->Apply();
++          return 0;
++        case IDC_BROWSE:
++          w->Browse();
++          return 0;
++        case IDC_STATS:
++          if (w->backend.show_stats)
++            w->backend.show_stats();
++          return 0;
++      }
++      break;
++    case WM_CTLCOLORSTATIC:
++      if (w && reinterpret_cast<HWND>(lp) == w->Item(IDC_INFO)) {
++        SetTextColor(reinterpret_cast<HDC>(wp), RGB(110, 110, 110));
++        SetBkMode(reinterpret_cast<HDC>(wp), TRANSPARENT);
++        return reinterpret_cast<LRESULT>(GetSysColorBrush(COLOR_BTNFACE));
++      }
++      break;
++    case WM_CLOSE:
++      DestroyWindow(hwnd);
++      return 0;
++    case WM_DESTROY:
++      PostQuitMessage(0);
++      return 0;
++  }
++  return DefWindowProcW(hwnd, msg, wp, lp);
++}
++
++void RunWindow(SettingsBackend backend) {
++  SettingsWindow w;
++  w.backend = std::move(backend);
++
++  WNDCLASSEXW wc = {};
++  wc.cbSize = sizeof(wc);
++  wc.lpfnWndProc = WndProc;
++  wc.hInstance = GetModuleHandle(NULL);
++  wc.hCursor = LoadCursor(NULL, IDC_ARROW);
++  wc.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_BTNFACE + 1);
++  wc.lpszClassName = kClassName;
++  RegisterClassExW(&wc);  // fails harmlessly when already registered
++
++  HDC dc = GetDC(NULL);
++  int dpi = GetDeviceCaps(dc, LOGPIXELSY);
++  ReleaseDC(NULL, dc);
++  if (dpi <= 0)
++    dpi = 96;
++  RECT rc = {0, 0, MulDiv(520, dpi, 96), MulDiv(356, dpi, 96)};
++  DWORD style = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU;
++  DWORD ex_style = WS_EX_TOPMOST;
++  AdjustWindowRectEx(&rc, style, FALSE, ex_style);
++  int width = rc.right - rc.left, height = rc.bottom - rc.top;
++  int x = (GetSystemMetrics(SM_CXSCREEN) - width) / 2;
++  int y = (GetSystemMetrics(SM_CYSCREEN) - height) / 2;
++
++  HWND hwnd = CreateWindowExW(ex_style, kClassName, L"小兵五笔86 设置", style, x,
++                              y, width, height, NULL, NULL,
++                              GetModuleHandle(NULL), &w);
++  if (!hwnd) {
++    std::lock_guard<std::mutex> lock(g_mutex);
++    g_starting = false;
++    return;
++  }
++  {
++    std::lock_guard<std::mutex> lock(g_mutex);
++    g_window = hwnd;
++    g_starting = false;
++  }
++  ShowWindow(hwnd, SW_SHOW);
++  SetForegroundWindow(hwnd);
++
++  MSG msg;
++  while (GetMessageW(&msg, NULL, 0, 0) > 0) {
++    if (!IsDialogMessageW(hwnd, &msg)) {
++      TranslateMessage(&msg);
++      DispatchMessageW(&msg);
++    }
++  }
++  {
++    std::lock_guard<std::mutex> lock(g_mutex);
++    g_window = NULL;
++  }
++  if (w.font)
++    DeleteObject(w.font);
++}
++
++}  // namespace
++
++void ShowSettingsWindow(const SettingsBackend& backend) {
++  {
++    std::lock_guard<std::mutex> lock(g_mutex);
++    if (g_window) {
++      ShowWindow(g_window, SW_RESTORE);
++      SetForegroundWindow(g_window);
++      return;
++    }
++    if (g_starting)
++      return;
++    g_starting = true;
++  }
++  std::thread([backend] { RunWindow(backend); }).detach();
++}
++
++}  // namespace excel_edition
+diff --git a/WeaselServer/SettingsDialog.h b/WeaselServer/SettingsDialog.h
+new file mode 100644
+index 0000000..273b6fa
+--- /dev/null
++++ b/WeaselServer/SettingsDialog.h
+@@ -0,0 +1,46 @@
++#pragma once
++//
++// Excel edition: the settings window opened from the 「设置…」 menu item.
++//
++// The window only collects values; reading and applying them is done by the
++// callbacks of SettingsBackend (see WeaselServerApp.cpp).
++//
++#include <functional>
++#include <string>
++
++namespace excel_edition {
++
++struct SettingsState {
++  bool pinyin = false;
++  bool single_char = false;
++  bool horizontal = false;
++  bool completion = false;
++  std::wstring excel_file;
++  std::wstring sheet;
++};
++
++struct SettingsResult {
++  bool ok = false;
++  // ok == false: the reason, shown in a message box (nothing was applied)
++  // ok == true: replaces the grey information line when not empty
++  std::wstring message;
++};
++
++struct SettingsBackend {
++  // current values (also called when the window opens)
++  std::function<SettingsState()> load;
++  // applies the changes between `before` and `after`
++  std::function<SettingsResult(const SettingsState& before,
++                               const SettingsState& after)>
++      apply;
++  // opens the typing statistics (must not block)
++  std::function<void()> show_stats;
++  // text of the grey line under the Excel settings
++  std::function<std::wstring()> info;
++};
++
++// Opens the window on its own thread and returns at once. If the window is
++// already open it is brought to the front instead.
++void ShowSettingsWindow(const SettingsBackend& backend);
++
++}  // namespace excel_edition
+diff --git a/WeaselServer/WeaselServer.vcxproj b/WeaselServer/WeaselServer.vcxproj
+index 1b32900..4f2ff2f 100644
+--- a/WeaselServer/WeaselServer.vcxproj
++++ b/WeaselServer/WeaselServer.vcxproj
+@@ -496,6 +496,7 @@
+       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">Create</PrecompiledHeader>
+     </ClCompile>
+     <ClCompile Include="ExcelDictWatcher.cpp" />
++    <ClCompile Include="SettingsDialog.cpp" />
+     <ClCompile Include="SystemTraySDK.cpp" />
+     <ClCompile Include="WeaselServer.cpp" />
+     <ClCompile Include="WeaselServerApp.cpp" />
+@@ -504,6 +505,7 @@
+   </ItemGroup>
+   <ItemGroup>
+     <ClInclude Include="ExcelDictWatcher.h" />
++    <ClInclude Include="SettingsDialog.h" />
+     <ClInclude Include="resource.h" />
+     <ClInclude Include="stdafx.h" />
+     <ClInclude Include="SystemTraySDK.h" />
+diff --git a/WeaselServer/WeaselServer.vcxproj.filters b/WeaselServer/WeaselServer.vcxproj.filters
+index db913d4..1c8e85e 100644
+--- a/WeaselServer/WeaselServer.vcxproj.filters
++++ b/WeaselServer/WeaselServer.vcxproj.filters
+@@ -18,6 +18,9 @@
+     <ClCompile Include="ExcelDictWatcher.cpp">
+       <Filter>Source Files</Filter>
+     </ClCompile>
++    <ClCompile Include="SettingsDialog.cpp">
++      <Filter>Source Files</Filter>
++    </ClCompile>
+     <ClCompile Include="stdafx.cpp">
+       <Filter>Source Files</Filter>
+     </ClCompile>
+@@ -41,6 +44,9 @@
+     <ClInclude Include="ExcelDictWatcher.h">
+       <Filter>Header Files</Filter>
+     </ClInclude>
++    <ClInclude Include="SettingsDialog.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
+     <ClInclude Include="stdafx.h">
+       <Filter>Header Files</Filter>
+     </ClInclude>
+diff --git a/WeaselServer/WeaselServerApp.cpp b/WeaselServer/WeaselServerApp.cpp
+index d7760c6..8134f2c 100644
+--- a/WeaselServer/WeaselServerApp.cpp
++++ b/WeaselServer/WeaselServerApp.cpp
+@@ -1,6 +1,8 @@
+ #include "stdafx.h"
+ #include "WeaselServerApp.h"
+ #include <filesystem>
++#include <fstream>
++#include <iterator>
+ 
+ WeaselServerApp::WeaselServerApp()
+     : m_handler(std::make_unique<RimeWithWeaselHandler>(&m_ui)),
+@@ -33,6 +35,7 @@ int WeaselServerApp::Run() {
+   m_handler->OnUpdateUI([this]() { tray_icon.Refresh(); });
+ 
+   tray_icon.Create(m_server.GetHWnd());
++  tray_icon.SetMenuCustomizer([this](HMENU menu) { CustomizeTrayMenu(menu); });
+   tray_icon.Refresh();
+ 
+   m_excel_watcher = std::make_unique<ExcelDictWatcher>(
+@@ -78,4 +81,273 @@ void WeaselServerApp::SetupMenuHandlers() {
+                           std::bind(explore, WeaselUserDataPath()));
+   m_server.AddMenuHandler(ID_WEASELTRAY_LOGDIR,
+                           std::bind(explore, WeaselLogPath()));
++  // Excel edition: these commands also arrive from the language bar menu of
++  // WeaselTSF, forwarded as tray commands over the IPC pipe
++  using namespace excel_edition;
++  m_server.AddMenuHandler(ID_PINYIN_MODE, [this] {
++    m_server.WithApiLock(
++        [this] { m_handler->SetPinyinMode(!m_handler->IsPinyinMode()); });
++    return true;
++  });
++  m_server.AddMenuHandler(ID_SINGLE_CHAR, [this] {
++    m_server.WithApiLock(
++        [this] { m_handler->SetSingleChar(!m_handler->IsSingleChar()); });
++    return true;
++  });
++  m_server.AddMenuHandler(ID_HORIZONTAL, [this] {
++    m_server.WithApiLock(
++        [this] { m_handler->SetHorizontal(!m_handler->IsHorizontal()); });
++    return true;
++  });
++  m_server.AddMenuHandler(ID_COMPLETION, [this] {
++    m_server.WithApiLock(
++        [this] { m_handler->SetCompletion(!m_handler->IsCompletion()); });
++    return true;
++  });
++  m_server.AddMenuHandler(ID_SETTINGS, [this] {
++    // the window runs on its own thread (see SettingsDialog.cpp)
++    OpenSettings();
++    return true;
++  });
++  m_server.AddMenuHandler(ID_TYPING_STATS, [this] {
++    // show the dialog on its own thread: a request from the language bar is
++    // handled while holding the API lock, and typing must not wait for the
++    // dialog to be closed
++    std::thread([this] { ShowTypingStats(); }).detach();
++    return true;
++  });
++}
++
++void WeaselServerApp::CustomizeTrayMenu(HMENU menu) {
++  bool pinyin = false;
++  m_server.WithApiLock([&] { pinyin = m_handler->IsPinyinMode(); });
++  excel_edition::InsertMenuItems(menu, pinyin);
++}
++
++static std::wstring FormatCount(long long n) {
++  std::wstring digits = std::to_wstring(n < 0 ? -n : n);
++  std::wstring out;
++  int count = 0;
++  for (auto it = digits.rbegin(); it != digits.rend(); ++it) {
++    if (count && count % 3 == 0)
++      out.insert(out.begin(), L',');
++    out.insert(out.begin(), *it);
++    ++count;
++  }
++  return n < 0 ? L"-" + out : out;
++}
++
++namespace {
++
++std::wstring Utf8ToW(const std::string& s) {
++  if (s.empty())
++    return std::wstring();
++  int len = MultiByteToWideChar(CP_UTF8, 0, s.data(), (int)s.size(), NULL, 0);
++  std::wstring w(len, L'\0');
++  MultiByteToWideChar(CP_UTF8, 0, s.data(), (int)s.size(), &w[0], len);
++  return w;
++}
++
++std::string WToUtf8(const std::wstring& w) {
++  if (w.empty())
++    return std::string();
++  int len = WideCharToMultiByte(CP_UTF8, 0, w.data(), (int)w.size(), NULL, 0,
++                                NULL, NULL);
++  std::string s(len, '\0');
++  WideCharToMultiByte(CP_UTF8, 0, w.data(), (int)w.size(), &s[0], len, NULL,
++                      NULL);
++  return s;
++}
++
++bool ReadTextFile(const fs::path& file, std::string* content) {
++  std::ifstream fin(file, std::ios::in | std::ios::binary);
++  if (!fin)
++    return false;
++  content->assign(std::istreambuf_iterator<char>(fin),
++                  std::istreambuf_iterator<char>());
++  return true;
++}
++
++}  // namespace
++
++// ---- settings window ----
++
++void WeaselServerApp::OpenSettings() {
++  using namespace excel_edition;
++  const fs::path dict_file = WeaselUserDataPath() / kWubiDictFile;
++  const fs::path table_file = WeaselUserDataPath() / L"build" / kWubiTableFile;
++
++  SettingsBackend backend;
++
++  backend.load = [this, dict_file]() {
++    SettingsState s;
++    m_server.WithApiLock([&] {
++      s.pinyin = m_handler->IsPinyinMode();
++      s.single_char = m_handler->IsSingleChar();
++      s.horizontal = m_handler->IsHorizontal();
++      s.completion = m_handler->IsCompletion();
++    });
++    std::string text;
++    ExcelSettings excel;
++    if (ReadTextFile(dict_file, &text) && ParseExcelSettings(text, &excel)) {
++      s.excel_file = Utf8ToW(excel.file);
++      s.sheet = Utf8ToW(excel.sheet);
++    }
++    return s;
++  };
++
++  backend.info = [table_file]() -> std::wstring {
++    uint32_t entries = 0;
++    if (!ReadTableEntryCount(table_file, &entries))
++      return L"还没有生成词库。";
++    std::wstring text = L"上次生成的词库：" + FormatCount(entries) + L" 条";
++    WIN32_FILE_ATTRIBUTE_DATA data;
++    if (GetFileAttributesExW(table_file.c_str(), GetFileExInfoStandard,
++                             &data)) {
++      FILETIME local;
++      SYSTEMTIME t;
++      if (FileTimeToLocalFileTime(&data.ftLastWriteTime, &local) &&
++          FileTimeToSystemTime(&local, &t)) {
++        wchar_t buf[64];
++        swprintf(buf, _countof(buf), L"（%04d-%02d-%02d %02d:%02d）", t.wYear,
++                 t.wMonth, t.wDay, t.wHour, t.wMinute);
++        text += buf;
++      }
++    }
++    return text;
++  };
++
++  backend.show_stats = [this] {
++    // the statistics dialog blocks: give it a thread of its own
++    std::thread([this] { ShowTypingStats(); }).detach();
++  };
++
++  backend.apply = [this, dict_file](const SettingsState& before,
++                                    const SettingsState& after) {
++    SettingsResult result;
++    bool excel_changed =
++        before.excel_file != after.excel_file || before.sheet != after.sheet;
++
++    // 1. check everything that can be wrong before changing anything
++    std::string new_dict_text;
++    if (excel_changed) {
++      if (after.excel_file.empty()) {
++        result.message = L"请填写 Excel 文件的路径。";
++        return result;
++      }
++      if (after.sheet.empty()) {
++        result.message = L"请填写工作表名称。";
++        return result;
++      }
++      fs::path file(after.excel_file);
++      switch (ClassifyWorkbookName(WToUtf8(file.filename().wstring()))) {
++        case WorkbookKind::kOldXls:
++          result.message =
++              L"不支持 .xls 格式（老版本 Excel 格式，一张表最多 65,536 行）。\n"
++              L"请先在 Excel 里「另存为」.xlsx 格式，再选择新文件。";
++          return result;
++        case WorkbookKind::kOther:
++          result.message = L"只支持 .xlsx 格式的 Excel 文件。";
++          return result;
++        case WorkbookKind::kSupported:
++          break;
++      }
++      std::error_code ec;
++      if (!fs::is_regular_file(file, ec)) {
++        result.message = L"找不到这个文件：\n" + after.excel_file;
++        return result;
++      }
++      std::string dict_text;
++      if (!ReadTextFile(dict_file, &dict_text)) {
++        result.message = L"读不到码表设置文件：\n" + dict_file.wstring();
++        return result;
++      }
++      ExcelSettings settings{WToUtf8(after.excel_file), WToUtf8(after.sheet)};
++      if (!ReplaceExcelSettings(dict_text, settings, &new_dict_text)) {
++        result.message =
++            L"码表设置文件里没有找到 excel: 一段，不能修改：\n" +
++            dict_file.wstring();
++        return result;
++      }
++    }
++
++    // 2. the Excel settings: back up the settings file, write the new one next
++    // to it and swap, so that the watcher never sees a half written file
++    if (excel_changed) {
++      std::error_code ec;
++      fs::path backup = dict_file;
++      backup += L".bak";
++      fs::copy_file(dict_file, backup, fs::copy_options::overwrite_existing,
++                    ec);
++      fs::path temp = dict_file;
++      temp += L".tmp";
++      {
++        std::ofstream fout(temp, std::ios::out | std::ios::binary);
++        fout.write(new_dict_text.data(), (std::streamsize)new_dict_text.size());
++        if (!fout) {
++          result.message = L"写入码表设置文件失败：\n" + temp.wstring();
++          return result;
++        }
++      }
++      fs::rename(temp, dict_file, ec);
++      if (ec) {
++        result.message = L"保存码表设置文件失败：\n" + dict_file.wstring();
++        return result;
++      }
++    }
++
++    // 3. the switches
++    m_server.WithApiLock([&] {
++      if (before.pinyin != after.pinyin)
++        m_handler->SetPinyinMode(after.pinyin);
++      if (before.single_char != after.single_char)
++        m_handler->SetSingleChar(after.single_char);
++      if (before.horizontal != after.horizontal)
++        m_handler->SetHorizontal(after.horizontal);
++      if (before.completion != after.completion)
++        m_handler->SetCompletion(after.completion);
++    });
++
++    result.ok = true;
++    if (excel_changed)
++      result.message =
++          L"已保存，正在重新生成词库（几秒钟）。生成完后重新打开本窗口，可看到新的词条数。";
++    return result;
++  };
++
++  ShowSettingsWindow(backend);
++}
++
++bool WeaselServerApp::ShowTypingStats() {
++  RimeWithWeaselHandler::TypingStats stats;
++  fs::path file;
++  m_server.WithApiLock([&] {
++    stats = m_handler->GetTypingStats();
++    file = m_handler->TypingStatsFile();
++  });
++  long long average = stats.days ? stats.total_han / stats.days : 0;
++  std::wstring msg = L"今日：" + FormatCount(stats.today_han) + L" 字\n" +
++                     L"本月：" + FormatCount(stats.month_han) + L" 字\n" +
++                     L"累计：" + FormatCount(stats.total_han) + L" 字（共 " +
++                     std::to_wstring(stats.days) + L" 天，日均 " +
++                     FormatCount(average) + L" 字）\n\n" +
++                     L"今日其他字符（标点、英文等）：" +
++                     FormatCount(stats.today_other) + L" 个\n\n" +
++                     L"明细表：" + file.wstring();
++  std::error_code ec;
++  if (!fs::exists(file, ec)) {
++    MessageBoxW(NULL, (msg + L"\n（还没有记录）").c_str(), L"打字统计",
++                MB_OK | MB_ICONINFORMATION | MB_SETFOREGROUND);
++    return true;
++  }
++  msg += L"\n\n要用 Excel 打开明细表吗？\n（打开的是一份副本，不影响继续统计）";
++  if (MessageBoxW(NULL, msg.c_str(), L"打字统计",
++                  MB_YESNO | MB_ICONINFORMATION | MB_SETFOREGROUND) == IDYES) {
++    WCHAR temp_dir[MAX_PATH] = {0};
++    GetTempPathW(MAX_PATH, temp_dir);
++    fs::path copy = fs::path(temp_dir) / L"打字统计明细（副本）.csv";
++    if (CopyFileW(file.c_str(), copy.c_str(), FALSE))
++      open(copy);
++  }
++  return true;
+ }
+diff --git a/WeaselServer/WeaselServerApp.h b/WeaselServer/WeaselServerApp.h
+index 31e6248..c9cf893 100644
+--- a/WeaselServer/WeaselServerApp.h
++++ b/WeaselServer/WeaselServerApp.h
+@@ -16,6 +16,12 @@
+ 
+ namespace fs = std::filesystem;
+ 
++// Excel edition: menu ids, registry flags and menu items
++#include <ExcelEdition.h>
++#include <ExcelDictSettings.h>
++#include <thread>
++#include "SettingsDialog.h"
++
+ class WeaselServerApp {
+  public:
+   static bool execute(const fs::path& cmd, const std::wstring& args) {
+@@ -63,6 +69,9 @@ class WeaselServerApp {
+ 
+  protected:
+   void SetupMenuHandlers();
++  void CustomizeTrayMenu(HMENU menu);
++  bool ShowTypingStats();
++  void OpenSettings();
+ 
+   weasel::Server m_server;
+   weasel::UI m_ui;
+diff --git a/WeaselServer/WeaselTrayIcon.cpp b/WeaselServer/WeaselTrayIcon.cpp
+index 119111a..55f82e6 100644
+--- a/WeaselServer/WeaselTrayIcon.cpp
++++ b/WeaselServer/WeaselTrayIcon.cpp
+@@ -17,7 +17,10 @@ WeaselTrayIcon::WeaselTrayIcon(weasel::UI& ui)
+       m_schema_ascii_icon(),
+       m_disabled(false) {}
+ 
+-void WeaselTrayIcon::CustomizeMenu(HMENU hMenu) {}
++void WeaselTrayIcon::CustomizeMenu(HMENU hMenu) {
++  if (m_menu_customizer)
++    m_menu_customizer(hMenu);
++}
+ 
+ BOOL WeaselTrayIcon::Create(HWND hTargetWnd) {
+   HMODULE hModule = GetModuleHandle(NULL);
+diff --git a/WeaselServer/WeaselTrayIcon.h b/WeaselServer/WeaselTrayIcon.h
+index 42d407a..80a1a10 100644
+--- a/WeaselServer/WeaselTrayIcon.h
++++ b/WeaselServer/WeaselTrayIcon.h
+@@ -2,6 +2,7 @@
+ #include <WeaselUI.h>
+ #include <WeaselIPC.h>
+ #include "SystemTraySDK.h"
++#include <functional>
+ 
+ #define WM_WEASEL_TRAY_NOTIFY (WEASEL_IPC_LAST_COMMAND + 100)
+ 
+@@ -18,6 +19,10 @@ class WeaselTrayIcon : public CSystemTray {
+ 
+   BOOL Create(HWND hTargetWnd);
+   void Refresh();
++  // called right before the tray menu pops up, to add or check items
++  void SetMenuCustomizer(std::function<void(HMENU)> customizer) {
++    m_menu_customizer = std::move(customizer);
++  }
+ 
+  protected:
+   virtual void CustomizeMenu(HMENU hMenu);
+@@ -28,4 +33,5 @@ class WeaselTrayIcon : public CSystemTray {
+   std::wstring m_schema_zhung_icon;
+   std::wstring m_schema_ascii_icon;
+   bool m_disabled;
++  std::function<void(HMENU)> m_menu_customizer;
+ };
+diff --git a/WeaselTSF/LanguageBar.cpp b/WeaselTSF/LanguageBar.cpp
+index a03b615..131cace 100644
+--- a/WeaselTSF/LanguageBar.cpp
++++ b/WeaselTSF/LanguageBar.cpp
+@@ -6,6 +6,7 @@
+ #include "LanguageBar.h"
+ #include "CandidateList.h"
+ #include <WeaselUtility.h>
++#include <ExcelEdition.h>
+ 
+ static const DWORD LANGBARITEMSINK_COOKIE = 0x42424242;
+ 
+@@ -15,7 +16,7 @@ static void HMENU2ITfMenu(HMENU hMenu, ITfMenu* pTfMenu) {
+   for (int i = 0; i < N; i++) {
+     MENUITEMINFO mii;
+     mii.cbSize = sizeof(MENUITEMINFO);
+-    mii.fMask = MIIM_FTYPE | MIIM_ID | MIIM_STRING;
++    mii.fMask = MIIM_FTYPE | MIIM_ID | MIIM_STRING | MIIM_STATE;
+     mii.dwTypeData = NULL;
+     if (GetMenuItemInfo(hMenu, i, TRUE, &mii)) {
+       UINT id = mii.wID;
+@@ -26,8 +27,9 @@ static void HMENU2ITfMenu(HMENU hMenu, ITfMenu* pTfMenu) {
+         mii.dwTypeData = (LPWSTR)malloc(sizeof(WCHAR) * (mii.cch + 1));
+         mii.cch++;
+         if (GetMenuItemInfo(hMenu, i, TRUE, &mii))
+-          pTfMenu->AddMenuItem(id, 0, NULL, NULL, mii.dwTypeData, mii.cch,
+-                               NULL);
++          pTfMenu->AddMenuItem(
++              id, (mii.fState & MFS_CHECKED) ? TF_LBMENUF_CHECKED : 0, NULL,
++              NULL, mii.dwTypeData, mii.cch, NULL);
+         free(mii.dwTypeData);
+       }
+     }
+@@ -178,6 +180,9 @@ STDAPI CLangBarItemButton::OnClick(TfLBIClick click,
+         menu = LoadMenuW(g_hInst, MAKEINTRESOURCE(IDR_MENU_POPUP));
+       }
+       HMENU popupMenu = GetSubMenu(menu, 0);
++      // Excel edition: pinyin / single char / horizontal / typing stats; the
++      // commands are forwarded to the server by _HandleLangBarMenuSelect
++      excel_edition::InsertMenuItemsFromRegistry(popupMenu);
+       UINT wID = TrackPopupMenuEx(
+           popupMenu, TPM_NONOTIFY | TPM_RETURNCMD | TPM_HORPOSANIMATION, pt.x,
+           pt.y, hwnd, NULL);
+@@ -191,6 +196,7 @@ STDAPI CLangBarItemButton::OnClick(TfLBIClick click,
+ STDAPI CLangBarItemButton::InitMenu(ITfMenu* pMenu) {
+   HMENU menu = LoadMenuW(g_hInst, MAKEINTRESOURCE(IDR_MENU_POPUP));
+   HMENU popupMenu = GetSubMenu(menu, 0);
++  excel_edition::InsertMenuItemsFromRegistry(popupMenu);  // Excel edition
+   HMENU2ITfMenu(popupMenu, pMenu);
+   DestroyMenu(menu);
+   return S_OK;
+diff --git a/env.bat b/env.bat
+index 9eadae6..c2bc726 100644
+--- a/env.bat
++++ b/env.bat
+@@ -1,4 +1,4 @@
+-rem Build settings for Weasel (Excel dictionary edition v2), Visual Studio 2022
++rem Build settings for Weasel (Excel dictionary edition v4), Visual Studio 2022
+ 
+ rem REQUIRED: path to Boost 1.84.0 source directory
+ if not defined BOOST_ROOT set BOOST_ROOT=C:\Libraries\boost_1_84_0
+diff --git a/include/ExcelDictSettings.h b/include/ExcelDictSettings.h
+new file mode 100644
+index 0000000..4226445
+--- /dev/null
++++ b/include/ExcelDictSettings.h
+@@ -0,0 +1,249 @@
++#pragma once
++//
++// Excel edition: reading and rewriting the `excel:` block of a *.dict.yaml,
++// and reading the entry count of a compiled table.bin.
++//
++// Pure C++17 (no Windows headers) so that it can be tested anywhere.
++// Text is UTF-8.
++//
++#include <cstdint>
++#include <filesystem>
++#include <fstream>
++#include <iterator>
++#include <string>
++#include <vector>
++
++namespace excel_edition {
++
++struct ExcelSettings {
++  std::string file;   // path of the workbook
++  std::string sheet;  // sheet name
++};
++
++namespace detail {
++
++inline std::string Trim(const std::string& s) {
++  size_t b = 0, e = s.size();
++  while (b < e && (s[b] == ' ' || s[b] == '\t' || s[b] == '\r' || s[b] == '\n'))
++    ++b;
++  while (e > b &&
++         (s[e - 1] == ' ' || s[e - 1] == '\t' || s[e - 1] == '\r' ||
++          s[e - 1] == '\n'))
++    --e;
++  return s.substr(b, e - b);
++}
++
++// value of a one line YAML scalar (plain, 'single' or "double" quoted);
++// a trailing  # comment  after a plain scalar is dropped
++inline std::string Scalar(const std::string& raw) {
++  std::string s = Trim(raw);
++  if (s.size() >= 2 && s.front() == '\'') {
++    std::string out;
++    for (size_t i = 1; i < s.size(); ++i) {
++      if (s[i] == '\'') {
++        if (i + 1 < s.size() && s[i + 1] == '\'') {
++          out += '\'';
++          ++i;
++        } else {
++          break;
++        }
++      } else {
++        out += s[i];
++      }
++    }
++    return out;
++  }
++  if (s.size() >= 2 && s.front() == '"') {
++    std::string out;
++    for (size_t i = 1; i < s.size(); ++i) {
++      if (s[i] == '\\' && i + 1 < s.size()) {
++        out += s[++i];
++      } else if (s[i] == '"') {
++        break;
++      } else {
++        out += s[i];
++      }
++    }
++    return out;
++  }
++  size_t hash = s.find(" #");
++  if (hash != std::string::npos)
++    s = Trim(s.substr(0, hash));
++  return s;
++}
++
++inline std::string Quote(const std::string& value) {
++  std::string out = "'";
++  for (char c : value) {
++    if (c == '\'')
++      out += "''";
++    else
++      out += c;
++  }
++  out += '\'';
++  return out;
++}
++
++struct Line {
++  size_t begin = 0, end = 0;  // [begin, end) without the line break
++  size_t next = 0;            // start of the next line
++};
++
++inline std::vector<Line> SplitLines(const std::string& text) {
++  std::vector<Line> lines;
++  size_t pos = 0;
++  while (pos < text.size()) {
++    Line l;
++    l.begin = pos;
++    size_t nl = text.find('\n', pos);
++    if (nl == std::string::npos) {
++      l.end = text.size();
++      l.next = text.size();
++    } else {
++      l.end = nl;
++      l.next = nl + 1;
++    }
++    if (l.end > l.begin && text[l.end - 1] == '\r')
++      --l.end;
++    lines.push_back(l);
++    pos = l.next;
++  }
++  return lines;
++}
++
++// Walks the header of a dict.yaml and finds the `file:` and `sheet:` lines
++// inside the `excel:` block.
++struct Found {
++  int file_line = -1, sheet_line = -1;
++  int excel_line = -1;           // the `excel:` line
++  int last_excel_child = -1;     // last indented line of the block
++  size_t child_indent = 2;
++};
++
++inline Found Locate(const std::string& text, const std::vector<Line>& lines) {
++  Found f;
++  bool in_excel = false;
++  for (size_t i = 0; i < lines.size(); ++i) {
++    std::string line = text.substr(lines[i].begin, lines[i].end - lines[i].begin);
++    if (i == 0 && line.compare(0, 3, "\xEF\xBB\xBF") == 0)
++      line = line.substr(3);
++    std::string t = Trim(line);
++    if (t == "...")
++      break;
++    if (t.empty() || t[0] == '#' || t == "---")
++      continue;
++    bool indented = line[0] == ' ' || line[0] == '\t';
++    if (!indented) {
++      in_excel = t.compare(0, 6, "excel:") == 0;
++      if (in_excel)
++        f.excel_line = static_cast<int>(i);
++      continue;
++    }
++    if (!in_excel)
++      continue;
++    f.last_excel_child = static_cast<int>(i);
++    size_t indent = line.find_first_not_of(" \t");
++    f.child_indent = indent == std::string::npos ? 2 : indent;
++    if (t.compare(0, 5, "file:") == 0 && f.file_line < 0)
++      f.file_line = static_cast<int>(i);
++    else if (t.compare(0, 6, "sheet:") == 0 && f.sheet_line < 0)
++      f.sheet_line = static_cast<int>(i);
++  }
++  return f;
++}
++
++}  // namespace detail
++
++// Reads file / sheet from the excel: block. False if there is no such block
++// or no file: entry.
++inline bool ParseExcelSettings(const std::string& text, ExcelSettings* out) {
++  auto lines = detail::SplitLines(text);
++  detail::Found f = detail::Locate(text, lines);
++  if (f.excel_line < 0 || f.file_line < 0)
++    return false;
++  auto value_of = [&](int idx, size_t key_len) {
++    std::string line =
++        text.substr(lines[idx].begin, lines[idx].end - lines[idx].begin);
++    std::string t = detail::Trim(line);
++    return detail::Scalar(t.substr(key_len));
++  };
++  out->file = value_of(f.file_line, 5);
++  out->sheet = f.sheet_line >= 0 ? value_of(f.sheet_line, 6) : std::string();
++  return !out->file.empty();
++}
++
++// Returns `text` with the file: and sheet: values replaced (line breaks, BOM,
++// comments and every other line are kept). False if the block cannot be found.
++inline bool ReplaceExcelSettings(const std::string& text,
++                                 const ExcelSettings& settings,
++                                 std::string* result) {
++  auto lines = detail::SplitLines(text);
++  detail::Found f = detail::Locate(text, lines);
++  if (f.excel_line < 0 || f.file_line < 0)
++    return false;
++  size_t first_nl = text.find('\n');
++  std::string eol =
++      (first_nl != std::string::npos && first_nl > 0 && text[first_nl - 1] == '\r')
++          ? "\r\n"
++          : "\n";
++  std::string indent(f.child_indent, ' ');
++  std::string out;
++  for (size_t i = 0; i < lines.size(); ++i) {
++    std::string raw = text.substr(lines[i].begin, lines[i].next - lines[i].begin);
++    if (static_cast<int>(i) == f.file_line) {
++      out += indent + "file: " + detail::Quote(settings.file) + eol;
++    } else if (static_cast<int>(i) == f.sheet_line) {
++      out += indent + "sheet: " + detail::Quote(settings.sheet) + eol;
++    } else {
++      out += raw;
++    }
++    if (static_cast<int>(i) == f.last_excel_child && f.sheet_line < 0) {
++      // no sheet: line yet: add one after the last line of the block
++      if (raw.empty() || raw.back() != '\n')
++        out += eol;
++      out += indent + "sheet: " + detail::Quote(settings.sheet) + eol;
++    }
++  }
++  *result = out;
++  return true;
++}
++
++// Entry count stored in the metadata at the start of a compiled
++// build/*.table.bin ("Rime::Table/4.0"). False if the file is missing or not a
++// table.
++inline bool ReadTableEntryCount(const std::filesystem::path& table_file,
++                                uint32_t* entries) {
++  std::ifstream fin(table_file, std::ios::in | std::ios::binary);
++  if (!fin)
++    return false;
++  unsigned char head[44] = {0};
++  fin.read(reinterpret_cast<char*>(head), sizeof(head));
++  if (fin.gcount() < static_cast<std::streamsize>(sizeof(head)))
++    return false;
++  if (std::string(reinterpret_cast<char*>(head), 11) != "Rime::Table")
++    return false;
++  // format[32], checksum, num_syllables, num_entries (little endian)
++  *entries = static_cast<uint32_t>(head[40]) |
++             (static_cast<uint32_t>(head[41]) << 8) |
++             (static_cast<uint32_t>(head[42]) << 16) |
++             (static_cast<uint32_t>(head[43]) << 24);
++  return true;
++}
++
++// ".xlsx" / ".xlsm": supported. ".xls": not supported (old binary format).
++enum class WorkbookKind { kSupported, kOldXls, kOther };
++
++inline WorkbookKind ClassifyWorkbookName(std::string name) {
++  size_t dot = name.rfind('.');
++  std::string ext = dot == std::string::npos ? "" : name.substr(dot);
++  for (auto& c : ext)
++    if (c >= 'A' && c <= 'Z')
++      c = static_cast<char>(c - 'A' + 'a');
++  if (ext == ".xlsx" || ext == ".xlsm")
++    return WorkbookKind::kSupported;
++  if (ext == ".xls")
++    return WorkbookKind::kOldXls;
++  return WorkbookKind::kOther;
++}
++
++}  // namespace excel_edition
+diff --git a/include/ExcelEdition.h b/include/ExcelEdition.h
+new file mode 100644
+index 0000000..27a1113
+--- /dev/null
++++ b/include/ExcelEdition.h
+@@ -0,0 +1,79 @@
++#pragma once
++//
++// Excel edition (小兵五笔86) additions shared by WeaselServer, RimeWithWeasel
++// and WeaselTSF: menu command ids, registry flags and the menu items.
++//
++// The server applies the toggles and stores their state under
++// HKCU\Software\Rime\Weasel\ExcelEdition; the language bar menu in WeaselTSF
++// reads it from there to show check marks and forwards the commands to the
++// server as tray commands.
++//
++#include <windows.h>
++
++namespace excel_edition {
++
++// menu command ids (must not clash with ID_WEASELTRAY_* in resource.h)
++constexpr UINT ID_PINYIN_MODE = 41101;
++constexpr UINT ID_SINGLE_CHAR = 41102;
++constexpr UINT ID_TYPING_STATS = 41103;
++constexpr UINT ID_HORIZONTAL = 41105;
++constexpr UINT ID_SETTINGS = 41106;
++constexpr UINT ID_COMPLETION = 41107;
++
++// schemas and options
++constexpr char kWubiSchema[] = "xiaobing_wubi86";
++constexpr char kPinyinSchema[] = "xiaobing_pinyin";
++constexpr char kSingleCharOption[] = "single_char";
++constexpr char kCompletionOption[] = "completion";
++// schema file that holds the Excel settings (in the user data folder)
++constexpr wchar_t kWubiDictFile[] = L"xiaobing_wubi86.dict.yaml";
++constexpr wchar_t kWubiTableFile[] = L"xiaobing_wubi86.table.bin";
++
++// registry
++constexpr wchar_t kRegKey[] = L"Software\\Rime\\Weasel\\ExcelEdition";
++constexpr wchar_t kPinyinModeValue[] = L"PinyinMode";
++constexpr wchar_t kSingleCharValue[] = L"SingleChar";
++constexpr wchar_t kCompletionValue[] = L"Completion";
++// effective layout, written by the server (kept for the settings window)
++constexpr wchar_t kHorizontalValue[] = L"Horizontal";
++// layout chosen in the menu; absent = follow weasel.yaml
++constexpr wchar_t kLayoutOverrideValue[] = L"LayoutOverride";
++
++inline bool ReadFlag(const wchar_t* name, DWORD* value) {
++  DWORD size = sizeof(*value);
++  return RegGetValueW(HKEY_CURRENT_USER, kRegKey, name, RRF_RT_REG_DWORD, NULL,
++                      value, &size) == ERROR_SUCCESS;
++}
++
++inline bool LoadFlag(const wchar_t* name) {
++  DWORD value = 0;
++  return ReadFlag(name, &value) && value != 0;
++}
++
++inline void SaveFlag(const wchar_t* name, bool on) {
++  DWORD value = on ? 1 : 0;
++  RegSetKeyValueW(HKEY_CURRENT_USER, kRegKey, name, REG_DWORD, &value,
++                  sizeof(value));
++}
++
++// Inserts the edition's items (and a separator) at the top of a popup menu:
++//   拼音模式 (checked when on) / 设置… / 打字统计…
++// All other switches live in the settings window.
++inline void InsertMenuItems(HMENU menu, bool pinyin_mode) {
++  UINT pos = 0;
++  InsertMenuW(menu, pos++,
++              MF_BYPOSITION | MF_STRING | (pinyin_mode ? MF_CHECKED : MF_UNCHECKED),
++              ID_PINYIN_MODE, L"拼音模式 (&P)");
++  InsertMenuW(menu, pos++, MF_BYPOSITION | MF_STRING, ID_SETTINGS,
++              L"设置… (&S)");
++  InsertMenuW(menu, pos++, MF_BYPOSITION | MF_STRING, ID_TYPING_STATS,
++              L"打字统计… (&T)");
++  InsertMenuW(menu, pos++, MF_BYPOSITION | MF_SEPARATOR, 0, NULL);
++}
++
++// state as last stored by the server (used by the language bar menu)
++inline void InsertMenuItemsFromRegistry(HMENU menu) {
++  InsertMenuItems(menu, LoadFlag(kPinyinModeValue));
++}
++
++}  // namespace excel_edition
+diff --git a/include/RimeWithWeasel.h b/include/RimeWithWeasel.h
+index 6fb0a4c..472245d 100644
+--- a/include/RimeWithWeasel.h
++++ b/include/RimeWithWeasel.h
+@@ -1,6 +1,7 @@
+ #pragma once
+ #include <WeaselIPC.h>
+ #include <WeaselUI.h>
++#include <filesystem>
+ #include <map>
+ #include <string>
+ 
+@@ -64,6 +65,24 @@ class RimeWithWeaselHandler : public weasel::RequestHandler {
+ 
+   void OnUpdateUI(std::function<void()> const& cb);
+ 
++  // ---- Excel edition: menu toggles and typing statistics ----
++  // Callers on the UI thread must hold the server's API lock.
++  bool IsPinyinMode();          // current schema is xiaobing_pinyin
++  void SetPinyinMode(bool on);  // switch all sessions wubi <-> pinyin
++  bool IsSingleChar();          // option single_char
++  void SetSingleChar(bool on);  // set option single_char on all sessions
++  bool IsCompletion();          // option completion (逐码提示)
++  void SetCompletion(bool on);  // set option completion on all sessions
++  bool IsHorizontal();          // candidate list laid out horizontally
++  void SetHorizontal(bool on);  // override style/horizontal for all sessions
++  struct TypingStats {
++    long long today_han = 0, today_other = 0;
++    long long month_han = 0, total_han = 0;
++    int days = 0;  // days with any Chinese characters typed
++  };
++  TypingStats GetTypingStats();
++  std::filesystem::path TypingStatsFile();
++
+  private:
+   void _Setup();
+   bool _IsDeployerRunning();
+@@ -82,6 +101,24 @@ class RimeWithWeaselHandler : public weasel::RequestHandler {
+   void _GetContext(weasel::Context& ctx, RimeSessionId session_id);
+   void _UpdateShowNotifications(RimeConfig* config, bool initialize = false);
+ 
++  // Excel edition
++  void _LoadExcelEditionFlags();
++  void _ApplyExcelEditionState(RimeSessionId session_id);
++  void _OnSchemaChanged(const std::string& schema_id);
++  void _ApplyLayoutOverride(weasel::UIStyle& style);
++  RimeSessionId _LastUsedRimeSession();
++  void _CountTyping(const char* text);
++  void _LoadTypingStats();
++  bool _SaveTypingStats();
++  bool m_pinyin_mode = false;
++  bool m_single_char = false;
++  bool m_completion = false;
++  int m_layout_override = -1;  // -1: follow weasel.yaml, 0: vertical, 1: horizontal
++  WeaselSessionId m_last_used_session = 0;
++  // date (YYYY-MM-DD) -> {Chinese characters, other characters}
++  std::map<std::string, std::pair<long long, long long>> m_typing;
++  bool m_typing_loaded = false;
++
+   bool _IsSessionTSF(RimeSessionId session_id);
+   void _UpdateInlinePreeditStatus(WeaselSessionId ipc_id);
+ 
+diff --git a/include/WeaselIPC.h b/include/WeaselIPC.h
+index 3065cb5..9234b83 100644
+--- a/include/WeaselIPC.h
++++ b/include/WeaselIPC.h
+@@ -161,6 +161,8 @@ class Server {
+ 
+   void SetRequestHandler(RequestHandler* pHandler);
+   void AddMenuHandler(UINT uID, CommandHandler handler);
++  // runs func while holding the lock that serializes all Rime API calls
++  void WithApiLock(const std::function<void()>& func);
+   HWND GetHWnd();
+ 
+  private:
