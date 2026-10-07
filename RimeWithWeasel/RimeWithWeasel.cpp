@@ -1593,6 +1593,7 @@ RimeSessionId RimeWithWeaselHandler::_LastUsedRimeSession() {
 void RimeWithWeaselHandler::_LoadExcelEditionFlags() {
   m_pinyin_mode = LoadFlag(kPinyinModeValue);
   m_single_char = LoadFlag(kSingleCharValue);
+  m_completion = LoadFlag(kCompletionValue);
   DWORD layout = 0;
   m_layout_override = ReadFlag(kLayoutOverrideValue, &layout) ? (layout ? 1 : 0)
                                                                : -1;
@@ -1608,6 +1609,8 @@ void RimeWithWeaselHandler::_ApplyExcelEditionState(RimeSessionId session_id) {
     rime_api->select_schema(session_id, kWubiSchema);
   if (m_single_char)
     rime_api->set_option(session_id, kSingleCharOption, True);
+  if (m_completion)
+    rime_api->set_option(session_id, kCompletionOption, True);
 }
 
 void RimeWithWeaselHandler::_OnSchemaChanged(const std::string& schema_id) {
@@ -1665,8 +1668,10 @@ void RimeWithWeaselHandler::SetPinyinMode(bool on) {
       continue;
     // keep the session's single character setting across the switch
     Bool single_char = rime_api->get_option(session_id, kSingleCharOption);
+    Bool completion = rime_api->get_option(session_id, kCompletionOption);
     rime_api->select_schema(session_id, target);
     rime_api->set_option(session_id, kSingleCharOption, single_char);
+    rime_api->set_option(session_id, kCompletionOption, completion);
   }
   if (_UpdateUICallback)
     _UpdateUICallback();
@@ -1691,6 +1696,25 @@ void RimeWithWeaselHandler::SetSingleChar(bool on) {
   }
 }
 
+bool RimeWithWeaselHandler::IsCompletion() {
+  RimeSessionId session_id = m_disabled ? 0 : _LastUsedRimeSession();
+  if (!session_id)
+    return m_completion;
+  return !!rime_api->get_option(session_id, kCompletionOption);
+}
+
+void RimeWithWeaselHandler::SetCompletion(bool on) {
+  m_completion = on;
+  SaveFlag(kCompletionValue, on);
+  if (m_disabled)
+    return;
+  for (auto& pair : m_session_status_map) {
+    if (pair.second.session_id)
+      rime_api->set_option(pair.second.session_id, kCompletionOption,
+                           on ? True : False);
+  }
+}
+
 bool RimeWithWeaselHandler::IsHorizontal() {
   auto it = m_session_status_map.find(m_last_used_session);
   if (it != m_session_status_map.end())
@@ -1702,8 +1726,12 @@ void RimeWithWeaselHandler::SetHorizontal(bool on) {
   m_layout_override = on ? 1 : 0;
   SaveFlag(kLayoutOverrideValue, on);
   _ApplyLayoutOverride(m_base_style);
-  for (auto& pair : m_session_status_map)
+  for (auto& pair : m_session_status_map) {
     _ApplyLayoutOverride(pair.second.style);
+    // the style is sent to a client only while it is not marked as synced;
+    // without this the candidate window never hears about the new layout
+    pair.second.__synced = false;
+  }
   if (m_ui)
     _ApplyLayoutOverride(m_ui->style());
   SaveFlag(kHorizontalValue, IsHorizontalLayout(m_base_style));

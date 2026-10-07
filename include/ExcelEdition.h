@@ -17,17 +17,24 @@ constexpr UINT ID_PINYIN_MODE = 41101;
 constexpr UINT ID_SINGLE_CHAR = 41102;
 constexpr UINT ID_TYPING_STATS = 41103;
 constexpr UINT ID_HORIZONTAL = 41105;
+constexpr UINT ID_SETTINGS = 41106;
+constexpr UINT ID_COMPLETION = 41107;
 
 // schemas and options
 constexpr char kWubiSchema[] = "xiaobing_wubi86";
 constexpr char kPinyinSchema[] = "xiaobing_pinyin";
 constexpr char kSingleCharOption[] = "single_char";
+constexpr char kCompletionOption[] = "completion";
+// schema file that holds the Excel settings (in the user data folder)
+constexpr wchar_t kWubiDictFile[] = L"xiaobing_wubi86.dict.yaml";
+constexpr wchar_t kWubiTableFile[] = L"xiaobing_wubi86.table.bin";
 
 // registry
 constexpr wchar_t kRegKey[] = L"Software\\Rime\\Weasel\\ExcelEdition";
 constexpr wchar_t kPinyinModeValue[] = L"PinyinMode";
 constexpr wchar_t kSingleCharValue[] = L"SingleChar";
-// effective layout, written by the server for the language bar menu
+constexpr wchar_t kCompletionValue[] = L"Completion";
+// effective layout, written by the server (kept for the settings window)
 constexpr wchar_t kHorizontalValue[] = L"Horizontal";
 // layout chosen in the menu; absent = follow weasel.yaml
 constexpr wchar_t kLayoutOverrideValue[] = L"LayoutOverride";
@@ -49,20 +56,16 @@ inline void SaveFlag(const wchar_t* name, bool on) {
                   sizeof(value));
 }
 
-// Inserts the edition's items (and a separator) at the top of a popup menu.
-inline void InsertMenuItems(HMENU menu,
-                            bool pinyin_mode,
-                            bool single_char,
-                            bool horizontal) {
+// Inserts the edition's items (and a separator) at the top of a popup menu:
+//   拼音模式 (checked when on) / 设置… / 打字统计…
+// All other switches live in the settings window.
+inline void InsertMenuItems(HMENU menu, bool pinyin_mode) {
   UINT pos = 0;
-  auto check = [](bool on) { return on ? MF_CHECKED : MF_UNCHECKED; };
-  // 拼音模式 / 单字模式 / 候选横排 / 打字统计…
-  InsertMenuW(menu, pos++, MF_BYPOSITION | MF_STRING | check(pinyin_mode),
+  InsertMenuW(menu, pos++,
+              MF_BYPOSITION | MF_STRING | (pinyin_mode ? MF_CHECKED : MF_UNCHECKED),
               ID_PINYIN_MODE, L"拼音模式 (&P)");
-  InsertMenuW(menu, pos++, MF_BYPOSITION | MF_STRING | check(single_char),
-              ID_SINGLE_CHAR, L"单字模式 (&W)");
-  InsertMenuW(menu, pos++, MF_BYPOSITION | MF_STRING | check(horizontal),
-              ID_HORIZONTAL, L"候选横排 (&H)");
+  InsertMenuW(menu, pos++, MF_BYPOSITION | MF_STRING, ID_SETTINGS,
+              L"设置… (&S)");
   InsertMenuW(menu, pos++, MF_BYPOSITION | MF_STRING, ID_TYPING_STATS,
               L"打字统计… (&T)");
   InsertMenuW(menu, pos++, MF_BYPOSITION | MF_SEPARATOR, 0, NULL);
@@ -70,8 +73,7 @@ inline void InsertMenuItems(HMENU menu,
 
 // state as last stored by the server (used by the language bar menu)
 inline void InsertMenuItemsFromRegistry(HMENU menu) {
-  InsertMenuItems(menu, LoadFlag(kPinyinModeValue), LoadFlag(kSingleCharValue),
-                  LoadFlag(kHorizontalValue));
+  InsertMenuItems(menu, LoadFlag(kPinyinModeValue));
 }
 
 }  // namespace excel_edition

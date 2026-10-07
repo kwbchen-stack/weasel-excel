@@ -496,6 +496,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="ExcelDictWatcher.cpp" />
+    <ClCompile Include="SettingsDialog.cpp" />
     <ClCompile Include="SystemTraySDK.cpp" />
     <ClCompile Include="WeaselServer.cpp" />
     <ClCompile Include="WeaselServerApp.cpp" />
@@ -504,6 +505,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExcelDictWatcher.h" />
+    <ClInclude Include="SettingsDialog.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="SystemTraySDK.h" />

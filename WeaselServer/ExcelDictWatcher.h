@@ -37,6 +37,7 @@ class ExcelDictWatcher {
     std::filesystem::path table_file;  // build\<dict>.table.bin
     uint64_t deployed_hash = 0;        // content hash at last deployment
     bool has_hash = false;
+    uint64_t dict_hash = 0;  // hash of the .dict.yaml (path/sheet settings)
   };
   struct Folder {
     std::filesystem::path dir;

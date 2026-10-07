@@ -210,10 +210,19 @@ void ExcelDictWatcher::ScanSources() {
       continue;
     Source s;
     s.excel_file = excel;
+    {
+      // settings in the .dict.yaml (e.g. the sheet name) are part of what the
+      // table is built from: when they change, deploy again even though the
+      // workbook itself did not
+      std::string dict_content;
+      if (ReadAllShared(p, &dict_content))
+        s.dict_hash = Fnv1a(dict_content);
+    }
     std::wstring dict_name = name.substr(0, name.size() - 10);  // .dict.yaml
     s.table_file = user_data_dir_ / L"build" / (dict_name + L".table.bin");
     for (const auto& o : old) {
-      if (SameName(o.excel_file.wstring(), excel.wstring())) {
+      if (SameName(o.excel_file.wstring(), excel.wstring()) &&
+          o.dict_hash == s.dict_hash) {
         s.deployed_hash = o.deployed_hash;
         s.has_hash = o.has_hash;
       }

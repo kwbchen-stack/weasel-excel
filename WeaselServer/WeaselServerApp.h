@@ -18,7 +18,9 @@ namespace fs = std::filesystem;
 
 // Excel edition: menu ids, registry flags and menu items
 #include <ExcelEdition.h>
+#include <ExcelDictSettings.h>
 #include <thread>
+#include "SettingsDialog.h"
 
 class WeaselServerApp {
  public:
@@ -69,6 +71,7 @@ class WeaselServerApp {
   void SetupMenuHandlers();
   void CustomizeTrayMenu(HMENU menu);
   bool ShowTypingStats();
+  void OpenSettings();
 
   weasel::Server m_server;
   weasel::UI m_ui;

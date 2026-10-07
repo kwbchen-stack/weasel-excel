@@ -71,6 +71,8 @@ class RimeWithWeaselHandler : public weasel::RequestHandler {
   void SetPinyinMode(bool on);  // switch all sessions wubi <-> pinyin
   bool IsSingleChar();          // option single_char
   void SetSingleChar(bool on);  // set option single_char on all sessions
+  bool IsCompletion();          // option completion (逐码提示)
+  void SetCompletion(bool on);  // set option completion on all sessions
   bool IsHorizontal();          // candidate list laid out horizontally
   void SetHorizontal(bool on);  // override style/horizontal for all sessions
   struct TypingStats {
@@ -110,6 +112,7 @@ class RimeWithWeaselHandler : public weasel::RequestHandler {
   bool _SaveTypingStats();
   bool m_pinyin_mode = false;
   bool m_single_char = false;
+  bool m_completion = false;
   int m_layout_override = -1;  // -1: follow weasel.yaml, 0: vertical, 1: horizontal
   WeaselSessionId m_last_used_session = 0;
   // date (YYYY-MM-DD) -> {Chinese characters, other characters}
