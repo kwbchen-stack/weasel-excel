@@ -337,12 +337,12 @@ bool WeaselServerApp::ShowTypingStats() {
   std::error_code ec;
   if (!fs::exists(file, ec)) {
     MessageBoxW(NULL, (msg + L"\n（还没有记录）").c_str(), L"打字统计",
-                MB_OK | MB_ICONINFORMATION | MB_SETFOREGROUND);
+                MB_OK | MB_ICONINFORMATION | MB_SETFOREGROUND | MB_TOPMOST);
     return true;
   }
   msg += L"\n\n要用 Excel 打开明细表吗？\n（打开的是一份副本，不影响继续统计）";
   if (MessageBoxW(NULL, msg.c_str(), L"打字统计",
-                  MB_YESNO | MB_ICONINFORMATION | MB_SETFOREGROUND) == IDYES) {
+                  MB_YESNO | MB_ICONINFORMATION | MB_SETFOREGROUND | MB_TOPMOST) == IDYES) {
     WCHAR temp_dir[MAX_PATH] = {0};
     GetTempPathW(MAX_PATH, temp_dir);
     fs::path copy = fs::path(temp_dir) / L"打字统计明细（副本）.csv";
